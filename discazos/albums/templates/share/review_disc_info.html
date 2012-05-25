@@ -1,0 +1,22 @@
+{% extends "main_layout.html" %}
+
+{% block title %}Discazos | Share a Discazo!{% endblock title %}
+
+{% block main %}
+<div>
+  <h1>Sharing your Discazo with the community</h1> 
+  <h2>Step 3 of 5: Review discs information</h2>
+  <form id="review-disc-info" method="post">
+    {% csrf_token %}
+    CD Title (if any): {{ discForm.title }}
+    {{ tracksFormset.management_form }}
+    {% for trackForm in tracksFormset.forms %}
+    <div style="border: 1px solid #000">
+      {{ trackForm }}
+    </div>
+    {% endfor %}
+    <input type="submit" value="Save disc review" />
+  </form>
+  <p><a href="{% url share_review_discs %}"><< Back</a></p>
+</div>
+{% endblock main %}

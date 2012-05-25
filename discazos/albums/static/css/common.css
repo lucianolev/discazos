@@ -1,0 +1,23 @@
+/*html5 semantics tags */
+article, aside, figure, footer, header, hgroup, menu, nav, section { 
+  display: block; 
+}
+
+/* light css reset */
+* { 
+  margin: 0; 
+  padding: 0; 
+}
+
+h2, h3, h4, h5, p, ul, ol  { 
+  margin: 0 20px; 
+  padding : .5em 0; 
+}
+
+img { 
+  border: 0px;
+}
+
+ul {
+  list-style-type: none;
+}

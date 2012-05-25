@@ -1,0 +1,60 @@
+{% extends "main_layout.html" %}
+
+{% block title %}Discazos | Album{% endblock title %}
+
+{% block pagehead %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/discazos_player.css" />
+<script type="text/javascript" src="{{ STATIC_URL }}js/swfobject.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/discazos_player.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/countdown.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/fh_bridge.js"></script>
+{% endblock %}
+
+{% block main %}
+<div id="discazos-player-flash">
+  {% include "player_swf.html" %}
+</div>
+<div id="discazos-player-html">
+  <img src="{{ MEDIA_URL }}{{ album.main_release.cover }}" alt="Album Cover" height="200" width="200" />
+  <h1 id="title">{{ album.title }}</h1>
+  <h1 id="artist">{{ album.artist }}</h1>
+  <span id="album-length" style="display:none;">2289</span>
+  <table id="playlist">
+  {% for disc in album.main_release.discs.all %}
+    {% for track in disc.tracks.for_playlist %}
+      <tr>
+        <td rel="{{ track.offset }}" class="track-number">{{ track.number }}</td>
+        <td class="track-name">{{ track.song }}</td>
+        <td rel="{{ track.length }}" class="track-length">{{ track.length_f }}</td>  
+      </tr>
+    {% endfor %}
+  {% endfor %}
+  </table>
+  <p id="playing-info">Playing: <span id="current-track"></span></p>
+  <div id="player-controls">
+    <button id="play-button">Play</button>
+    <button id="prev-button">Prev</button>
+    <button id="next-button">Next</button>
+    <div id="progressbar"></div>
+  </div>
+  <p>Please select the source to load the album:</p>
+  <ul id="download_sources">
+  {% for download_source in album.main_release.download_sources.all %}
+    <li>
+      <a href="#" onclick="javascript: FHBridge.loadSource('{{ download_source.download_link }}');">
+        {{ download_source.get_provider_display }}
+      </a>
+    </li>
+  {% endfor %}
+  </ul>
+  <p id="loading-discazo">Loading: <span id="percentage-loaded">?</span>%</p>
+</div>
+<p>
+  <span id="fh-status">You must install the extension to load the album. 
+    Click 
+      <a href="{{ STATIC_URL }}downloads/extensions/chrome/discazos-player-connector.crx">
+        here</a> 
+    to install it and reload the page afterwards.</span>
+  <span id="fh-countdown"></span>
+</p>
+{% endblock %}

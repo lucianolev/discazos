@@ -1,0 +1,22 @@
+{% extends "main_layout.html" %}
+
+{% block title %}Discazos | Share a Discazo!{% endblock title %}
+
+{% block main %}
+<div>
+  <h1>Sharing your Discazo with the community</h1> 
+  <h2>Step 1 of 5: New album information</h2>
+  <form id="form-album-info" method="post">
+    {% csrf_token %}
+    <p>{{ artistAlbumForm.artist.label_tag }}*: 
+       {{ artistAlbumForm.artist }}</p>
+    <p>{{ artistAlbumForm.title.label_tag }}*: 
+       {{ artistAlbumForm.title }}</p>
+    <p>{{ artistAlbumForm.wikipedia.label_tag }}: 
+       {{ artistAlbumForm.wikipedia }}</p>
+    <p>{{ artistAlbumForm.recording_type.label_tag }}: 
+       {{ artistAlbumForm.recording_type }}</p>
+    <input type="submit" value="Next >>" />
+  </form>
+</div>
+{% endblock main %}

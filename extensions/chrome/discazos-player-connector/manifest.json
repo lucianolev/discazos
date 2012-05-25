@@ -1,0 +1,12 @@
+{
+   "name": "Discazos Player Connector",
+   "description": "Stream music from different file hosting servers through Discazos Website",
+   "version": "0.1.0",
+   "content_scripts": [ {
+      "all_frames": true,
+      "run_at": "document_end",
+      "js": [ "contentscript.js" ],
+      "matches": [ "http://*.mediafire.com/*", "http://discazos.localhost/*" ]
+   } ],
+   "permissions": [ "http://www.mediafire.com/", "http://discazos.localhost/" ]
+}

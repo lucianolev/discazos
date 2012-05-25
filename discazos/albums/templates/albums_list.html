@@ -1,0 +1,15 @@
+{% extends "main_layout.html" %}
+
+{% block title %}Discazos | Albums{% endblock title %}
+
+{% block main %}
+<ul>
+  {% for album in albums %}
+    <li style="display: inline;">
+      <a href="{% url album_view album.pk %}">
+        <img src="{{ MEDIA_URL }}{{ album.main_release.cover }}"  height="200" width="200" />
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

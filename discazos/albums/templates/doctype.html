@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock title %}</title>
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/common.css" />
+    {% block extrahead %}{% endblock extrahead %}
+  </head>
+  <body>
+    {% block body %}{% endblock body %}
+  </body>
+</html>

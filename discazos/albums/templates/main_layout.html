@@ -1,0 +1,27 @@
+{% extends "doctype.html" %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/ui-lightness/jquery.css" />
+<link rel="stylesheet" href="{{ STATIC_URL }}css/main_layout.css" />
+<script src="{{ STATIC_URL }}js/jquery.min.js"></script>
+<script src="{{ STATIC_URL }}js/jquery-ui.min.js"></script>
+{% block pagehead %}{% endblock %}
+{% endblock %}
+
+{% block body %}
+<div id="wrapper">
+  <header>Discazos.net</header>
+  <nav id="main-menu">
+    <ul>
+      <li><a href="{% url albums_list %}">Albums</a></li>
+      <li><a href="{% url share_new_album %}">Share a Discazo</a></li>
+      <li><a href="{% url logout %}">Logout</a></li>
+    </ul>
+  </nav>
+  <section id="main">
+    {% block main %}
+    {% endblock %}
+  </section>
+  <footer id="footer">Discazos.net</footer>
+</div>
+{% endblock %}
