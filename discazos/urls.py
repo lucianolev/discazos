@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 from django.views.generic.simple import direct_to_template
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.contrib.auth.decorators import login_required
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -15,7 +16,7 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    url(r'^$', direct_to_template, {'template': 'home.html'}, name="home"),
+    url(r'^$', login_required(direct_to_template), {'template': 'home.html'}, name="home"),
     
     url(r'^albums/$', 'discazos.albums.views.albums_list', name="albums_list"),
     url(r'^album/(?P<album_id>\d+)$', 'discazos.albums.views.album_view', name="album_view"),
