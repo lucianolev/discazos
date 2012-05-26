@@ -17,14 +17,20 @@ $(document).ready(function() {
 });
 
 FHBridge.initEventHandlers = function() {
-  //Listener to the event sended by the extension 
+  //Listener to the event sent by the extension 
   //to inform that it's available
   window.addEventListener("extensionLoaded", function() { 
+    //Send website url to extension
+    var e = document.createEvent("CustomEvent");
+    var siteUrl = window.location.host;
+    e.initCustomEvent("SendDiscazosUrl", true, true, siteUrl);
+    window.dispatchEvent(e);
+    //Report successful loading
     $("#fh-status").html("Extension loaded!");
   });
   
-  //Listener to the event that gets sended by the FH-specific script
-  //when the dowload information is available (link and counter)
+  //Listener to the event that gets sent by the FH-specific script
+  //when the download information is available (link and counter)
   window.addEventListener("message", function(e) {
     if(e.data.name == 'FH_DL_INFO_AVAILABLE') {
       FHBridge.dlLinkInfoAvailableHandler(e.data.content);
