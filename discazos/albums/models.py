@@ -142,7 +142,7 @@ class AlbumRelease(models.Model):
                                       max_length=2, blank=True)
 
     @classmethod
-    def create_main_release(cls, session_data, uploader, album):
+    def create_main_release(cls, session_data, user, album):
         albumReleaseData = session_data
         albumReleaseData.update({'album': album, 
                                  'main_release': True,
