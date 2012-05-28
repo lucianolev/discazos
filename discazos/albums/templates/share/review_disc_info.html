@@ -1,22 +1,46 @@
-{% extends "main_layout.html" %}
+{% extends "share/share_layout.html" %}
 
-{% block title %}Discazos | Share a Discazo!{% endblock title %}
+{% load custom_tags %}
 
-{% block main %}
-<div>
-  <h1>Sharing your Discazo with the community</h1> 
-  <h2>Step 3 of 5: Review discs information</h2>
-  <form id="review-disc-info" method="post">
-    {% csrf_token %}
-    CD Title (if any): {{ discForm.title }}
-    {{ tracksFormset.management_form }}
-    {% for trackForm in tracksFormset.forms %}
-    <div style="border: 1px solid #000">
-      {{ trackForm }}
+{% block content %} 
+<h4>Step 3 of 5: Review discs information</h4>
+<form id="review-disc-info" method="post">
+  {% csrf_token %}
+  {% if tracksFormset.errors %}
+  <p class="error">Please check the data entered below.</p>
+  {% endif %}
+  {{ discForm.number }}
+  <fieldset>
+    <div class="form_row">
+      <div class="form_property">CD Title (if any)</div>
+      <div class="form_value">{{ discForm.title }}</div>
+      <div class="clearer"></div>
     </div>
-    {% endfor %}
-    <input type="submit" value="Save disc review" />
-  </form>
-  <p><a href="{% url share_review_discs %}"><< Back</a></p>
-</div>
-{% endblock main %}
+  </fieldset>
+  {{ tracksFormset.management_form }}
+  <table class="data_table">
+    <tr>
+      <th>No.</th>
+      <th>Artist</th>
+      <th>Song</th>
+      <th>Length</th>
+    </tr>
+  {% for trackForm in tracksFormset.forms %}
+    {{ trackForm.number }} 
+    {{ trackForm.length }}
+    <tr>
+      <td>{{ trackForm.number.value }}</td>
+      <td>{{ trackForm.artist }}</td>
+      <td>{{ trackForm.song }}</td>
+      <td>{{ trackForm.length.value|format_secs }}</td>
+    </tr>
+  {% endfor %}
+  </table>
+  <fieldset>
+    <div class="form_row form_row_submit">
+      <input class="button" type="submit" value="Confirm disc info" />
+      <div class="clearer"></div>
+    </div>
+  </fieldset>
+</form>
+{% endblock content %}

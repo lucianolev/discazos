@@ -1,22 +1,37 @@
-{% extends "main_layout.html" %}
+{% extends "share/share_layout.html" %}
 
-{% block title %}Discazos | Share a Discazo!{% endblock title %}
-
-{% block main %}
-<div>
-  <h1>Sharing your Discazo with the community</h1> 
-  <h2>Step 1 of 5: New album information</h2>
-  <form id="form-album-info" method="post">
-    {% csrf_token %}
-    <p>{{ artistAlbumForm.artist.label_tag }}*: 
-       {{ artistAlbumForm.artist }}</p>
-    <p>{{ artistAlbumForm.title.label_tag }}*: 
-       {{ artistAlbumForm.title }}</p>
-    <p>{{ artistAlbumForm.wikipedia.label_tag }}: 
-       {{ artistAlbumForm.wikipedia }}</p>
-    <p>{{ artistAlbumForm.recording_type.label_tag }}: 
-       {{ artistAlbumForm.recording_type }}</p>
-    <input type="submit" value="Next >>" />
-  </form>
-</div>
-{% endblock main %}
+{% block content %}
+<h4>Step 1 of 5: New album information</h4>
+<form id="form-album-info" method="post">
+  {% csrf_token %}
+  {% if artistAlbumForm.errors %}
+  <p class="error">Please check the data entered below.</p>
+  {% endif %}
+  <fieldset>
+    <div class="form_row">
+      <div class="form_property form_required">{{ artistAlbumForm.artist.label_tag }}</div>
+      <div class="form_value">{{ artistAlbumForm.artist }}</div>
+      <div class="clearer"></div>
+    </div>
+    <div class="form_row">
+      <div class="form_property form_required">{{ artistAlbumForm.title.label_tag }}</div> 
+      <div class="form_value">{{ artistAlbumForm.title }}</div>
+      <div class="clearer"></div>
+    </div>
+    <div class="form_row">
+      <div class="form_property">{{ artistAlbumForm.wikipedia.label_tag }}</div> 
+      <div class="form_value">{{ artistAlbumForm.wikipedia }}</div>
+      <div class="clearer"></div>
+    </div>
+    <div class="form_row">
+      <div class="form_property">{{ artistAlbumForm.recording_type.label_tag }}</div> 
+      <div class="form_value">{{ artistAlbumForm.recording_type }}</div>
+      <div class="clearer"></div>
+    </div>
+    <div class="form_row form_row_submit">
+      <div class="form_value"><input class="button" type="submit" value="Next >>" /></div>
+      <div class="clearer"></div>
+    </div>
+  </fieldset>
+</form>
+{% endblock content %}

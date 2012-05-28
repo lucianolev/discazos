@@ -1,12 +1,7 @@
-{% extends "main_layout.html" %}
+{% extends "share/share_layout.html" %}
 
-{% block title %}Discazos | Share a Discazo!{% endblock title %}
-
-{% block main %}
-<div>
-  <h1>Sharing your Discazo with the community</h1> 
-  <h2>Thank you!</h2>
-  <p>You have successfully share a new Discazo.</p>
-  <a href="{% url album_view albumPk %}">Listen it now!</a>
-</div>
-{% endblock main %}
+{% block content %} 
+<h4>Thank you!</h4>
+<p>You have successfully share a new Discazo.</p>
+<a href="{% url album_view albumPk %}">Listen it now!</a>
+{% endblock content %}

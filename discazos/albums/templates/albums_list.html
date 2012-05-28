@@ -2,14 +2,23 @@
 
 {% block title %}Discazos | Albums{% endblock title %}
 
+{% block section_nav_class %}albums{% endblock %}
 {% block main %}
-<ul>
-  {% for album in albums %}
-    <li style="display: inline;">
-      <a href="{% url album_view album.pk %}">
-        <img src="{{ MEDIA_URL }}{{ album.main_release.cover }}"  height="200" width="200" />
-      </a>
-    </li>
-  {% endfor %}
-</ul>
+<div id="content">
+  <h2>Albums</h2>
+  <div class="albums_list">
+    {% for album in albums %}
+    <a href="{% url album_view album.pk %}">
+      <div class="album">
+        <div class="cover"><img src="{{ MEDIA_URL }}{{ album.main_release.cover }}" height="128" width="128" /></div>
+        <div class="info">
+          <h1>{{ album.title }}</h1>
+          <h2>{{ album.artist }}</h2>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

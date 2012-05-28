@@ -1,16 +1,35 @@
-{% extends "doctype.html" %}
+{% extends "global_layout.html" %}
 
 {% block title %}Discazos | Login{% endblock title %}
 
-{% block body %}
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
-<form method="post">
-{% csrf_token %}
-{{ form.as_p }}
-<input type="submit" value="Login" />
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
+{% block inner_layout %}
+<div id="main_empty">
+  {% if form.errors %}
+  <p class="error">Your username and password didn't match. Please try again.</p>
+  {% endif %}
+  
+  <form method="post" id="login">
+    {% csrf_token %}
+    <input type="hidden" name="next" value="{{ next }}" />
+    <fieldset>
+      <div class="legend">
+        <h3>Login</h3>
+      </div>
+      <div class="form_row">
+        <div class="form_property form_required">{{ form.username.label_tag }}</div>
+        <div class="form_value">{{ form.username }}</div>
+        <div class="clearer"></div>
+      </div>
+      <div class="form_row">
+        <div class="form_property form_required">{{ form.password.label_tag }}</div>
+        <div class="form_value">{{ form.password }}</div>
+        <div class="clearer"></div>
+      </div>
+      <div class="form_row form_row_submit">
+        <div class="form_value"><input class="button" type="submit" value="Login »" /></div>
+        <div class="clearer"></div>
+      </div>
+    </fieldset>
+  </form>
+</div>
 {% endblock %}

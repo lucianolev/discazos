@@ -1,20 +1,34 @@
-{% extends "main_layout.html" %}
+{% extends "share/share_layout.html" %}
 
-{% block title %}Discazos | Share a Discazo!{% endblock title %}
-
-{% block main %}
-<div>
-  <h1>Sharing your Discazo with the community</h1> 
-  <h2>Step 5 of 5: Add album release information</h2>
-  <form id="form-album-release-nfo" enctype="multipart/form-data" method="post">
-    {% csrf_token %}
-    <p>{{ albumReleaseForm.release_date.label_tag }}: 
-       {{ albumReleaseForm.release_date }}</p>
-    <p>{{ albumReleaseForm.country_code.label_tag }}: 
-       {{ albumReleaseForm.country_code }}</p>
-    <p>{{ albumReleaseForm.cover.label_tag }}: 
-       {{ albumReleaseForm.cover }}</p>
-    <input type="submit" value="Finish!" />
-  </form>
-</div>
-{% endblock main %}
+{% block content %}  
+<h4>Step 5 of 5: Add album release information</h4>
+<form id="form-album-release-nfo" enctype="multipart/form-data" method="post">
+  {% csrf_token %}
+  {% if albumReleaseForm.errors %}
+  <p class="error">Please check the data entered below.</p>
+  {% endif %}
+  <fieldset>
+    <div class="form_row">
+      <div class="form_property">{{ albumReleaseForm.release_date.label_tag }}</div> 
+      <div class="form_value">{{ albumReleaseForm.release_date }}</div>
+      <div class="clearer"></div>
+    </div>
+    <div class="form_row">
+      <div class="form_property">{{ albumReleaseForm.country_code.label_tag }}</div> 
+      <div class="form_value">{{ albumReleaseForm.country_code }}</div>
+      <div class="clearer"></div>
+    </div>
+    <div class="form_row">
+      <div class="form_property form_required">{{ albumReleaseForm.cover.label_tag }}</div> 
+      <div class="form_value">{{ albumReleaseForm.cover }}</div>
+      <div class="clearer"></div>
+    </div>
+    <div class="form_row form_row_submit">
+      <div class="form_value">
+        <input class="button" type="submit" value="Finish!" />
+      </div>
+      <div class="clearer"></div>
+    </div>
+  </fieldset>
+</form>
+{% endblock content %}
