@@ -17,9 +17,13 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     url(r'^$', login_required(direct_to_template), {'template': 'home.html'}, name="home"),
-    
+    url(r'^install-extension$', login_required(direct_to_template), 
+        {'template': 'extension_install.html'}, name="extension_install"),
+
     url(r'^albums/$', 'discazos.albums.views.albums_list', name="albums_list"),
     url(r'^album/(?P<album_id>\d+)$', 'discazos.albums.views.album_view', name="album_view"),
+    url(r'^album/(?P<album_id>\d+)/sources$', 
+        'discazos.albums.views.download_sources_list', name="dl_sources_list"),
     
     url(r'^share/new-album$', 'discazos.albums.views.share_new_album', name="share_new_album"),
     url(r'^share/add-discs$', 'discazos.albums.views.share_add_discs_xml', name="share_add_discs_xml"),

@@ -1,7 +1,7 @@
 {
    "name": "Discazos Player Connector",
    "description": "Stream music from different file hosting servers through Discazos Website",
-   "version": "0.1.1",
+   "version": "0.2.0",
    "background": {
       "scripts": ["background.js"]
    },

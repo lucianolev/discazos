@@ -23,6 +23,15 @@ def album_view(request, album_id):
                               { 'album' : album },
                               context_instance=RequestContext(request))
 
+@login_required
+def download_sources_list(request, album_id):
+    album = ArtistAlbum.objects.get(pk=album_id)
+    #import pdb; pdb.set_trace()
+    dl_sources = album.main_release().download_sources.all()
+    return render_to_response('download_sources_list.html', 
+                              { 'dl_sources' : dl_sources },
+                              context_instance=RequestContext(request))
+
 #Assistant: Step 1
 @login_required
 def share_new_album(request):

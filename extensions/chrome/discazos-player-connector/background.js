@@ -1,6 +1,10 @@
-//Listen to the content script for set/get discazos url
+//Listen to the content script
 chrome.extension.onRequest.addListener(function(request, sender, sendResponse) {
     switch (request.action) {
+      case "getExtensionVersion":
+        details = chrome.app.getDetails();
+        sendResponse({version: details.version});
+        break;
       case "saveDiscazosUrl":
         localStorage['discazos_url'] = request.url;
         sendResponse({});
