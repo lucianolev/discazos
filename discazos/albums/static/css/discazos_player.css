@@ -1,17 +1,129 @@
-* {
-  margin: 0px;
+#player-wrapper {
+  border: 1px solid #CCB;
+  background: #F5F5F5;
+}
+
+#extension-install-box p {
+  padding: 5px 0px;
+}
+
+#extension-install-box img.browser-logo {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+#extension-install-box p.footnote {
+  font-size: 0.8em;
+  font-style: italic;
+}
+
+ul#download-sources li {
+  font-size: 1.4em;
+  text-align: center;
+}
+
+ul#download-sources li a {
+  text-decoration: none;
+}
+
+#player-wrapper div.main {
+  padding: 10px 0px;
+}
+
+#player-wrapper div.main div.right {
+  height: 290px;
+  width: 390px;
+  float:left;
+  text-align:center;
+}
+
+#player-wrapper div.main div.right a.load-link {
+  position:relative;
+  display:inline-block;
+  width: 250px;
+  height: 250px;
+}
+
+#player-wrapper div.main div.right a.load-link span.load-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+#player-wrapper div.main div.right img#album-cover {
+  height: 250px;
+}
+
+#player-wrapper div.main div.right #loading-discazo {
+  width: 250px;
+  height: 18px;
+  margin: 0 auto;
+  margin-top: 5px;
+}
+
+#player-wrapper div.main div.left {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 290px;
+}
+
+#player-wrapper div.main div.left table#playlist {
+  width: 450px;
+}
+
+#player-wrapper div.main div.left table#playlist tr {
+  border-top: 1px solid #E0E0E0;
+  border-bottom: 1px solid #E0E0E0;
+}
+
+#player-wrapper div.main div.left table#playlist td {
+  font-size: 1.1em;
+  padding: 3px 0px;  
+}
+
+#player-wrapper div.main div.left table#playlist td.track-number {
+  width: 18px;
+  padding: 0px 6px;
+}
+
+#player-wrapper div.main div.left table#playlist td.track-length {
+  width: 30px;
+  padding: 0px 6px;
+}
+
+#player-wrapper div.main div.left table#playlist tr:hover {
+  cursor: pointer;
+  background-color: #EEEEEE;
+}
+  
+#player-wrapper div.foot {
+  padding: 5px 10px;
+}
+
+#player-wrapper div.foot p {
   padding: 0px;
 }
 
-#progressbar {
-  width: 300px;
+#player-wrapper div.foot #player-controls {
+  height: 35px;
+  margin: 8px 0px;
+}
+
+#player-wrapper div.foot #player-controls button {
+  float: left;
+  margin-right: 6px;
+}
+
+#player-wrapper div.foot #player-controls #progressbar {
+  float: left;
+  width: 650px;
   height: 10px;
+  margin: 12px;
 }
 
-p {
-  margin: 3px;
-}
-
-table#playlist tr:hover {
-  cursor:pointer;
+#player-wrapper div.foot #player-controls #current-time {
+  float: left;
+  margin: 8px 0px;
 }

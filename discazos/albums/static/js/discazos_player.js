@@ -54,7 +54,10 @@ $(document).ready(function() {
     DiscazosPlayer.playNext(); 
   });
   
+  DiscazosPlayer.html.find("#loading-discazo").progressbar();
+  
   DiscazosPlayer.html.find("#progressbar").slider({
+    range: 'min',
     change: function(event, ui) {
       if(event.originalEvent && event.originalEvent.type == "mouseup") {
         //TODO
@@ -75,6 +78,10 @@ $(document).ready(function() {
 /* Actions */
 
 DiscazosPlayer.load = function(url) {
+  var albumCover = DiscazosPlayer.html.find("a.load-link");
+  albumCover.find("span.load-button").remove();
+  albumCover.find("#album-cover").unwrap();
+  
   this.swf.load(url);
 }
 
@@ -135,7 +142,7 @@ DiscazosPlayer.updateTrackProgressbar = function(currentProgress) {
 DiscazosPlayer.updateBufferProgress = function(msLoaded, msTotal) {
   var secondsLoaded = msLoaded / 1000;
   var percentage = Math.round((secondsLoaded / this.data.albumLength) * 100);
-  this.html.find('#percentage-loaded').html(percentage);
+  this.html.find('#loading-discazo').progressbar("value", percentage);
 }
 
 DiscazosPlayer.currentPlaybackPositionChanged = function(currentMs) {
