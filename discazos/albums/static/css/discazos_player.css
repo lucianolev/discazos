@@ -71,6 +71,7 @@ ul#download-sources li a {
 
 #player-wrapper div.main div.left table#playlist {
   width: 450px;
+  margin-right: 5px;
 }
 
 #player-wrapper div.main div.left table#playlist tr {

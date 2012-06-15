@@ -54,6 +54,8 @@ $(document).ready(function() {
     DiscazosPlayer.playNext(); 
   });
   
+  DiscazosPlayer.html.find("#player-wrapper div.main div.left").alternateScroll();
+  
   DiscazosPlayer.html.find("#loading-discazo").progressbar();
   
   DiscazosPlayer.html.find("#progressbar").slider({
