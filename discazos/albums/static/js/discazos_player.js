@@ -164,11 +164,12 @@ DiscazosPlayer.updateTrackTimeElapsed = function(currentProgress) {
 /* Aux */
 
 DiscazosPlayer.convertToMMSS = function(seconds) {
-  var minutes = Math.round(seconds / 60);
   var seconds = Math.round(seconds);
-  var minutesMM = (minutes<10) ? "0"+minutes : minutes
-  var secondsSS = (seconds<10) ? "0"+seconds : seconds
-  var MMSS = minutesMM + ":" + secondsSS;
+  var minute = Math.floor(seconds / 60);
+  var second = seconds % 60;
+  var minuteMM = (minute<10) ? "0"+minute : minute
+  var secondSS = (second<10) ? "0"+second : second
+  var MMSS = minuteMM + ":" + secondSS;
   return MMSS;
 }
 
