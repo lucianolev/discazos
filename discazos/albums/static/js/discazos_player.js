@@ -141,8 +141,18 @@ DiscazosPlayer.updateTrackProgressbar = function(currentProgress) {
 }
 
 DiscazosPlayer.updateTrackTimeElapsed = function(currentProgress) {
-  var secondsElapsed = Math.round(currentProgress);
-  this.html.find('#time-elapsed').html(jintervals(secondsElapsed, "{MM}:{ss}"));
+  this.html.find('#time-elapsed').html(this.convertToMMSS(currentProgress));
+}
+
+/* Aux */
+
+DiscazosPlayer.convertToMMSS = function(seconds) {
+  var minutes = Math.round(seconds / 60);
+  var seconds = Math.round(seconds);
+  var minutesMM = (minutes<10) ? "0"+minutes : minutes
+  var secondsSS = (seconds<10) ? "0"+seconds : seconds
+  var MMSS = minutesMM + ":" + secondsSS;
+  return MMSS;
 }
 
 /* Flash player events */
@@ -163,10 +173,3 @@ DiscazosPlayer.currentPlaybackPositionChanged = function(currentMs) {
     this.updateTrackProgress(currentTrackProgress);
   }
 }
-
-/*DiscazosPlayer.convertToMMSS = function(ms) {
-  var seconds = ms / 1000;
-  var minutes = seconds / 60;
-  var MMSS = Math.round(minutes) + ":" + Math.round(seconds);
-  return MMSS;
-}*/
