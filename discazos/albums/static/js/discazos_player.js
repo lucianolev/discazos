@@ -131,12 +131,18 @@ DiscazosPlayer.currentTrackChanged = function(trackItem) {
 }
 
 DiscazosPlayer.updateTrackProgress = function(currentProgress) {
+  this.updateTrackTimeElapsed(currentProgress);
   this.updateTrackProgressbar(currentProgress);
 }
 
 DiscazosPlayer.updateTrackProgressbar = function(currentProgress) {
   var percentage = Math.round((currentProgress / this.data.currentTrack.length) * 100);
   this.html.find('#progressbar').slider("value", percentage);
+}
+
+DiscazosPlayer.updateTrackTimeElapsed = function(currentProgress) {
+  var secondsElapsed = Math.round(currentProgress);
+  this.html.find('#time-elapsed').html(jintervals(secondsElapsed, "{MM}:{ss}"));
 }
 
 /* Flash player events */

@@ -124,7 +124,7 @@ ul#download-sources li a {
   margin: 12px;
 }
 
-#player-wrapper div.foot #player-controls #current-time {
+#player-wrapper div.foot #player-controls #time-elapsed {
   float: left;
   margin: 8px 0px;
 }
