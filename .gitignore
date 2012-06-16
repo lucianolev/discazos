@@ -3,6 +3,7 @@ bootstrap
 resources
 discazos/local_settings.py
 discazos/django.wsgi
+discazos/albums/static/mp3test
 media/*
 discazos/*/migrations
 discazos-player/flex_sdk_4.5
