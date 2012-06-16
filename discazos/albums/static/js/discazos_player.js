@@ -62,12 +62,18 @@ $(document).ready(function() {
     range: 'min',
     change: function(event, ui) {
       if(event.originalEvent && event.originalEvent.type == "mouseup") {
-        //TODO
-        /*var seekPercentage = event.originalEvent.clientX;
-                DiscazosPlayer.trackSeek(seekPercentage);*/
+        var seekPercentage = ui.value;
+        console.log("Seek: "+seekPercentage);
+        DiscazosPlayer.seekTrack(seekPercentage);
       }
+    },
+    start: function(event, ui) {
+      $(this).data('is_being_slided', true);
+    },
+    stop: function(event, ui) {
+      $(this).data('is_being_slided', false);
     }
-  });
+  }).data('is_being_slided', false);
   
   DiscazosPlayer.html.find("#playlist tr").each(function() {
     $(this).click(function() { DiscazosPlayer.playTrack(this); });
@@ -110,6 +116,13 @@ DiscazosPlayer.playTrack = function(trackItem) {
   this.swf.seek(newMsPosition);
 }
 
+DiscazosPlayer.seekTrack = function(seekPercentage) {
+  var trackStart = this.data.currentTrack.offset;
+  var seekOffset = Math.round(this.data.currentTrack.length * seekPercentage / 100);
+  var newMsPosition = (trackStart + seekOffset) * 1000;
+  this.swf.seek(newMsPosition);
+}
+
 DiscazosPlayer.playNext = function() {
   this.playTrack($(this.data.currentTrack.item).next());
 }
@@ -136,8 +149,12 @@ DiscazosPlayer.updateTrackProgress = function(currentProgress) {
 }
 
 DiscazosPlayer.updateTrackProgressbar = function(currentProgress) {
-  var percentage = Math.round((currentProgress / this.data.currentTrack.length) * 100);
-  this.html.find('#progressbar').slider("value", percentage);
+  var progressbar = this.html.find('#progressbar');
+  if(!progressbar.data('is_being_slided')) { //This is to prevent the slider to 
+                                            //move while being slided for seeking
+    var percentage = Math.round((currentProgress / this.data.currentTrack.length) * 100);
+    progressbar.slider("value", percentage);
+  }
 }
 
 DiscazosPlayer.updateTrackTimeElapsed = function(currentProgress) {
