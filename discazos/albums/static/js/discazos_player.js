@@ -88,9 +88,11 @@ $(document).ready(function() {
 DiscazosPlayer.load = function(url) {
   var albumCover = DiscazosPlayer.html.find("a.load-link");
   albumCover.find("span.load-button").remove();
-  albumCover.find("#album-cover").unwrap();
+  albumCover.find("#album-cover").unwrap(); //Removes the loading link
   
   this.swf.load(url);
+  
+  DiscazosPlayer.html.find("#player-controls").slideDown('slow');
 }
 
 DiscazosPlayer.play = function() {

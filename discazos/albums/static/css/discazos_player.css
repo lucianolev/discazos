@@ -30,10 +30,10 @@ ul#download-sources li a {
 
 #player-wrapper div.main {
   padding: 10px 0px;
+  height: 290px;
 }
 
 #player-wrapper div.main div.right {
-  height: 290px;
   width: 390px;
   float:left;
   text-align:center;
@@ -99,32 +99,26 @@ ul#download-sources li a {
   background-color: #EEEEEE;
 }
   
-#player-wrapper div.foot {
-  padding: 5px 10px;
+#player-wrapper #player-controls {
+  padding: 10px;
+  height: 70px;
+  background-color: #333;
+  color: whiteSmoke;
 }
 
-#player-wrapper div.foot p {
-  padding: 0px;
-}
-
-#player-wrapper div.foot #player-controls {
-  height: 35px;
-  margin: 8px 0px;
-}
-
-#player-wrapper div.foot #player-controls button {
+#player-wrapper #player-controls button {
   float: left;
   margin-right: 6px;
 }
 
-#player-wrapper div.foot #player-controls #progressbar {
+#player-wrapper #player-controls #progressbar {
   float: left;
   width: 650px;
   height: 10px;
   margin: 12px;
 }
 
-#player-wrapper div.foot #player-controls #time-elapsed {
+#player-wrapper #player-controls #time-elapsed {
   float: left;
   margin: 8px 0px;
 }
