@@ -1,0 +1,50 @@
+#nav1.home li.home_menu_item a,
+#nav1.albums li.albums_menu_item a,
+#nav1.artists li.artists_menu_item a,
+#nav1.faq li.faq_menu_item a,
+#nav1.share_album li.share_menu_item a {
+  background: url('../img/nav1_arrow.gif') no-repeat center bottom;
+  color: #ADE7F6; 
+}
+
+#discazos-player-flash {
+  height: 0px;
+}
+
+div.albums_list {
+  width: 100%;
+  margin-bottom: 5px;
+  border-bottom: 1px solid #DDD;
+}
+
+div.albums_list .album {
+  background: #F5F5F5;
+  border-top: 1px solid #DDD;
+  padding: 10px;
+}
+
+div.albums_list .album:hover {
+  background: #DCF0F4;
+}
+
+div.albums_list .album .cover {
+  width: 128px;
+  float: left;
+}
+
+div.albums_list .album .cover img {
+  display: block;
+}
+
+div.albums_list .album .info {
+  float: left;
+  padding: 0px 10px;
+}
+
+div.albums_list .album .info h1 {
+  font-size: 1.4em;
+}
+
+div.albums_list .album .info h2 {
+  font-size: 1.2em;
+}
