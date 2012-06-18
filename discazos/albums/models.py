@@ -98,6 +98,7 @@ class ArtistAlbum(Album):
     class Meta:
         verbose_name = 'Album'
         verbose_name_plural = 'Albums'
+        ordering = ['title', ]
     
     artist = models.ForeignKey(Artist, related_name='albums')
 
