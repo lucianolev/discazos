@@ -291,18 +291,24 @@ img.right,img.alignright {margin: 0 0 15px 12px;}
 	font: bold 1.3em sans-serif;
 	padding: 0 8px;
 }
-#navigation ul, #navigation li {display: inline;}
-#navigation li {display: inline;}
-#navigation a {
+#navigation ul {display: inline;}
+#navigation li {
+  display: inline;
 	float: left;
 	margin-right: 1px;
 	text-align: center;
-	text-decoration: none;
+	color: #555;
+	cursor:default;
+}
+#navigation a {
+  text-decoration: none;
 }
 
+#nav1 li {
+  padding: 10px 12px 12px;
+}
 #nav1 a {
 	color: #BBB;
-	padding: 10px 12px 12px;
 }
 #nav1 a:hover {color: #EEE;}
 #nav1 li.current_page_item a,#nav1 li.current_page_parent a {

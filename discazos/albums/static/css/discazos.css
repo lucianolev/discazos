@@ -1,9 +1,16 @@
+#nav1.home li.home_menu_item,
+#nav1.albums li.albums_menu_item,
+#nav1.artists li.artists_menu_item,
+#nav1.faq li.faq_menu_item,
+#nav1.share_album li.share_menu_item {
+  background: url('../img/nav1_arrow.gif') no-repeat center bottom;
+}
+
 #nav1.home li.home_menu_item a,
 #nav1.albums li.albums_menu_item a,
 #nav1.artists li.artists_menu_item a,
 #nav1.faq li.faq_menu_item a,
 #nav1.share_album li.share_menu_item a {
-  background: url('../img/nav1_arrow.gif') no-repeat center bottom;
   color: #ADE7F6; 
 }
 
