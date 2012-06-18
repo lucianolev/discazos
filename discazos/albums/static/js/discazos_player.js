@@ -1,5 +1,7 @@
 var DiscazosPlayer = {};
 
+DiscazosPlayer.MIN_PERCENTAGE_TO_LOAD = 2;
+
 $(document).ready(function() {
   DiscazosPlayer.swf = swfobject.getObjectById("discazos-player-swf");
   DiscazosPlayer.html = $("#discazos-player-html");
@@ -7,6 +9,7 @@ $(document).ready(function() {
   DiscazosPlayer.data = { 
     albumLength: DiscazosPlayer.html.find("#album-length").html(), 
     currentTrack: false,
+    minLoadedTriggered: false,
   };
   
   /** Initialize UI **/
@@ -92,7 +95,11 @@ DiscazosPlayer.load = function(url) {
   
   this.swf.load(url);
   
-  DiscazosPlayer.html.find("#player-controls").slideDown('slow');
+  DiscazosPlayer.html.find('#loading-discazo span.caption').show();
+  
+  DiscazosPlayer.html.bind("minLoaded", function() {
+    DiscazosPlayer.html.find("#player-controls").slideDown('slow');
+  });
 }
 
 DiscazosPlayer.play = function() {
@@ -180,7 +187,15 @@ DiscazosPlayer.convertToMMSS = function(seconds) {
 DiscazosPlayer.updateBufferProgress = function(msLoaded, msTotal) {
   var secondsLoaded = msLoaded / 1000;
   var percentage = Math.round((secondsLoaded / this.data.albumLength) * 100);
-  this.html.find('#loading-discazo').progressbar("value", percentage);
+  var progressbarWidget = this.html.find('#loading-discazo');
+  progressbarWidget.progressbar("value", percentage);
+  if(percentage >= DiscazosPlayer.MIN_PERCENTAGE_TO_LOAD) {
+    if(!this.data.minLoadedTriggered) {
+       this.data.minLoadedTriggered = true;
+       this.html.trigger("minLoaded");
+    }
+    progressbarWidget.children('span.caption').html(percentage + '%');
+  }
 }
 
 DiscazosPlayer.currentPlaybackPositionChanged = function(currentMs) {

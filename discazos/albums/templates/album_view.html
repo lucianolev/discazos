@@ -32,7 +32,9 @@
             <img id="album-cover" src="{{ MEDIA_URL }}{{ album.main_release.cover }}" alt="Album Cover" />
             <span class="load-button"><img src="{{ STATIC_URL }}img/play-overlay.png" alt="Play"></span>
           </a>
-          <div id="loading-discazo"></div>
+          <div id="loading-discazo">
+            <span class="caption" style="display: none;">Loading the album... please wait</span>
+          </div>
         </div>
         <div class="left">
           <table id="playlist">
