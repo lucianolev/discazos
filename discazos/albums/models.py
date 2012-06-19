@@ -158,6 +158,13 @@ class AlbumRelease(models.Model):
     
     def country(self):
         return self.country_code
+    
+    def length(self):
+        length = 0
+        for disc in self.discs.all():
+            for track in disc.tracks.all():
+                length += track.length
+        return length
 
 #A download source for an album release
 class AlbumReleaseDownloadSource(models.Model):
