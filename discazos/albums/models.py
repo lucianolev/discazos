@@ -154,7 +154,7 @@ class AlbumRelease(models.Model):
         return newAlbumRelease
 
     def __unicode__(self):
-        return "%s" % self.album + " (" + self.country() + " %s" % self.release_date + ")"
+        return u"%s" % self.album + " (" + self.country() + u" %s" % self.release_date + ")"
     
     def country(self):
         return self.country_code
