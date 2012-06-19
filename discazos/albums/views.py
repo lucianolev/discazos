@@ -18,7 +18,6 @@ def albums_list(request):
 @login_required
 def album_view(request, album_id):
     album = ArtistAlbum.objects.get(pk=album_id)
-    
     return render_to_response('album_view.html', 
                               { 'album' : album },
                               context_instance=RequestContext(request))
