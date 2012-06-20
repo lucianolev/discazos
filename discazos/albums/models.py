@@ -170,6 +170,23 @@ class AlbumRelease(models.Model):
             for track in disc.tracks.all():
                 length += track.length
         return length
+    
+    def playlist(self):
+        import time
+        discs_playlist = []
+        added_offset = 0
+        for disc in self.discs.all():
+            tracks = []
+            for track in disc.tracks.all():
+                track_item = {'number': track.number, 'song': track.song.name,
+                              'length': track.length }
+                track_item['length_f'] = time.strftime('%M:%S', 
+                                                       time.gmtime(track.length))
+                track_item['offset'] = added_offset
+                added_offset += track.length
+                tracks.append(track_item)
+            discs_playlist.append({ 'disc': disc, 'tracks_playlist': tracks })
+        return discs_playlist
 
 #A download source for an album release
 class AlbumReleaseDownloadSource(models.Model):
@@ -235,8 +252,6 @@ class DiscTrack(models.Model):
     artist = models.ForeignKey(Artist, related_name='recordings')
     song = models.ForeignKey(Song, related_name='recordings')
     length = models.PositiveIntegerField() #In seconds
-    
-    objects = DiscTrackManager()
     
     @classmethod
     def create_from_assistant(cls, session_data, disc):

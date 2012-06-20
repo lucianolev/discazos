@@ -37,12 +37,12 @@
           </div>
         </div>
         <div class="left">
-          {% for disc in album.main_release.discs.all %}
+          {% for playlist_disc in album.main_release.playlist %}
           <table class="playlist">
             <tr>
-              <th colspan="3">{{ disc }}</th>
+              <th colspan="3">{{ playlist_disc.disc }}</th>
             </tr>
-            {% for track in disc.tracks.for_playlist %}
+            {% for track in playlist_disc.tracks_playlist %}
               <tr class="track">
                 <td rel="{{ track.offset }}" class="track-number">{{ track.number }}</td>
                 <td class="track-name">{{ track.song }}</td>
