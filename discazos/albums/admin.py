@@ -13,7 +13,12 @@ admin.site.register(GroupArtist, ArtistAdmin)
 admin.site.register(PersonArtist, ArtistAdmin)
 
 admin.site.register(Song)
-admin.site.register(ArtistAlbum)
+
+class ArtistAlbumAdmin(admin.ModelAdmin):
+    list_display = ('__unicode__', 'artist', )
+
+admin.site.register(ArtistAlbum, ArtistAlbumAdmin)
+
 admin.site.register(CompilationAlbum)
 
 class AlbumReleaseDownloadSourceInline(admin.StackedInline):
@@ -22,6 +27,16 @@ class AlbumReleaseDownloadSourceInline(admin.StackedInline):
 
 class AlbumReleaseAdmin(admin.ModelAdmin):
     inlines = [AlbumReleaseDownloadSourceInline, ]
+    list_display = ('album', 'get_artist', 'main_release', 'release_date', )
+    def get_artist(self, obj):
+        try:
+            artistAlbum = ArtistAlbum.objects.get(pk=obj.album.pk)
+            return u'%s' % artistAlbum.artist
+        except:
+            return ''
+    get_artist.short_description = 'Artist'
+    
+    ordering = ('album', )
 
 admin.site.register(AlbumRelease, AlbumReleaseAdmin)
 
@@ -31,6 +46,8 @@ class DiscTrackInline(admin.TabularInline):
     
 class DiscAdmin(admin.ModelAdmin):
     inlines = [DiscTrackInline, ]
-    list_display = ('__unicode__', 'album_release')
+    list_display = ('album_release', '__unicode__', )
+    list_display_links = ('__unicode__', )
+    ordering = ('album_release', )
 
 admin.site.register(Disc, DiscAdmin)
