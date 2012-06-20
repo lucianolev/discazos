@@ -18,6 +18,10 @@
   height: 0px;
 }
 
+#discazos-player-html h3#artist {
+  font-size: 1.4em;
+}
+
 div.albums_list {
   width: 100%;
   margin-bottom: 5px;
