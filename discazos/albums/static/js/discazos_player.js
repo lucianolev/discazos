@@ -275,7 +275,7 @@ DiscazosPlayer.currentPlaybackPositionChanged = function(currentMs) {
   var currentTrackProgress = currentSeconds - this.data.currentTrack.offset;
   var currentTrackHasFinish = currentTrackProgress >= this.data.currentTrack.length;
   if(currentTrackHasFinish) {
-    if(!this.currentTrackIsLast) {
+    if(!this.currentTrackIsLast()) {
       this.currentTrackChanged($(this.data.currentTrack.item).next());
     } else {
       DiscazosPlayer.stop();
