@@ -122,7 +122,7 @@ ul#download-sources li a {
   padding: 0px 6px;
 }
 
-#player-wrapper div.main div.left table.playlist tr.track:hover {
+#player-wrapper div.main div.left table.playlist tr.track.hover {
   cursor: pointer;
   background-color: #EEEEEE;
 }
