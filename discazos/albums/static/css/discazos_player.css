@@ -86,32 +86,43 @@ ul#download-sources li a {
   height: 290px;
 }
 
-#player-wrapper div.main div.left table#playlist {
+#player-wrapper div.main div.left table.playlist {
   width: 450px;
   margin-right: 5px;
+  margin-bottom: 15px;
 }
 
-#player-wrapper div.main div.left table#playlist tr {
+#player-wrapper div.main div.left table.playlist th {
+  text-align: left;
+  padding: 1px 5px;
+  border-bottom: 2px solid #C5C5C5;
+}
+
+#player-wrapper div.main div.left table.playlist tr.track {
   border-top: 1px solid #E0E0E0;
   border-bottom: 1px solid #E0E0E0;
 }
 
-#player-wrapper div.main div.left table#playlist td {
-  font-size: 1.1em;
-  padding: 3px 0px;  
+#player-wrapper div.main div.left table.playlist tr:last-child {
+  border-bottom: 1px solid #A5A5A5;
 }
 
-#player-wrapper div.main div.left table#playlist td.track-number {
+#player-wrapper div.main div.left table.playlist td {
+  font-size: 1.1em;
+  padding: 3px 0px;
+}
+
+#player-wrapper div.main div.left table.playlist td.track-number {
   width: 18px;
   padding: 0px 6px;
 }
 
-#player-wrapper div.main div.left table#playlist td.track-length {
+#player-wrapper div.main div.left table.playlist td.track-length {
   width: 30px;
   padding: 0px 6px;
 }
 
-#player-wrapper div.main div.left table#playlist tr:hover {
+#player-wrapper div.main div.left table.playlist tr.track:hover {
   cursor: pointer;
   background-color: #EEEEEE;
 }
@@ -120,7 +131,7 @@ ul#download-sources li a {
   padding: 10px;
   height: 70px;
   background-color: #333;
-  color: whiteSmoke;
+  color: #F5F5F5;
 }
 
 #player-wrapper #player-controls button {
