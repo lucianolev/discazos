@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from django_countries import CountryField
+
 from albums.managers import DiscTrackManager
 
 '''
@@ -8,17 +10,17 @@ An artist.
 It's not used directly but through group/person artist
 '''
 class Artist(models.Model):
+    class Meta:
+        ordering = ['name', ]
+
     name = models.CharField(max_length=255)
-    country_code = models.CharField(max_length=2, blank=True)
-    official_site = models.URLField(blank=True)
-    youtube_profile = models.URLField(blank=True)
+    country = CountryField(blank=True, null=True)
+    #official_site = models.URLField(blank=True)
+    #youtube_profile = models.URLField(blank=True)
     wikipedia = models.URLField(blank=True)
     
     def __unicode__(self):
         return self.name
-    
-    def country(self):
-        return self.country_code
 
 #The person and group artist distinction make sense for
 #a richer music library information 
@@ -33,6 +35,7 @@ class GroupArtist(Artist):
         verbose_name_plural = 'Artists (Groups)'
     
     members = models.ManyToManyField(PersonArtist, related_name='groups', blank=True)
+    past_members = models.ManyToManyField(PersonArtist, related_name='past_groups', blank=True)
 
 #Many artist have multiple known names so this make sense
 #for smart searches
@@ -55,11 +58,12 @@ class Song(models.Model):
     class Meta:
         verbose_name = 'Song'
         verbose_name_plural = 'Songs'
+        ordering = ['name', ]
     
     name = models.CharField(max_length=255)
-    composers = models.ManyToManyField(PersonArtist, related_name='composed_songs', blank=True)
-    #performers? pensar si es mejor ponerlo aca u obtenerlos de las releases
-
+    #composers = models.ManyToManyField(PersonArtist, related_name='composed_songs', blank=True)
+    #performers = models.ManyToManyField(PersonArtist, related_name='performed_songs', blank=True)
+    
     def __unicode__(self):
         return self.name
 
@@ -71,6 +75,11 @@ depending on the country.
 It's not used directly but through artist and compilation album.
 '''
 class Album(models.Model):
+    class Meta:
+        verbose_name = 'Album'
+        verbose_name_plural = 'Albums'
+        ordering = ['title', ]
+
     RECORDING_TYPES = (
         ('ST', 'Studio'),
         ('LV', 'Live')
@@ -98,7 +107,6 @@ class ArtistAlbum(Album):
     class Meta:
         verbose_name = 'Album'
         verbose_name_plural = 'Albums'
-        ordering = ['title', ]
     
     artist = models.ForeignKey(Artist, related_name='albums')
 
@@ -109,14 +117,14 @@ class CompilationAlbum(Album):
         verbose_name_plural = 'Compilation Albums'
 
 #User ratings of an album
-class AlbumRating(models.Model):
-    album = models.ForeignKey(Album, related_name='ratings')
-    value = models.PositiveSmallIntegerField() #1 to 5
-    comment = models.TextField(blank=True)
-    user = models.ForeignKey(User, related_name='ratings')
-    
-    def __unicode__(self):
-        return self.value
+#class AlbumRating(models.Model):
+#    album = models.ForeignKey(Album, related_name='ratings')
+#    value = models.PositiveSmallIntegerField() #1 to 5
+#    comment = models.TextField(blank=True)
+#    user = models.ForeignKey(User, related_name='ratings')
+#    
+#    def __unicode__(self):
+#        return self.value
 
 '''
 An album release. A.K.A a Discazo.
@@ -134,13 +142,13 @@ class AlbumRelease(models.Model):
 
     album = models.ForeignKey(Album, related_name='releases')
     release_date = models.DateField(blank=True)
-    country_code = models.CharField(max_length=2, blank=True)
+    country = CountryField(blank=True, null=True)
     cover = models.ImageField(upload_to='uploads/covers/')
     main_release = models.BooleanField()
     
     uploader = models.ForeignKey(User, related_name='uploadings')
     stream_quality = models.CharField(choices=QUALITY_TYPES, 
-                                      max_length=2, blank=True)
+                                      max_length=2, default='SQ', blank=True)
 
     @classmethod
     def create_main_release(cls, session_data, user, album):
@@ -154,10 +162,7 @@ class AlbumRelease(models.Model):
         return newAlbumRelease
 
     def __unicode__(self):
-        return u"%s" % self.album + " (" + self.country() + u" %s" % self.release_date + ")"
-    
-    def country(self):
-        return self.country_code
+        return u"%s" % self.album + " (" + self.get_country_display() + u" %s" % self.release_date + ")"
     
     def length(self):
         length = 0
@@ -199,6 +204,7 @@ class Disc(models.Model):
     class Meta:
         verbose_name = 'Disc'
         verbose_name_plural = 'Discs'
+        ordering = ['number', ]
     
     album_release = models.ForeignKey(AlbumRelease, related_name='discs')
     number = models.PositiveSmallIntegerField(default=1)
@@ -222,6 +228,7 @@ class DiscTrack(models.Model):
     class Meta:
         verbose_name = 'Track'
         verbose_name_plural = 'Tracks'
+        ordering = ['number', ]
     
     disc = models.ForeignKey(Disc, related_name='tracks')
     number = models.PositiveSmallIntegerField(default=1)

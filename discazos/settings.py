@@ -84,6 +84,7 @@ INSTALLED_APPS = (
     #Django third-party
     'south',
     'django_extensions',
+    'django_countries',
     
     #Discazos
     'discazos.albums',
