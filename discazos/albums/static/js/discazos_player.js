@@ -78,7 +78,7 @@ $(document).ready(function() {
     }
   }).data('is_being_slided', false);
   
-  DiscazosPlayer.html.find("#playlist tr").each(function() {
+  DiscazosPlayer.html.find(".playlist tr.track").each(function() {
     $(this).click(function() { DiscazosPlayer.playTrack(this); });
   });
 
@@ -104,7 +104,7 @@ DiscazosPlayer.load = function(url) {
 
 DiscazosPlayer.play = function() {
   if(!this.data.currentTrack) {
-    this.playTrack(this.html.find('#playlist tr:first'))
+    this.playTrack(this.html.find('.playlist tr.track:first'))
   } else {
     this.swf.play();
   }
