@@ -27,7 +27,7 @@ class AlbumReleaseDownloadSourceInline(admin.StackedInline):
 
 class AlbumReleaseAdmin(admin.ModelAdmin):
     inlines = [AlbumReleaseDownloadSourceInline, ]
-    list_display = ('album', 'get_artist', 'main_release', 'release_date', )
+    list_display = ('album', 'get_artist', 'main_release', 'uploaded_on', )
     def get_artist(self, obj):
         try:
             artistAlbum = ArtistAlbum.objects.get(pk=obj.album.pk)

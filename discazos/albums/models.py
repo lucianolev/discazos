@@ -146,6 +146,7 @@ class AlbumRelease(models.Model):
     cover = models.ImageField(upload_to='uploads/covers/')
     main_release = models.BooleanField()
     
+    uploaded_on = models.DateTimeField(auto_now_add=True)
     uploader = models.ForeignKey(User, related_name='uploadings')
     stream_quality = models.CharField(choices=QUALITY_TYPES, 
                                       max_length=2, default='SQ', blank=True)
