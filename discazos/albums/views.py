@@ -3,10 +3,11 @@ from django.template import RequestContext
 from django.forms.formsets import formset_factory
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 from models import *
 from forms import *
-from xml_import import import_disc_info
+from xml_import import *
 
 @login_required
 def albums_list(request):
@@ -51,9 +52,31 @@ def share_add_discs_xml(request):
     if request.method == 'POST':
         xmlUploadForm = DiscsInfoUploadForm(request.POST, request.FILES)
         if xmlUploadForm.is_valid():
-            discs = import_disc_info(xmlUploadForm.cleaned_data['xml_file'])
-            request.session['discs_data'] = discs
-            return redirect('share_review_discs')
+            try:
+                xmlParser = DiscazosCreatorXML.load_from_file(xmlUploadForm.cleaned_data['xml_file'])
+                creatorAlbumTitle = xmlParser.get_album_title()
+                choosenAlbumTitle = request.session['album_data']['title']
+                if creatorAlbumTitle == choosenAlbumTitle:
+                    request.session['audiofile_size'] = xmlParser.get_audiofile_size()
+                    request.session['discs_data'] = xmlParser.get_discs_info()
+                    return redirect('share_review_discs')
+                else:
+                    messages.error(request, "The XML file provided is for a "
+                                            "different album (\""+creatorAlbumTitle+"\"). "
+                                            "Please upload the XML file for the "
+                                            "album \""+choosenAlbumTitle+"\".")
+            except InvalidXMLFile:
+                messages.error(request, "The file provided is not a valid XML "
+                                        "file! Please make sure to upload the "
+                                        "XML file provided by the latest "
+                                        "of Discazos Creator.")
+            except UnsupportedCreatorVersion:
+                messages.error(request, "The XML file provided was generated with "
+                                        "an old version of Discazos Creator. "
+                                        "Please download the latest version "
+                                        "of Discazos Creator, create the album "
+                                        "again and re-upload the XML file. "
+                                        "Sorry for the inconvenience.")
     else:
         xmlUploadForm = DiscsInfoUploadForm()
     return render_to_response('share/add_discs_xml.html',
@@ -110,8 +133,10 @@ def share_add_release_info(request):
         albumReleaseForm = AlbumReleaseShareForm(request.POST, request.FILES)
         if albumReleaseForm.is_valid():
             album = ArtistAlbum.create(request.session['album_data'])
+            audiofile_size = request.session['audiofile_size']
             albumRelease = AlbumRelease.create_main_release(albumReleaseForm.cleaned_data, 
-                                                            request.user, album)
+                                                            request.user, album, 
+                                                            audiofile_size)
             for discData, tracksData in request.session['discs_data']:
                 disc = Disc.create_with_release(discData, albumRelease)
                 for trackData in tracksData:

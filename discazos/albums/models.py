@@ -150,13 +150,15 @@ class AlbumRelease(models.Model):
     uploader = models.ForeignKey(User, related_name='uploadings')
     stream_quality = models.CharField(choices=QUALITY_TYPES, 
                                       max_length=2, default='SQ', blank=True)
+    audiofile_size = models.BigIntegerField() #In bytes
 
     @classmethod
-    def create_main_release(cls, session_data, user, album):
+    def create_main_release(cls, session_data, user, album, audiofile_size):
         albumReleaseData = session_data
         albumReleaseData.update({'album': album, 
                                  'main_release': True,
-                                 'uploader': user, 
+                                 'uploader': user,
+                                 'audiofile_size': audiofile_size,
                                  })
         newAlbumRelease = cls(**albumReleaseData)
         newAlbumRelease.save()

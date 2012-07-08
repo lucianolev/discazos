@@ -30,7 +30,8 @@ class AlbumReleaseShareForm(forms.ModelForm):
     
     class Meta:
         model = AlbumRelease
-        exclude = ('album', 'main_release', 'uploader', 'stream_quality', )
+        exclude = ('album', 'main_release', 'uploader', 'stream_quality', 
+                   'audiofile_size', )
 
 class DiscsInfoUploadForm(forms.Form):
     xml_file = forms.FileField(label=u'Discs XML file')

@@ -5,7 +5,13 @@
 {% block section_nav_class %}share_album{% endblock %}
 {% block main %}
 <div id="content">
-  <h2>Sharing your Discazo</h2> 
+  {% if messages %}
+  {% for message in messages%}
+  <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+  {% endfor %}
+  {% endif %}
+  
+  <h2>Sharing your Discazo</h2>
   {% block content %}{% endblock %}
 </div>
 {% endblock main %}
