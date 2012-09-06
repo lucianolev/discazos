@@ -126,9 +126,13 @@ DiscazosPlayer.load = function(url) {
   this.swf.load(url);
   
   DiscazosPlayerUI.html.find('#loading-discazo span.caption').show();
+  var loadingOverlay = DiscazosPlayerUI.html.find("#player-wrapper div.main div.loading-overlay");
+  loadingOverlay.find("#download-sources-frame #download-sources-wrapper").hide();
+  loadingOverlay.find("#download-sources-frame #loading-discazo-msg").show();
   
   //After the a minimum part has been loaded, activate the player controls
   DiscazosPlayerUI.html.bind("minLoaded", function() {
+    loadingOverlay.remove();
     DiscazosPlayerUI.html.find("#player-controls").slideDown('slow');
     DiscazosPlayerUI.html.find(".playlist tr.track").each(function() {
       $(this).hover(function() { $(this).addClass("hover") }, 

@@ -2,16 +2,23 @@
 var DiscazosLoader = {
   
   getFHs: function(sourcesListUrl) {
-    var showBox = function(url) {
-      $.get(url, function(response) {
+    if(ExtensionHandler.extensionLoaded) {
+      if(ExtensionHandler.extensionUpToDate) {
+        //Show in overlay
+        $.get(sourcesListUrl, function(response) {
+          $('#player-wrapper div.main').append(response);
+        });
+      } else {
+        //Show in colorbox
+        $.get(ExtensionHandler.updateUrl, function(response) {
+          $.colorbox({ html: response });
+        });
+      }
+    } else {
+      //Show in colorbox
+      $.get(ExtensionHandler.installationUrl, function(response) {
         $.colorbox({ html: response });
       });
-    };
-    
-    if(ExtensionHandler.extensionLoaded) {
-      showBox(sourcesListUrl);
-    } else {
-      showBox(ExtensionHandler.installationUrl);
     }
   },
   
@@ -24,17 +31,9 @@ var DiscazosLoader = {
         console.log("Unsupported download source!");
         return false;
     }
-    $("#download-sources-wrapper").hide();
-    $("#fh-info-msg").html(
-      "<p>Please wait while the source loads...</p>"+
-      "<p>A popup will open and close after a few seconds automatically, just wait.</p>"
-    );
-    $.colorbox.resize();
   },
  
   downloadLinkReady: function(url) {
-    $.colorbox.close();
-    
     //Start loading the discazo
     console.log("Sending url to the Discazos player...");
     console.log("URL:" + url);
@@ -44,13 +43,20 @@ var DiscazosLoader = {
   
 }
 
-//Communication between the extension and the site
+/* Communication between the extension and the site
+ * It's initialized when the Discazos album view is loaded.
+ * Upon initialization, it starts listening for the extension to notify loading
+ * After receiving the notification, the extension is marked as loaded and 
+ * it sends current site URL to the extension.
+ */
 var ExtensionHandler = {
   
-  init: function(theInstallUrl) {
+  init: function(theInstallUrl, theUpdateUrl) {
+    this.latestVersion = "0.3.0";
     this.extensionLoaded = false;
-    this.extensionVersion = "unknown";
+    this.extensionUpToDate = null;
     this.installationUrl = theInstallUrl;
+    this.updateUrl = theUpdateUrl;
     this.listenToExtensionLoading();
   },
   
@@ -58,9 +64,16 @@ var ExtensionHandler = {
     extensionHandler = this;
     window.addEventListener("ExtensionLoading", function(e) {
       extensionHandler.extensionLoaded = true;
-      extensionHandler.extensionVersion = e.detail.version;
-      console.log("Extension loaded! Version "+extensionHandler.extensionVersion);
-      extensionHandler.sendSiteUrlToExtension();
+      if(e.detail.version == extensionHandler.latestVersion) {
+        console.log("Extension loaded and up-to-date! Version "+e.detail.version);
+        extensionHandler.extensionUpToDate = true;
+        extensionHandler.sendSiteUrlToExtension();
+        FHCommon.listenToOriginCheck(); //Listen to the origin check script 
+                                        //after loading the extension
+      } else {
+        extensionHandler.extensionUpToDate = false;
+        console.log("Extension is outdated! Version "+extensionHandler.latestVersion+" is needed.");
+      }
     });
   },
   
@@ -77,24 +90,24 @@ var ExtensionHandler = {
 var MediafireFH = {
 
   sourceSelected: function(sourceUrl) {
-    FHContentScriptBridge.listenToDownloadLinkInfoFromFH(this.downloadLinkInfoAvailable);
+    FHCommon.listenToDownloadLinkInfoFromFHsCS(this);
     //FIX: Should get the link from an AJAX request
-    sourceUrl += '/ref=discazos';
-    FHCommon.openFHPopup(sourceUrl);
+    FHCommon.openFH(sourceUrl);
   },
   
   //When the download information is available, this fires up
   downloadLinkInfoAvailable: function(downloadLinkInfo) {
-    console.log("Got download link information! Please wait... ");
-    
     FHCommon.closeFHPopup();
+    DiscazosLoader.downloadLinkReady(downloadLinkInfo.url);
     
+    /*
     //Start countdown
     if(downloadLinkInfo.countdown > 0) {
       FHCommon.waitForCountdown(downloadLinkInfo, DiscazosLoader.downloadLinkReady)
     } else {
       DiscazosLoader.downloadLinkReady(downloadLinkInfo.url);
     }
+    */
   },
 
 }
@@ -102,15 +115,19 @@ var MediafireFH = {
 //FH generic actions to get the download link
 var FHCommon = {
 
-  openFHPopup: function(sourceUrl) {
-    w = 400;
-    h = 200;
+  openFH: function(sourceUrl) {
+    this.openPopup(sourceUrl);
+  },
+
+  openPopup: function(sourceUrl) {
+    w = 600;
+    h = 250;
     
     wLeft = window.screenLeft ? window.screenLeft : window.screenX;
     wTop = window.screenTop ? window.screenTop : window.screenY;
   
     var left = wLeft + (window.innerWidth / 2) - (w / 2);
-    var top = wTop - (h / 2);
+    var top = wTop - (h / 2) + 450;
     
     this.fhPopup = window.open(sourceUrl, "ProcessingSource", 
       'toolbar=no, location=no, menubar=no, scrollbars=no, resizable=no,' + 
@@ -130,18 +147,24 @@ var FHCommon = {
     //Starts the countdown
     fhCountdown.start();
   },
-  
-}
 
-//Generic comunication with the FH content script
-var FHContentScriptBridge = {
-
-  //Listener to the event that gets sent by the FH-specific script
-  //when the download information is available (link and counter)  
-  listenToDownloadLinkInfoFromFH: function(infoAvailableCallback) {
+  listenToOriginCheck: function() {
     window.addEventListener("message", function(e) {
-      if(e.data.name == 'FH_DL_INFO_AVAILABLE') {
-        infoAvailableCallback(e.data.content);
+      if(e.data.message == 'FromDiscazos?') {
+        FHCommon.fhPopup.postMessage({ response: 'YES' }, '*');
+      }
+    });
+  },
+  
+  //Listener to the event that gets sent by the FH-specific content script
+  //when the download information is available (link and counter)  
+  listenToDownloadLinkInfoFromFHsCS: function(FH) {
+    window.addEventListener("message", function(e) {
+      //console.log("FH CS Message: "+e.data.name);
+      switch(e.data.name) {
+        case 'FH_DL_INFO_AVAILABLE':
+          FH.downloadLinkInfoAvailable(e.data.content);
+          break;
       }
     });
   },

@@ -1,15 +1,21 @@
 {
-   "name": "Discazos Player Connector",
-   "description": "Stream music from different file hosting servers through Discazos Website",
-   "version": "0.2.0",
-   "background": {
-      "scripts": ["background.js"]
-   },
-   "content_scripts": [ {
-      "all_frames": true,
+  "name": "Discazos Player Connector",
+  "description": "Stream music from different file hosting servers through Discazos Website",
+  "version": "0.3.0",
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "content_scripts": [ 
+    {
       "run_at": "document_end",
-      "js": [ "contentscript.js" ],
-      "matches": [ "http://*.mediafire.com/*", "http://*.discazos.net/*" ]
-   } ],
-   "permissions": [ "http://www.mediafire.com/", "http://*.discazos.net/" ]
+      "js": [ "discazos_contentscript.js" ],
+      "matches": [ "http://*.discazos.net/*" ]
+    },
+    {
+      "run_at": "document_end", //May work with document_idle as well.. (default)
+      "js": [ "fh_contentscript.js" ],
+      "matches": [ "http://*.mediafire.com/*" ]
+    }
+  ],
+  "permissions": [ "http://www.mediafire.com/", "http://*.discazos.net/" ]
 }

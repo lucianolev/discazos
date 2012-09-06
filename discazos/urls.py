@@ -19,6 +19,8 @@ urlpatterns = patterns('',
     url(r'^$', login_required(direct_to_template), {'template': 'home.html'}, name="home"),
     url(r'^install-extension$', login_required(direct_to_template), 
         {'template': 'extension_install.html'}, name="extension_install"),
+    url(r'^update-extension$', login_required(direct_to_template), 
+        {'template': 'extension_update.html'}, name="extension_update"),
 
     url(r'^albums/$', 'discazos.albums.views.albums_list', name="albums_list"),
     url(r'^album/(?P<album_id>\d+)$', 'discazos.albums.views.album_view', name="album_view"),
