@@ -1,10 +1,10 @@
 <div id="extension-install-box">
   <p>You must install a browser extension to load the album.</p>
-  <a href="{{ STATIC_URL }}downloads/extensions/chrome/discazos-player-connector.crx">
+  <a href="javascript:void(0);" onclick="chrome.webstore.install();">
     <span>
       <img class="browser-logo" src="{{ STATIC_URL}}img/chrome-logo.png"><span>Extension for Google Chrome</span>
     </span>
-  </a> 
+  </a>
   <p>Please reload the page after the installation finishes.</p>
   <p class="footnote">NOTE: If your browser is not on the list, it's not supported at the moment, sorry.</p>
 </div>
