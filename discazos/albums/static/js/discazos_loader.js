@@ -52,7 +52,7 @@ var DiscazosLoader = {
 var ExtensionHandler = {
   
   init: function(theInstallUrl, theUpdateUrl) {
-    this.latestVersion = "0.3.0";
+    this.latestVersion = "0.4.1";
     this.extensionLoaded = false;
     this.extensionUpToDate = null;
     this.installationUrl = theInstallUrl;

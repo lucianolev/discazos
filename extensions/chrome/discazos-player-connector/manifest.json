@@ -5,7 +5,7 @@
     "48": "logo48.png",
     "128": "logo128.png"
   },
-  "version": "0.4.0",
+  "version": "0.4.1",
   "background": {
     "scripts": ["background.js"]
   },
@@ -22,5 +22,8 @@
     }
   ],
   "permissions": [ "http://www.mediafire.com/", "http://*.discazos.net/" ],
+  "web_accessible_resources": [
+    "check_origin.js"
+  ],
   "manifest_version": 2
 }
