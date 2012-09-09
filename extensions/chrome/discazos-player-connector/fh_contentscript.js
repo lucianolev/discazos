@@ -43,6 +43,7 @@ var DOMHelper = {
   },
   
   setOverlay: function(callback) {
+    document.body.style.overflow = "hidden"; //Hide the scrollbars
     var newOverlay = document.createElement("div");
     newOverlay.style.position = "fixed";
     newOverlay.style.top = "0px";
