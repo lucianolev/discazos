@@ -1,9 +1,12 @@
 <div id="extension-install-box">
   <p>The extension installed is out-of-date, please click on your browser to update it.</p>
-  <a href="{{ STATIC_URL }}downloads/extensions/chrome/discazos-player-connector.crx">
+  <a href="javascript:void(0);" onclick="chrome.webstore.install(undefined, undefined, function(message) { console.log(message); });">
     <span>
       <img class="browser-logo" src="{{ STATIC_URL}}img/chrome-logo.png"><span>Extension for Google Chrome</span>
     </span>
-  </a> 
+  </a>
+  <a href="{{ STATIC_URL}}downloads/extensions/chrome/discazos-player-connector.crx">
+    <span style="font-size: 75%; margin-left: 30px;">(Manual installation)</span>
+  </a>
   <p>Please reload the page after the extension is updated.</p>
 </div>
