@@ -1,13 +1,23 @@
 <div id="extension-install-box">
-  <p>You must install a browser extension to load the album.</p>
-  <a href="javascript:void(0);" onclick="chrome.webstore.install(undefined, undefined, function(message) { console.log(message); });">
-    <span>
-      <img class="browser-logo" src="{{ STATIC_URL}}img/chrome-logo.png"><span>Extension for Google Chrome</span>
-    </span>
-  </a>
-  <a href="{{ STATIC_URL}}downloads/extensions/chrome/discazos-player-connector.crx">
-    <span style="font-size: 75%; margin-left: 30px;">(Manual installation)</span>
-  </a>
-  <p>Please reload the page after the installation finishes.</p>
-  <p class="footnote">NOTE: If your browser is not on the list, it's not supported at the moment, sorry.</p>
+  <div id="install-message">
+    <p>Es necesario instalar una extensión para tu navegador para cargar los álbumes de Discazos.</p>
+    <a href="javascript:void(0);" 
+      onclick="chrome.webstore.install(undefined, 
+                                       ExtensionHandler.showRefreshButton(), 
+                                       ExtensionHandler.installationFailed);">
+      <span>
+        <img class="browser-logo" src="{{ STATIC_URL}}img/chrome-logo.png">
+        <span>Extensión para Google Chrome</span>
+      </span>
+    </a>
+    <p class="footnote">Si la instalación de la extensión no funciona, por favor 
+      actualizá tu navegador a la última versión.</p>
+    <p class="footnote">Si tu navegador no está en esta lista, 
+      no está soportado por el momento, disculpá la molestia.</p>
+  </div>
+  <div id="success-message" style="display: none;">
+    <p><a href="#" onclick="window.location.reload()">
+      Una vez instalada la extensión, recargá la página haciendo click aquí.
+    </a></p>
+  </div>
 </div>

@@ -103,6 +103,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.messages.context_processors.messages',
 )
 
+BROWSER_EXTENSION_VERSION = '0.4.1'
+
 try:
     from local_settings import *
 except ImportError:

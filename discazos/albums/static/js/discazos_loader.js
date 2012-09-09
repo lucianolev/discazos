@@ -51,8 +51,8 @@ var DiscazosLoader = {
  */
 var ExtensionHandler = {
   
-  init: function(theInstallUrl, theUpdateUrl) {
-    this.latestVersion = "0.4.1";
+  init: function(theInstallUrl, theUpdateUrl, latestVersion) {
+    this.latestVersion = latestVersion;
     this.extensionLoaded = false;
     this.extensionUpToDate = null;
     this.installationUrl = theInstallUrl;
@@ -83,6 +83,16 @@ var ExtensionHandler = {
     e.initCustomEvent("SiteUrlSending", true, true, siteUrl);
     window.dispatchEvent(e);
   },
+  
+  showRefreshButton: function() {
+    $("#extension-install-box #install-message").hide();
+    $("#extension-install-box #success-message").show();
+    $.colorbox.resize();
+  },
+  
+  installationFailed: function(message) { 
+    console.log(message); 
+  }
 
 }
 

@@ -1,22 +1,26 @@
 <div class="loading-overlay">
   <div id="download-sources-frame">
     <div id="download-sources-wrapper">
-      <p>Please select the source to load the album</p>
+      <p>Seleccioná una fuente de donde cargar el álbum:</p>
       <ul id="download-sources">
       {% for download_source in dl_sources %}
         <li>
           <a href="javascript:void(0);" onclick="javascript: DiscazosLoader.selectFH('{{ download_source.download_link }}', 
                                                                    '{{ download_source.provider }}');">
             {{ download_source.get_provider_display }}
+            <span><img src="{{ STATIC_URL}}img/popup-icon.gif" /></span>
           </a>
         </li>
       {% endfor %}
       </ul>
     </div>
     <div id="loading-discazo-msg" style="display: none;">
-      <p>The source link was obtained successfully!</p>
-      <p>The album is now loading... please wait</p>
-      <p>(This normally takes less than 15 seconds, but on some cases it may take up 1 or 2 minutes, so hold on!)</p>
+      <p>¡Se ha obtenido el link de carga correctamente!</p>
+      <p>Precargando el álbum... por favor espere.</p>
+      <p><img src="{{ STATIC_URL}}img/loading.gif" /></p>
+      <p class="footnote">(La precarga normalmente dura menos de 30 segundos, 
+        pero en algunos casos puede tardar hasta 1 o 2 minutos, 
+        así que sea paciente!)</p>
     </div>
   </div>
 </div>

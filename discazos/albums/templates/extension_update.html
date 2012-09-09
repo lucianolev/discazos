@@ -1,12 +1,22 @@
 <div id="extension-install-box">
-  <p>The extension installed is out-of-date, please click on your browser to update it.</p>
-  <a href="javascript:void(0);" onclick="chrome.webstore.install(undefined, undefined, function(message) { console.log(message); });">
-    <span>
-      <img class="browser-logo" src="{{ STATIC_URL}}img/chrome-logo.png"><span>Extension for Google Chrome</span>
-    </span>
-  </a>
-  <a href="{{ STATIC_URL}}downloads/extensions/chrome/discazos-player-connector.crx">
-    <span style="font-size: 75%; margin-left: 30px;">(Manual installation)</span>
-  </a>
-  <p>Please reload the page after the extension is updated.</p>
+  <div id="install-message">
+    <p>La extensión de Discazos está desactualizada, es necesario actualizarla 
+      para poder usar correctamente el sitio.</p>
+    <a href="javascript:void(0);" 
+      onclick="chrome.webstore.install(undefined, 
+                                       ExtensionHandler.showRefreshButton(), 
+                                       ExtensionHandler.installationFailed);">
+      <span>
+        <img class="browser-logo" src="{{ STATIC_URL}}img/chrome-logo.png">
+        <span>Extensión para Google Chrome</span>
+      </span>
+    </a>
+    <p class="footnote">Si la instalación de la extensión no funciona, por favor 
+      actualizá tu navegador a la última versión.</p>
+  </div>
+  <div id="success-message" style="display: none;">
+    <p><a href="#" onclick="window.location.reload()">
+      Una vez actualizada la extensión, recargá la página haciendo click aquí.
+    </a></p>
+  </div>
 </div>

@@ -13,7 +13,7 @@
 <script type="text/javascript" src="{{ STATIC_URL }}js/discazos_player.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/swfobject.js"></script>
 <script type="text/javascript">
-  ExtensionHandler.init('{% url extension_install %}', '{% url extension_update %}');
+  ExtensionHandler.init('{% url extension_install %}', '{% url extension_update %}', '{{ BROWSER_EXTENSION_VERSION }}');
 </script>
 {% endblock %}
 

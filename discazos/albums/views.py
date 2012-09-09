@@ -4,6 +4,7 @@ from django.forms.formsets import formset_factory
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.conf import settings
 
 from models import *
 from forms import *
@@ -20,7 +21,9 @@ def albums_list(request):
 def album_view(request, album_id):
     album = ArtistAlbum.objects.get(pk=album_id)
     return render_to_response('album_view.html', 
-                              { 'album' : album },
+                              { 'album' : album, 
+                                'BROWSER_EXTENSION_VERSION': 
+                                 settings.BROWSER_EXTENSION_VERSION },
                               context_instance=RequestContext(request))
 
 @login_required
