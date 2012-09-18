@@ -1,12 +1,11 @@
 <div class="loading-overlay">
   <div id="download-sources-frame">
     <div id="download-sources-wrapper">
-      <p>Seleccioná una fuente de donde cargar el álbum:</p>
+      <span>Seleccioná una fuente de donde cargar el álbum:</span>
       <ul id="download-sources">
       {% for download_source in dl_sources %}
         <li>
-          <a href="javascript:void(0);" onclick="javascript: DiscazosLoader.selectFH('{{ download_source.download_link }}', 
-                                                                   '{{ download_source.provider }}');">
+          <a href="javascript:void(0);" onclick="javascript: DiscazosLoader.selectFH('{{ download_source.download_link }}');">
             {{ download_source.get_provider_display }}
             <span><img src="{{ STATIC_URL}}img/popup-icon.gif" /></span>
           </a>

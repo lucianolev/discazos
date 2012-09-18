@@ -7,13 +7,13 @@ var CheckOriginInjectScript = {
   
   askPopupOpenerIfItIsDiscazos: function() {
     if(window.opener) {
-      window.opener.postMessage({message: 'FromDiscazos?'}, '*');
+      window.opener.postMessage({ name: 'FH_CHECK_OPENED_FROM_DISCAZOS' }, '*');
     }
   },
   
   listenToOpenerResponse: function() {
     window.addEventListener("message", function(e) {
-      if(e.data.response == 'YES') {
+      if(e.data.name == 'FH_CHECK_ORIGIN_RESPONSE' && e.data.content == 'YES') {
         //CheckOriginInjectScript.hideFHInformation();
         CheckOriginInjectScript.sendOriginOkNotificationToFhContentScript();
       }

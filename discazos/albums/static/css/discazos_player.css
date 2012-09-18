@@ -27,10 +27,15 @@ p.footnote {
   font-style: italic;
 }
 
+ul#download-sources {
+  margin: 0px;
+}
+
 ul#download-sources li {
   font-size: 1.4em;
   text-align: center;
   list-style: none;
+  margin: 15px 0px;
 }
 
 ul#download-sources li a {

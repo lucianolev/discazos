@@ -199,6 +199,7 @@ class AlbumReleaseDownloadSource(models.Model):
     
     PROVIDERS = (
         ('MF', 'Mediafire'),
+        ('BF', 'BayFiles'),
     )
     
     album_release = models.ForeignKey(AlbumRelease, related_name='download_sources')

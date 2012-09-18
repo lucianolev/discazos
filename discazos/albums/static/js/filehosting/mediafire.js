@@ -2,30 +2,21 @@
 
 var MediafireContentScript = {
 
-  getDownloadLinkInfo: function() {
+  getDownloadLink: function() {
     //Get the download link wrapper
     var dwrapper = DOMHelper.getElementByClass("download_link");
     
     if(dwrapper) {
       //Get the link  
-      var downloadlink = dwrapper.childNodes[2].href; //childNodes[1] is the first child
-      
-      if(downloadlink) {
-        //Saves the link information
-        var downloadLinkInfo = {
-          url: downloadlink,
-          countdown: 0 //Mediafire do not use countdown
-        }
-      }
+      var downloadLink = dwrapper.childNodes[2].href; //childNodes[1] is the first child
     }
 
-    if(downloadLinkInfo) {
-      ContentScriptCommmon.sendDownloadLinkInfo(downloadLinkInfo);
+    if(downloadLink) {
+      ContentScriptCommmon.sendDownloadLink(downloadLink);
     } else {
       var form_captcha = document.getElementById("form_captcha");
       if(form_captcha) {
-        ContentScriptCommmon.messageOverlay.innerHTML = "";
-        ContentScriptCommmon.messageOverlay.appendChild(form_captcha);
+        ContentScriptCommmon.showCaptcha(form_captcha);
       } else {
         ContentScriptCommmon.downloadLinkNotFound();
       }

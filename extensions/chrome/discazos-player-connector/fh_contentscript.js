@@ -1,6 +1,10 @@
 var FHContentScript = {
   
   init: function() {
+    this.siteScripts = {
+      "^http:\/\/(([^.]+)\.)?mediafire.com": "mediafire.js",
+      "^http:\/\/(([^.]+)\.)?bayfiles.com": "bayfiles.js",
+    }
     this.scriptsDir = "/static/js/filehosting/";
     this.checkLoadedFromDiscazos();
   },
@@ -10,12 +14,13 @@ var FHContentScript = {
     //If the FH website was loaded from discazos, set the overlay and inject
     //the corresponding FH-specific script
     window.addEventListener("LoadedFromDiscazos", function(e) {
-      console.log("Loaded from Discazos!");
+      console.log("Loaded from Discazos! Injecting FH CS script...");
       DOMHelper.setOverlay(FHContentScript.injectFHConnectorScript);
     });
     
     //Inject check_origin in FH website to check if discazos opened the site
     var checkOriginScript = chrome.extension.getURL("check_origin.js");
+    console.log("Checking origin...");
     DOMHelper.addScript(checkOriginScript);
   },
   
@@ -23,7 +28,12 @@ var FHContentScript = {
     chrome.extension.sendRequest({ action: "getDiscazosUrl" }, function(response) {
       if(response.url) {
         DOMHelper.addScript(FHContentScript.scriptsDir + "common.js", response.url);
-        DOMHelper.addScript(FHContentScript.scriptsDir + "mediafire.js", response.url);
+        for(var site in FHContentScript.siteScripts) {
+          if(location.href.match(new RegExp(site, "i"))) {
+            var fhScriptFile = FHContentScript.siteScripts[site];
+            DOMHelper.addScript(FHContentScript.scriptsDir + fhScriptFile, response.url);
+          }
+        }
       }
     });
   },

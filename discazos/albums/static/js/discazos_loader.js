@@ -22,15 +22,8 @@ var DiscazosLoader = {
     }
   },
   
-  selectFH: function(sourceUrl, fhService) {
-    switch(fhService) {
-      case "MF":
-        MediafireFH.sourceSelected(sourceUrl);
-        break;
-      default:
-        console.log("Unsupported download source!");
-        return false;
-    }
+  selectFH: function(sourceUrl) {
+    FHCSConnector.sourceSelected(sourceUrl);
   },
  
   downloadLinkReady: function(url) {
@@ -43,11 +36,12 @@ var DiscazosLoader = {
   
 }
 
-/* Communication between the extension and the site
+/* Communication between the extension (background and discazos CS) and the site
  * It's initialized when the Discazos album view is loaded.
  * Upon initialization, it starts listening for the extension to notify loading
  * After receiving the notification, the extension is marked as loaded and 
  * it sends current site URL to the extension.
+ * After sending the url, it initializes the FHCSConnector
  */
 var ExtensionHandler = {
   
@@ -68,8 +62,7 @@ var ExtensionHandler = {
         console.log("Extension loaded and up-to-date! Version "+e.detail.version);
         extensionHandler.extensionUpToDate = true;
         extensionHandler.sendSiteUrlToExtension();
-        FHCommon.listenToOriginCheck(); //Listen to the origin check script 
-                                        //after loading the extension
+        FHCSConnector.init();
       } else {
         extensionHandler.extensionUpToDate = false;
         console.log("Extension is outdated! Version "+extensionHandler.latestVersion+" is needed.");
@@ -96,37 +89,37 @@ var ExtensionHandler = {
 
 }
 
-//Mediafire-specific actions to get the download link
-var MediafireFH = {
-
-  sourceSelected: function(sourceUrl) {
-    FHCommon.listenToDownloadLinkInfoFromFHsCS(this);
-    //FIX: Should get the link from an AJAX request
-    FHCommon.openFH(sourceUrl);
+//FH CS extension connection
+var FHCSConnector = {
+  
+  init: function() {
+    this.listenToCSMessages();
   },
   
-  //When the download information is available, this fires up
-  downloadLinkInfoAvailable: function(downloadLinkInfo) {
-    FHCommon.closeFHPopup();
-    DiscazosLoader.downloadLinkReady(downloadLinkInfo.url);
-    
-    /*
-    //Start countdown
-    if(downloadLinkInfo.countdown > 0) {
-      FHCommon.waitForCountdown(downloadLinkInfo, DiscazosLoader.downloadLinkReady)
+  listenToCSMessages: function() {
+    window.addEventListener("message", function(e) {
+      console.log("FH CS message: "+e.data.name);
+      switch(e.data.name) {
+        case 'FH_CHECK_OPENED_FROM_DISCAZOS':
+          FHCSConnector.sendMessageToCS('FH_CHECK_ORIGIN_RESPONSE', 'YES');
+          break;
+        case 'FH_DL_AVAILABLE':
+          FHCSConnector.downloadLinkAvailable(e.data.content);
+          break;
+      }
+    });
+  },
+  
+  sendMessageToCS: function(aMessage, theContent) {
+    if(FHCSConnector.fhPopup) {
+      FHCSConnector.fhPopup.postMessage({ name: aMessage, content: theContent }, '*');
     } else {
-      DiscazosLoader.downloadLinkReady(downloadLinkInfo.url);
+      console.log("ERROR: No popup was opened.");
     }
-    */
   },
 
-}
-
-//FH generic actions to get the download link
-var FHCommon = {
-
-  openFH: function(sourceUrl) {
-    this.openPopup(sourceUrl);
+  sourceSelected: function(sourceUrl) {
+    FHCSConnector.openPopup(sourceUrl);
   },
 
   openPopup: function(sourceUrl) {
@@ -139,16 +132,16 @@ var FHCommon = {
     var left = wLeft + (window.innerWidth / 2) - (w / 2);
     var top = wTop - (h / 2) + 450;
     
-    this.fhPopup = window.open(sourceUrl, "ProcessingSource", 
+    FHCSConnector.fhPopup = window.open(sourceUrl, "ProcessingSource", 
       'toolbar=no, location=no, menubar=no, scrollbars=no, resizable=no,' + 
       'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
   },
   
   closeFHPopup: function() {
-    this.fhPopup.close();
+    FHCSConnector.fhPopup.close();
   },
   
-  waitForCountdown: function(downloadLinkInfo, readyCallback) {
+  /*waitForCountdown: function(downloadLinkInfo, readyCallback) {
     var fhCountdown = new Countdown({  
       seconds: downloadLinkInfo.countdown,  // number of seconds to count down
       onUpdateStatus: function(sec) { $("#fh-countdown").html(sec); }, // callback for each second
@@ -156,27 +149,12 @@ var FHCommon = {
     });
     //Starts the countdown
     fhCountdown.start();
-  },
+  },*/
 
-  listenToOriginCheck: function() {
-    window.addEventListener("message", function(e) {
-      if(e.data.message == 'FromDiscazos?') {
-        FHCommon.fhPopup.postMessage({ response: 'YES' }, '*');
-      }
-    });
-  },
-  
-  //Listener to the event that gets sent by the FH-specific content script
-  //when the download information is available (link and counter)  
-  listenToDownloadLinkInfoFromFHsCS: function(FH) {
-    window.addEventListener("message", function(e) {
-      //console.log("FH CS Message: "+e.data.name);
-      switch(e.data.name) {
-        case 'FH_DL_INFO_AVAILABLE':
-          FH.downloadLinkInfoAvailable(e.data.content);
-          break;
-      }
-    });
+  //When the download information is available, this fires up
+  downloadLinkAvailable: function(downloadLinkUrl) {
+    FHCSConnector.closeFHPopup();
+    DiscazosLoader.downloadLinkReady(downloadLinkUrl);
   },
 
 }
