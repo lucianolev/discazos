@@ -40,9 +40,11 @@
         <div class="left">
           {% for playlist_disc in album.main_release.playlist %}
           <table class="playlist">
+            {% if album.main_release.playlist|length > 1 %}
             <tr>
               <th colspan="3">{{ playlist_disc.disc }}</th>
             </tr>
+            {% endif %}
             {% for track in playlist_disc.tracks_playlist %}
               <tr class="track">
                 <td rel="{{ track.offset }}" class="track-number">{{ track.number }}</td>
