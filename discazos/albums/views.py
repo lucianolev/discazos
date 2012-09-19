@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.forms.formsets import formset_factory
@@ -64,22 +66,24 @@ def share_add_discs_xml(request):
                     request.session['discs_data'] = xmlParser.get_discs_info()
                     return redirect('share_review_discs')
                 else:
-                    messages.error(request, "The XML file provided is for a "
-                                            "different album (\""+creatorAlbumTitle+"\"). "
-                                            "Please upload the XML file for the "
-                                            "album \""+choosenAlbumTitle+"\".")
+                    messages.error(request, "El archivo XML provisto es para "
+                                            "un álbum diferente " 
+                                            "(\""+creatorAlbumTitle+"\"). "
+                                            "Por favor suba el XML correspondiente " 
+                                            "al album \""+choosenAlbumTitle+"\".")
             except InvalidXMLFile:
-                messages.error(request, "The file provided is not a valid XML "
-                                        "file! Please make sure to upload the "
-                                        "XML file provided by the latest "
-                                        "of Discazos Creator.")
+                messages.error(request, "El archivo provisto no es un archivo " 
+                                        "XML válido. Por favor asegúrese de estar "
+                                        "subiendo el archivo XML generado por "
+                                        "la última versión de Discazos Creator." )
             except UnsupportedCreatorVersion:
-                messages.error(request, "The XML file provided was generated with "
-                                        "an old version of Discazos Creator. "
-                                        "Please download the latest version "
-                                        "of Discazos Creator, create the album "
-                                        "again and re-upload the XML file. "
-                                        "Sorry for the inconvenience.")
+                messages.error(request, "El archivo XML provisto fue generado "
+                                        "por una versión antigua de Discazos "
+                                        "Creator. Por favor descargue la última "
+                                        "versión de la aplicación, genere el " 
+                                        "álbum nuevamente y vuelva a subir el "
+                                        "archivo XML. Le pedimos disculpas por el "
+                                        "inconveniente.")
     else:
         xmlUploadForm = DiscsInfoUploadForm()
     return render_to_response('share/add_discs_xml.html',

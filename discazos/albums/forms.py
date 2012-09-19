@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 from django import forms
 
 from models import *
@@ -34,7 +36,7 @@ class AlbumReleaseShareForm(forms.ModelForm):
                    'audiofile_size', )
 
 class DiscsInfoUploadForm(forms.Form):
-    xml_file = forms.FileField(label=u'Discs XML file')
+    xml_file = forms.FileField(label=u'Archivo XML de Discazos Creator')
 
 class DiscShareForm(forms.ModelForm):
     number = forms.IntegerField(widget=forms.HiddenInput)
@@ -51,7 +53,7 @@ class DiscTrackShareForm(forms.Form):
     
     def clean_artist(self):
         if not Artist.objects.filter(name=self.cleaned_data['artist']).exists():
-            raise forms.ValidationError("Artist does not exist")
+            raise forms.ValidationError("El artista no existe")
         else:
             return self.cleaned_data['artist']
 

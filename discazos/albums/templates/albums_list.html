@@ -1,11 +1,11 @@
 {% extends "main_layout.html" %}
 
-{% block title %}Discazos | Albums{% endblock title %}
+{% block title %}Discazos | Álbumes{% endblock title %}
 
 {% block section_nav_class %}albums{% endblock %}
 {% block main %}
 <div id="content">
-  <h2>Albums</h2>
+  <h2>Álbumes</h2>
   <div class="albums_list">
     {% for album in albums %}
     <a href="{% url album_view album.pk %}">

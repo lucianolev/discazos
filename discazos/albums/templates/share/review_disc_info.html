@@ -3,16 +3,16 @@
 {% load custom_tags %}
 
 {% block content %} 
-<h4>Step 3 of 5: Review discs information</h4>
+<h4>Paso 3 de 5: Revisión de la información de los discos</h4>
 <form id="review-disc-info" method="post">
   {% csrf_token %}
   {% if tracksFormset.errors %}
-  <p class="error">Please check the data entered below.</p>
+  <p class="error">Por favor verifique los datos ingresados debajo.</p>
   {% endif %}
   {{ discForm.number }}
   <fieldset>
     <div class="form_row">
-      <div class="form_property">CD Title (if any)</div>
+      <div class="form_property">Título del disco (si tiene)</div>
       <div class="form_value">{{ discForm.title }}</div>
       <div class="clearer"></div>
     </div>
@@ -20,10 +20,10 @@
   {{ tracksFormset.management_form }}
   <table class="data_table">
     <tr>
-      <th>No.</th>
-      <th>Artist</th>
-      <th>Song</th>
-      <th>Length</th>
+      <th>Nro.</th>
+      <th>Artista</th>
+      <th>Canción</th>
+      <th>Duración</th>
     </tr>
   {% for trackForm in tracksFormset.forms %}
     {{ trackForm.number }} 
@@ -38,7 +38,7 @@
   </table>
   <fieldset>
     <div class="form_row form_row_submit">
-      <input class="button" type="submit" value="Confirm disc info" />
+      <input class="button" type="submit" value="Confirmar información del disco" />
       <div class="clearer"></div>
     </div>
   </fieldset>

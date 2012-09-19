@@ -1,9 +1,9 @@
 {% extends "share/share_layout.html" %}
 
 {% block content %}
-<h4>Step 3 of 5: Review discs information</h4>
+<h4>Paso 3 de 5: Revisá la información del disco</h4>
 {% for i in nums_discs %}
-<p><a href="{% url share_review_disc_info i %}">Review CD {{ i|add:"1" }}</a></p>
+<p><a href="{% url share_review_disc_info i %}">Revisión del disco {{ i|add:"1" }}</a></p>
 {% endfor %}
-<p><a href="{% url share_upload_audio %}">Next >></a></p>
+<p><a href="{% url share_upload_audio %}">Siguiente >></a></p>
 {% endblock content %}

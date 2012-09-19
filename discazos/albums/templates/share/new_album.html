@@ -1,11 +1,11 @@
 {% extends "share/share_layout.html" %}
 
 {% block content %}
-<h4>Step 1 of 5: New album information</h4>
+<h4>Paso 1 of 5: Información del nuevo álbum</h4>
 <form id="form-album-info" method="post">
   {% csrf_token %}
   {% if artistAlbumForm.errors %}
-  <p class="error">Please check the data entered below.</p>
+  <p class="error">Por favor verifique los datos ingresados debajo.</p>
   {% endif %}
   <fieldset>
     <div class="form_row">
@@ -29,7 +29,7 @@
       <div class="clearer"></div>
     </div>
     <div class="form_row form_row_submit">
-      <div class="form_value"><input class="button" type="submit" value="Next >>" /></div>
+      <div class="form_value"><input class="button" type="submit" value="Siguiente >>" /></div>
       <div class="clearer"></div>
     </div>
   </fieldset>

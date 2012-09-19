@@ -1,6 +1,6 @@
 {% extends "main_layout.html" %}
 
-{% block title %}Discazos | Album{% endblock title %}
+{% block title %}Discazos | Álbum{% endblock title %}
 
 {% block pagehead %}
 <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/discazos_player.css" />
@@ -34,7 +34,7 @@
             <span class="load-button"><img src="{{ STATIC_URL }}img/play-overlay.png" alt="Play"></span>
           </a>
           <div id="loading-discazo">
-            <span class="caption" style="display: none;">Loading the album... please wait</span>
+            <span class="caption" style="display: none;">Cargando el album... por favor espere</span>
           </div>
         </div>
         <div class="left">
@@ -56,11 +56,11 @@
       </div>
       <div class="clearer"></div>
       <div id="player-controls" style="display:none;">
-        <p id="playing-info">Playing: <span id="current-track">Not playing</span></p>
+        <p id="playing-info">Reproduciendo: <span id="current-track">Nada</span></p>
         <span id="album-length" style="display:none;">{{ album.main_release.length }}</span>
         <button id="play-button">Play</button>
-        <button id="prev-button">Prev</button>
-        <button id="next-button">Next</button>
+        <button id="prev-button">Anterior</button>
+        <button id="next-button">Siguiente</button>
         <div id="progressbar"></div>
         <span id="time-elapsed">00:00</span>
       </div>
