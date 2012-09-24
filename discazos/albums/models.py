@@ -23,7 +23,7 @@ class Artist(models.Model):
                               blank=True, null=True)
     #official_site = models.URLField(blank=True)
     #youtube_profile = models.URLField(blank=True)
-    wikipedia = models.URLField(u'wikipedia', blank=True)
+    #wikipedia = models.URLField(u'wikipedia', blank=True)
     
     def __unicode__(self):
         return self.name
@@ -94,7 +94,7 @@ class Album(models.Model):
     )
     
     title = models.CharField(u'título', max_length=255)
-    wikipedia = models.URLField(u'wikipedia', blank=True)
+    #wikipedia = models.URLField(u'wikipedia', blank=True)
     recording_type = models.CharField(u'tipo de grabación', choices=RECORDING_TYPES, max_length=2, default='ST')
     #status? Official, bootleg
     
