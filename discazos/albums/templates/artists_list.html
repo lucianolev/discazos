@@ -1,0 +1,30 @@
+{% extends "main_layout.html" %}
+
+{% block title %}Discazos | Artistas{% endblock title %}
+
+{% block section_nav_class %}artists{% endblock %}
+{% block main %}
+<div id="content">
+  <h2>Artistas</h2>
+  <div class="albums_list">
+    {% for artist in artists %}
+    <a href="#">
+      <div class="album">
+        <div class="cover">
+          {% if artist.image %}
+          <img src="{{ MEDIA_URL }}{{ artist.image }}" height="128" width="128" />
+          {% else %}
+          <img src="{{ STATIC_URL }}img/person-icon.png" height="128" width="128" />
+          {% endif %}
+        </div>
+        <div class="info">
+          <h1>{{ artist.name }}</h1>
+          <h2>{{ artist.get_country_display }}</h2>
+        </div>
+        <div class="clearer"></div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

@@ -37,6 +37,13 @@ def download_sources_list(request, album_id):
                               { 'dl_sources' : dl_sources },
                               context_instance=RequestContext(request))
 
+@login_required
+def artists_list(request):
+    artists = Artist.objects.all()
+    return render_to_response('artists_list.html', 
+                              { 'artists' : artists },
+                              context_instance=RequestContext(request))
+
 #Assistant: Step 1
 @login_required
 def share_new_album(request):

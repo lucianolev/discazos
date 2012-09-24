@@ -19,6 +19,8 @@ class Artist(models.Model):
 
     name = models.CharField(u'nombre', max_length=255)
     country = CountryField(u'país', blank=True, null=True)
+    image = models.ImageField(u'imagen del artista', upload_to='uploads/artists', 
+                              blank=True, null=True)
     #official_site = models.URLField(blank=True)
     #youtube_profile = models.URLField(blank=True)
     wikipedia = models.URLField(u'wikipedia', blank=True)

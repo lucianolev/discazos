@@ -27,6 +27,8 @@ urlpatterns = patterns('',
     url(r'^album/(?P<album_id>\d+)/sources$', 
         'discazos.albums.views.download_sources_list', name="dl_sources_list"),
     
+    url(r'^artists/$', 'discazos.albums.views.artists_list', name="artists_list"),
+    
     url(r'^share/new-album$', 'discazos.albums.views.share_new_album', name="share_new_album"),
     url(r'^share/add-discs$', 'discazos.albums.views.share_add_discs_xml', name="share_add_discs_xml"),
     url(r'^share/review-discs$', 'discazos.albums.views.share_review_discs', name="share_review_discs"),
