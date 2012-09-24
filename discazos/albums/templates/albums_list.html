@@ -1,5 +1,7 @@
 {% extends "main_layout.html" %}
 
+{% load thumbnail %}
+
 {% block title %}Discazos | Álbumes{% endblock title %}
 
 {% block section_nav_class %}albums{% endblock %}
@@ -10,7 +12,11 @@
     {% for album in albums %}
     <a href="{% url album_view album.pk %}">
       <div class="album">
-        <div class="cover"><img src="{{ MEDIA_URL }}{{ album.main_release.cover }}" height="128" width="128" /></div>
+        <div class="cover">
+        {% thumbnail album.main_release.cover "128x128" as cover_thumb %}
+        <img src="{{ cover_thumb.url }}" alt="Album Cover" style="margin:{{ cover_thumb|margin:"128x128" }}"/>
+        {% endthumbnail %}
+        </div>
         <div class="info">
           <h1>{{ album.title }}</h1>
           <h2>{{ album.artist }}</h2>

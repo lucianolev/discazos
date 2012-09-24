@@ -4,3 +4,4 @@ south
 django_extensions
 django-countries
 #django-registration
+sorl-thumbnail

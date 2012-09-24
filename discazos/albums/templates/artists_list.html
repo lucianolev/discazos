@@ -1,5 +1,7 @@
 {% extends "main_layout.html" %}
 
+{% load thumbnail %}
+
 {% block title %}Discazos | Artistas{% endblock title %}
 
 {% block section_nav_class %}artists{% endblock %}
@@ -12,9 +14,11 @@
       <div class="album">
         <div class="cover">
           {% if artist.image %}
-          <img src="{{ MEDIA_URL }}{{ artist.image }}" height="128" width="128" />
+          {% thumbnail artist.image "128x128" as image_thumb %}
+          <img src="{{ image_thumb.url }}" alt="Artist Image" style="margin:{{ image_thumb|margin:"128x128" }}"/>
+          {% endthumbnail %}
           {% else %}
-          <img src="{{ STATIC_URL }}img/person-icon.png" height="128" width="128" />
+          <img src="{{ STATIC_URL }}img/person-icon.png" />
           {% endif %}
         </div>
         <div class="info">

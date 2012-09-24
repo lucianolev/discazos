@@ -85,6 +85,7 @@ INSTALLED_APPS = (
     'south',
     'django_extensions',
     'django_countries',
+    'sorl.thumbnail',
     
     #Discazos
     'discazos.albums',
