@@ -39,7 +39,7 @@ def download_sources_list(request, album_id):
 
 @login_required
 def artists_list(request):
-    artists = Artist.objects.all()
+    artists = Artist.objects.exclude(albums=None) #Show only with albums
     return render_to_response('artists_list.html', 
                               { 'artists' : artists },
                               context_instance=RequestContext(request))
