@@ -4,7 +4,7 @@ from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 from django.forms.formsets import formset_factory
 from django.contrib.auth import logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.conf import settings
 
@@ -47,6 +47,10 @@ def artists_list(request):
 #Assistant: Step 1
 @login_required
 def share_new_album(request):
+    if not request.user.has_perm('albums.add_albumrelease'):
+        return render_to_response('share/new_album.html',
+                                  {'userHasPermission': False },
+                                  context_instance=RequestContext(request))
     if request.method == 'POST':
         artistAlbumForm = ArtistAlbumShareForm(request.POST)
         if artistAlbumForm.is_valid():
@@ -55,11 +59,13 @@ def share_new_album(request):
     else:
         artistAlbumForm = ArtistAlbumShareForm()
     return render_to_response('share/new_album.html',
-                              {'artistAlbumForm': artistAlbumForm }, 
+                              {'artistAlbumForm': artistAlbumForm,
+                               'userHasPermission': True }, 
                               context_instance=RequestContext(request))
 
 #Assistant: Step 2
 @login_required
+@permission_required('albums.add_albumrelease')
 def share_add_discs_xml(request):
     if request.method == 'POST':
         xmlUploadForm = DiscsInfoUploadForm(request.POST, request.FILES)
@@ -99,6 +105,7 @@ def share_add_discs_xml(request):
 
 #Assistant: Step 3
 @login_required
+@permission_required('albums.add_albumrelease')
 def share_review_discs(request):
     nums_discs = range(len(request.session['discs_data']))
     return render_to_response('share/review_discs.html',
@@ -106,6 +113,7 @@ def share_review_discs(request):
                               context_instance=RequestContext(request))
 
 @login_required
+@permission_required('albums.add_albumrelease')
 def share_review_disc_info(request, disc_num):
     DiscTracksFormset = formset_factory(DiscTrackShareForm, extra=0)
     if request.method == 'POST':
@@ -128,6 +136,7 @@ def share_review_disc_info(request, disc_num):
 
 #Assistant: Step 4
 @login_required
+@permission_required('albums.add_albumrelease')
 def share_upload_audio(request):
     if request.method == 'POST':
         downloadSourceForm = MediafireSourceShareForm(request.POST)
@@ -142,6 +151,7 @@ def share_upload_audio(request):
 
 #Assistant: Step 5 & Finish
 @login_required
+@permission_required('albums.add_albumrelease')
 def share_add_release_info(request):
     if request.method == 'POST':
         albumReleaseForm = AlbumReleaseShareForm(request.POST, request.FILES)

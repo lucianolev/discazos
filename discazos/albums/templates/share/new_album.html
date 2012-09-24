@@ -1,6 +1,7 @@
 {% extends "share/share_layout.html" %}
 
 {% block content %}
+{% if userHasPermission %}
 <h4>Paso 1 of 5: Información del nuevo álbum</h4>
 <form id="form-album-info" method="post">
   {% csrf_token %}
@@ -34,4 +35,11 @@
     </div>
   </fieldset>
 </form>
+{% else %}
+<div class="notice" id="share-message-box">
+  <p>Tu usuario <span style="font-weight: bold;">no está habilitado</span> actualmente para compartir álbumes.</p> 
+  <p>¿Te interesa compartir? Por favor escribinos a 
+  <a href="mailto:contacto@discazos.net">contacto@discazos.net</a>.</p>
+</div>
+{% endif %}
 {% endblock content %}

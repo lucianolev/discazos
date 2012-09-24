@@ -59,3 +59,7 @@ div.albums_list .album .info h1 {
 div.albums_list .album .info h2 {
   font-size: 1.2em;
 }
+
+#share-message-box {
+  margin: 15px 5px;
+}
