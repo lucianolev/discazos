@@ -1,0 +1,20 @@
+[
+  {
+    "pk": 1,
+    "model": "albums.filehostingservice",
+    "fields": {
+      "priority": 1,
+      "enabled": true,
+      "name": "Mediafire"
+    }
+  },
+  {
+    "pk": 2,
+    "model": "albums.filehostingservice",
+    "fields": {
+      "priority": 2,
+      "enabled": true,
+      "name": "BayFiles"
+    }
+  }
+]

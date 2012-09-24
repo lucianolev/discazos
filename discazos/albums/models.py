@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from django_countries import CountryField
 
-from albums.managers import DiscTrackManager
+from albums.managers import *
 
 '''
 An artist. 
@@ -205,15 +205,11 @@ class AlbumReleaseDownloadSource(models.Model):
         verbose_name = u'Fuente de descarga'
         verbose_name_plural = 'Fuentes de descarga'
     
-    PROVIDERS = (
-        ('MF', 'Mediafire'),
-        ('BF', 'BayFiles'),
-    )
-    
     album_release = models.ForeignKey(AlbumRelease, verbose_name=u'álbum (edición)', 
                                       related_name='download_sources')
-    provider = models.CharField(u'proveedor', choices=PROVIDERS, max_length=2)
+    service = models.ForeignKey('FileHostingService', verbose_name=u'servicio')
     download_link = models.URLField(u'link de descarga')
+    enabled = models.BooleanField(u'habilitada?', default=True)
 
     @classmethod
     def create_mediafire(cls, session_data, album_release):
@@ -225,7 +221,9 @@ class AlbumReleaseDownloadSource(models.Model):
         return newDownloadSource
 
     def __unicode__(self):
-        return self.provider
+        return "%s" % self.service
+    
+    objects = AlbumReleaseDownloadSourceManager()
 
 '''
 An album release disc.
@@ -284,3 +282,17 @@ class DiscTrack(models.Model):
     
     def __unicode__(self):
         return "%s" % self.song
+
+class FileHostingService(models.Model):
+    class Meta:
+        verbose_name = u'Servicio de alojamiento de archivos'
+        verbose_name_plural = u'Servicios de alojamiento de archivos'
+        ordering = ['priority', ]
+        
+    
+    name = models.CharField(u'nombre', max_length=100)
+    priority = models.IntegerField(u'prioridad')
+    enabled = models.BooleanField(u'Habilitado?', default=True)
+
+    def __unicode__(self):
+        return "%s" % self.name

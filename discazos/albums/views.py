@@ -32,7 +32,7 @@ def album_view(request, album_id):
 def download_sources_list(request, album_id):
     album = ArtistAlbum.objects.get(pk=album_id)
     #import pdb; pdb.set_trace()
-    dl_sources = album.main_release().download_sources.all()
+    dl_sources = album.main_release().download_sources.enabled_by_priority()
     return render_to_response('download_sources_list.html', 
                               { 'dl_sources' : dl_sources },
                               context_instance=RequestContext(request))

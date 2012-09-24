@@ -51,3 +51,17 @@ class DiscAdmin(admin.ModelAdmin):
     ordering = ('album_release', )
 
 admin.site.register(Disc, DiscAdmin)
+
+class FileHostingServiceAdmin(admin.ModelAdmin):
+    list_display = ('name', 'enabled', 'priority', )
+    list_editable = ('priority', )
+
+    class Media:
+        js = (
+              'js/jquery.min.js',
+              'js/jquery-ui.min.js',
+              'js/admin-list-reorder.js',
+        )
+
+admin.site.register(FileHostingService, FileHostingServiceAdmin)
+    
