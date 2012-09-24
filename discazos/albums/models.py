@@ -150,7 +150,8 @@ class AlbumRelease(models.Model):
 
     album = models.ForeignKey(Album, verbose_name=u'álbum', 
                               related_name='releases')
-    release_year = models.IntegerField(u'año de lanzamiento', max_length=4, blank=True)
+    release_year = models.IntegerField(u'año de lanzamiento', max_length=4, 
+                                       blank=True, null=True)
     country = CountryField(u'país', blank=True, null=True)
     cover = models.ImageField(u'tapa', upload_to='uploads/covers/')
     main_release = models.BooleanField(u'¿Edición principal?')
