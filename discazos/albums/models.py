@@ -212,13 +212,12 @@ class AlbumReleaseDownloadSource(models.Model):
                                       related_name='download_sources')
     service = models.ForeignKey('FileHostingService', verbose_name=u'servicio')
     download_link = models.URLField(u'link de descarga')
-    enabled = models.BooleanField(u'habilitada?', default=True)
+    enabled = models.BooleanField(u'Disponible', default=True)
 
     @classmethod
-    def create_mediafire(cls, session_data, album_release):
+    def create(cls, session_data, album_release):
         sourceData = session_data
-        sourceData.update({'album_release': album_release, 
-                           'provider': 'MF'})
+        sourceData.update({'album_release': album_release})
         newDownloadSource = cls(**sourceData)
         newDownloadSource.save()
         return newDownloadSource

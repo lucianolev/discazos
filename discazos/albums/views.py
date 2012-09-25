@@ -138,15 +138,21 @@ def share_review_disc_info(request, disc_num):
 @login_required
 @permission_required('albums.add_albumrelease')
 def share_upload_audio(request):
+    fileHostingServices = FileHostingService.objects.all()
+    DownloadSourcesFormset = formset_factory(DownloadSourceShareForm, extra=0,
+                                             max_num=fileHostingServices.count())
     if request.method == 'POST':
-        downloadSourceForm = MediafireSourceShareForm(request.POST)
-        if downloadSourceForm.is_valid():
-            request.session['download_source_data'] = downloadSourceForm.cleaned_data
+        downloadSourcesFormset = DownloadSourcesFormset(request.POST)
+        if downloadSourcesFormset.is_valid():
+            request.session['download_sources_data'] = [form.cleaned_data 
+                                                        for form in 
+                                                        downloadSourcesFormset.forms]
             return redirect('share_add_release_info')
     else:
-        downloadSourceForm = MediafireSourceShareForm()
+        initialData = [{ 'service': service } for service in fileHostingServices]
+        downloadSourcesFormset = DownloadSourcesFormset(initial=initialData)
     return render_to_response('share/upload_audio.html',
-                              { 'downloadSourceForm': downloadSourceForm, },
+                              { 'downloadSourcesFormset': downloadSourcesFormset, },
                               context_instance=RequestContext(request))
 
 #Assistant: Step 5 & Finish
@@ -165,8 +171,8 @@ def share_add_release_info(request):
                 disc = Disc.create_with_release(discData, albumRelease)
                 for trackData in tracksData:
                     DiscTrack.create_from_assistant(trackData, disc)
-            AlbumReleaseDownloadSource.create_mediafire(request.session['download_source_data'], 
-                                                        albumRelease)
+            for downloadSourceData in request.session['download_sources_data']:
+                AlbumReleaseDownloadSource.create(downloadSourceData, albumRelease)
             return render_to_response('share/finish.html',
                                       {'albumPk': album.pk }, 
                                       context_instance=RequestContext(request))

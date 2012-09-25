@@ -57,8 +57,8 @@ class DiscTrackShareForm(forms.Form):
         else:
             return self.cleaned_data['artist']
 
-class MediafireSourceShareForm(forms.ModelForm):
+class DownloadSourceShareForm(forms.ModelForm):
     
     class Meta:
         model = AlbumReleaseDownloadSource
-        fields = ('download_link', )
+        exclude = ('album_release', 'enabled', )
