@@ -8,6 +8,8 @@
  *
  * Licensed under the New BSD License
  * See: http://www.opensource.org/licenses/bsd-license.php
+ * 
+ * DOWNLOADED FROM: https://github.com/snnwolf/django-dynamic-formset
  */
 ;(function($) {
     $.fn.formset = function(opts)
@@ -79,10 +81,10 @@
                     return false;
                 });
             },
+            
             checkActionButtons = function() {
                 var max_num = parseInt($('#id_' + options.prefix + '-MAX_NUM_FORMS').val()),
                     formCount = $$formsetContainer.find('.'+options.formCssClass).length
-
                 if (options.min_num > 0) {
                     if (formCount <= options.min_num) {
                         $$formsetContainer.find('.'+options.deleteCssClass).hide()
@@ -180,6 +182,7 @@
                 if (options.added) options.added(row);
                 return false;
             });
+            checkActionButtons();
         }
 
         return $$;
