@@ -125,14 +125,24 @@ DiscazosPlayer.load = function(url) {
   
   this.swf.load(url);
   
-  DiscazosPlayerUI.html.find('#loading-discazo span.caption').show();
   var loadingOverlay = DiscazosPlayerUI.html.find("#player-wrapper div.main div.loading-overlay");
   loadingOverlay.find("#download-sources-frame #download-sources-wrapper").hide();
-  loadingOverlay.find("#download-sources-frame #loading-discazo-msg").show();
+  loadingOverlay.find("#download-sources-frame #link-available-msg").show();
+  
+  DiscazosPlayerUI.html.bind("bufferLoadingStarted", function() {
+    loadingOverlay.find("#download-sources-frame #loading-discazo-msg").show();
+  });
+  
+  DiscazosPlayerUI.html.bind("bufferError", function() {
+    loadingOverlay.find("#download-sources-frame #link-available-msg").hide();
+    loadingOverlay.find("#download-sources-frame #buffer-error-text").show();
+    loadingOverlay.find("#download-sources-frame #download-sources-wrapper").show();
+  });
   
   //After the a minimum part has been loaded, activate the player controls
   DiscazosPlayerUI.html.bind("minLoaded", function() {
     loadingOverlay.remove();
+    DiscazosPlayerUI.html.find('#loading-discazo span.caption').show();
     DiscazosPlayerUI.html.find("#player-controls").slideDown('slow');
     DiscazosPlayerUI.html.find(".playlist tr.track").each(function() {
       $(this).hover(function() { $(this).addClass("hover") }, 
@@ -259,6 +269,15 @@ DiscazosPlayer.convertToMMSS = function(seconds) {
 }
 
 /* Flash player events */
+
+DiscazosPlayer.bufferLoadingStarted = function() {
+  DiscazosPlayerUI.html.trigger("bufferLoadingStarted");
+}
+
+DiscazosPlayer.bufferError = function(errorText) {
+  DiscazosPlayerUI.html.trigger("bufferError");
+  console.log("SWF loading buffer error: "+errorText);
+}
 
 DiscazosPlayer.updateBufferProgress = function(msLoaded, msTotal) {
   var secondsLoaded = msLoaded / 1000;

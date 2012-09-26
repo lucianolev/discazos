@@ -2,6 +2,10 @@
   <div id="download-sources-frame">
     <div id="download-sources-wrapper">
       {% if dl_sources %}
+      <div id="buffer-error-text" style="display: none;">
+        <p>Lamentablemente el link de descarga obtenido no está disponible.</p>
+        <p>Podés intentar cargar la misma fuente nuevamente o probar otra.</p>
+      </div>
       <span>Seleccioná una fuente de donde cargar el álbum:</span>
       {% else %}
       <span>Actualmente no hay fuentes disponibles para este álbum, 
@@ -18,8 +22,10 @@
       {% endfor %}
       </ul>
     </div>
+    <div id="link-available-msg" style="display: none;">
+      <p>¡Se ha obtenido el link de descarga correctamente!</p>
+    </div>
     <div id="loading-discazo-msg" style="display: none;">
-      <p>¡Se ha obtenido el link de carga correctamente!</p>
       <p>Precargando el álbum... por favor espere.</p>
       <p><img src="{{ STATIC_URL}}img/loading.gif" /></p>
       <p class="footnote">(La precarga normalmente dura menos de 30 segundos, 
