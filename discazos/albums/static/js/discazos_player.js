@@ -1,14 +1,14 @@
 var DiscazosPlayer = {};
 var DiscazosPlayerUI = {}
 
-DiscazosPlayer.MIN_PERCENTAGE_TO_LOAD = 2;
+DiscazosPlayer.MIN_BYTES_TO_LOAD = 491520; //30 seconds of 128kbps audio
 
 $(document).ready(function() {
   DiscazosPlayer.swf = swfobject.getObjectById("discazos-player-swf");
   DiscazosPlayerUI.html = $("#discazos-player-html");
   
   DiscazosPlayer.data = { 
-    albumLength: DiscazosPlayerUI.html.find("#album-length").html(), 
+    audioFileSize: DiscazosPlayerUI.html.find("#album-audiofile-size").html(),
     currentTrack: false,
     minLoadedTriggered: false,
   };
@@ -279,19 +279,22 @@ DiscazosPlayer.bufferError = function(errorText) {
   console.log("SWF loading buffer error: "+errorText);
 }
 
-DiscazosPlayer.updateBufferProgress = function(msLoaded, msTotal) {
-  var secondsLoaded = msLoaded / 1000;
-  var percentage = Math.round((secondsLoaded / this.data.albumLength) * 100);
-  var progressbarWidget = DiscazosPlayerUI.html.find('#loading-discazo');
-  progressbarWidget.progressbar("value", percentage);
-  if(percentage >= DiscazosPlayer.MIN_PERCENTAGE_TO_LOAD) {
-    if(!this.data.minLoadedTriggered) {
-       this.data.minLoadedTriggered = true;
-       DiscazosPlayerUI.html.trigger("minLoaded");
+DiscazosPlayer.updateBufferProgress = 
+  function(bytesLoaded, bytesTotal) { //bytesTotal is not reliable until loading finishes
+    if(bytesLoaded >= DiscazosPlayer.MIN_BYTES_TO_LOAD) {
+      if(!this.data.minLoadedTriggered) {
+         this.data.minLoadedTriggered = true;
+         DiscazosPlayerUI.html.trigger("minLoaded");
+      }
+      var percentage = (bytesLoaded / this.data.audioFileSize) * 100;
+      var progressbarWidget = DiscazosPlayerUI.html.find('#loading-discazo');
+      progressbarWidget.children('span.caption').html(percentage.toFixed(1) + ' %');
+      progressbarWidget.progressbar("value", percentage);
+    } else {
+      var preloadPercentage = Math.round((bytesLoaded / DiscazosPlayer.MIN_BYTES_TO_LOAD) * 100);
+      DiscazosPlayerUI.html.find('#preload-percentage').html(preloadPercentage);
     }
-    progressbarWidget.children('span.caption').html(percentage + '%');
   }
-}
 
 DiscazosPlayer.currentPlaybackPositionChanged = function(currentMs) {
   var currentSeconds = currentMs / 1000;

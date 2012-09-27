@@ -40,7 +40,6 @@ package
         
         /* Public interfaces */
         public var startVolume:Number;
-        public var trackLength:Number;
         
         public function DiscazosPlayer() {
             this.pausedPosition = 0;
@@ -87,7 +86,7 @@ package
         }
         
         public function seek(position:Number):void {
-            if(position > 0 && position < this.trackLength) {
+            if(position > 0 && position < this.track.length) {
                 if(this.isPlaying) {
                     this.pause();
                 }
@@ -123,16 +122,17 @@ package
         }
         
         private function bufferProgressHandler(event:ProgressEvent):void {
-            this.trackLength = this.track.length;
-            var bufferMsLoaded:Number = Math.round(event.bytesLoaded * this.trackLength / event.bytesTotal);
+            /*var bufferMsLoaded:Number = Math.round(event.bytesLoaded * this.track.length / event.bytesTotal);
             var bufferProgressEvent:ProgressEvent = 
-                new ProgressEvent(BUFFER_PROGRESS, false, false, bufferMsLoaded, this.trackLength);
+                new ProgressEvent(BUFFER_PROGRESS, false, false, bufferMsLoaded, this.track.length);*/
+            var bufferProgressEvent:ProgressEvent = 
+                new ProgressEvent(BUFFER_PROGRESS, event.bubbles, event.cancelable, event.bytesLoaded, event.bytesTotal);
             this.dispatchEvent(bufferProgressEvent);
         }
         
         private function updatePositionHandler(event:TimerEvent):void {
             var playProgressEvent:ProgressEvent = 
-                new ProgressEvent(PLAY_PROGRESS, false, false, Math.round(this.channel.position), this.trackLength);
+                new ProgressEvent(PLAY_PROGRESS, false, false, Math.round(this.channel.position), this.track.length);
             this.dispatchEvent(playProgressEvent);
         }
         

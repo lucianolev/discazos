@@ -26,11 +26,9 @@
       <p>¡Se ha obtenido el link de descarga correctamente!</p>
     </div>
     <div id="loading-discazo-msg" style="display: none;">
-      <p>Precargando el álbum... por favor espere.</p>
+      <p>Precargando los primeros 30 segundos del álbum... por favor espere.</p>
       <p><img src="{{ STATIC_URL}}img/loading.gif" /></p>
-      <p class="footnote">(La precarga normalmente dura menos de 30 segundos, 
-        pero en algunos casos puede tardar hasta 1 o 2 minutos, 
-        así que sea paciente!)</p>
+      <p><span id="preload-percentage">0</span>% completado</p>
     </div>
   </div>
 </div>
