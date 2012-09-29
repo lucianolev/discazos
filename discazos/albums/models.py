@@ -26,7 +26,7 @@ class Artist(models.Model):
     #wikipedia = models.URLField(u'wikipedia', blank=True)
     
     def __unicode__(self):
-        return self.name
+        return u"%s" % self.name
 
 #The person and group artist distinction make sense for
 #a richer music library information 
@@ -56,7 +56,7 @@ class ArtistAlias(models.Model):
     name = models.CharField(u'nombre', max_length=255)
     
     def __unicode__(self):
-        return self.name
+        return u"%s" % self.name
 
 '''
 A song.
@@ -73,7 +73,7 @@ class Song(models.Model):
     #performers = models.ManyToManyField(PersonArtist, related_name='performed_songs', blank=True)
     
     def __unicode__(self):
-        return self.name
+        return  u"%s" % self.name
 
 '''
 An album.
@@ -108,7 +108,7 @@ class Album(models.Model):
         return self.releases.filter(main_release=True)[0]
     
     def __unicode__(self):
-        return self.title
+        return  u"%s" % self.title
 
 #A typical album performed by a single artist
 class ArtistAlbum(Album):
@@ -228,7 +228,7 @@ class AlbumReleaseDownloadSource(models.Model):
         return newDownloadSource
 
     def __unicode__(self):
-        return "%s" % self.service
+        return u"%s" % self.service
     
     objects = AlbumReleaseDownloadSourceManager()
 
@@ -255,9 +255,9 @@ class Disc(models.Model):
         return newDisc
 
     def __unicode__(self):
-        disc_name = "CD " + "%s" % self.number
+        disc_name = "CD " + u"%s" % self.number
         if (self.title):
-            disc_name += " - " + "%s" % self.title
+            disc_name += " - " + u"%s" % self.title
         return disc_name
 
 class DiscTrack(models.Model):
@@ -288,7 +288,7 @@ class DiscTrack(models.Model):
         return newTrack
     
     def __unicode__(self):
-        return "%s" % self.song
+        return u"%s" % self.song
 
 class FileHostingService(models.Model):
     class Meta:
@@ -302,4 +302,4 @@ class FileHostingService(models.Model):
     enabled = models.BooleanField(u'Habilitado?', default=True)
 
     def __unicode__(self):
-        return "%s" % self.name
+        return u"%s" % self.name
