@@ -80,7 +80,7 @@ def share_add_discs_xml(request):
                     return redirect('share_review_discs')
                 else:
                     messages.error(request, "El archivo XML provisto es para "
-                                            "un álbum diferente " 
+                                            "un album diferente "
                                             "(\""+creatorAlbumTitle+"\"). "
                                             "Por favor suba el XML correspondiente " 
                                             "al album \""+choosenAlbumTitle+"\".")
