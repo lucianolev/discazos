@@ -162,6 +162,8 @@ class AlbumRelease(models.Model):
     stream_quality = models.CharField(u'calidad de audio', choices=QUALITY_TYPES, 
                                       max_length=2, default='SQ', blank=True)
     audiofile_size = models.BigIntegerField(u'peso del archivo de audio') #In bytes
+    
+    published = models.BooleanField(u'publicado', default=True)
 
     @classmethod
     def create_main_release(cls, session_data, user, album, audiofile_size):

@@ -14,7 +14,7 @@ from xml_import import *
 
 @login_required
 def albums_list(request):
-    albums = ArtistAlbum.objects.all()
+    albums = ArtistAlbum.objects.filter(releases__published=True)
     return render_to_response('albums_list.html', 
                               { 'albums' : albums },
                               context_instance=RequestContext(request))
