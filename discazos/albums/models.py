@@ -266,7 +266,7 @@ class DiscTrack(models.Model):
                                related_name='recordings')
     song = models.ForeignKey(Song, verbose_name=u'canción', 
                              related_name='recordings')
-    length = models.PositiveIntegerField(u'duración') #In seconds
+    length = models.PositiveIntegerField(u'duración (ms)')
     
     @classmethod
     def create_from_assistant(cls, session_data, disc):

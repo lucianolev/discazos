@@ -3,7 +3,7 @@
 import xml.dom.minidom
 from xml.parsers.expat import ExpatError 
 
-CREATOR_XML_CURRENT_VER = "0.2"
+CREATOR_XML_CURRENT_VER = "0.3"
 
 class InvalidXMLFile(Exception):
     pass

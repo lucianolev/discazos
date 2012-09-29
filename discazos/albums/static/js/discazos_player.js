@@ -173,7 +173,7 @@ DiscazosPlayer.playTrack = function(trackItem) {
   this.currentTrackChanged(trackItem);
   
   //Start playing the track
-  newMsPosition = this.data.currentTrack.offset * 1000;
+  newMsPosition = this.data.currentTrack.offset;
   if(newMsPosition == 0) newMsPosition = 1; //If it's the starting position, seek to 1
   this.swf.seek(newMsPosition);
   
@@ -183,7 +183,7 @@ DiscazosPlayer.playTrack = function(trackItem) {
 DiscazosPlayer.seekTrack = function(seekPercentage) {
   var trackStart = this.data.currentTrack.offset;
   var seekOffset = Math.round(this.data.currentTrack.length * seekPercentage / 100);
-  var newMsPosition = (trackStart + seekOffset) * 1000;
+  var newMsPosition = trackStart + seekOffset;
   this.swf.seek(newMsPosition);
   DiscazosPlayerUI.setButtonPause();
 }
@@ -258,8 +258,8 @@ DiscazosPlayer.stop = function() {
 
 /* Aux */
 
-DiscazosPlayer.convertToMMSS = function(seconds) {
-  var seconds = Math.round(seconds);
+DiscazosPlayer.convertToMMSS = function(milliseconds) {
+  var seconds = Math.round(milliseconds / 1000);
   var minute = Math.floor(seconds / 60);
   var second = seconds % 60;
   var minuteMM = (minute<10) ? "0"+minute : minute
@@ -297,8 +297,7 @@ DiscazosPlayer.updateBufferProgress =
   }
 
 DiscazosPlayer.currentPlaybackPositionChanged = function(currentMs) {
-  var currentSeconds = currentMs / 1000;
-  var currentTrackProgress = currentSeconds - this.data.currentTrack.offset;
+  var currentTrackProgress = currentMs - this.data.currentTrack.offset;
   var currentTrackHasFinish = currentTrackProgress >= this.data.currentTrack.length;
   if(currentTrackHasFinish) {
     if(!this.currentTrackIsLast()) {
