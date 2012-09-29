@@ -27,7 +27,8 @@ class AlbumReleaseDownloadSourceInline(admin.StackedInline):
 
 class AlbumReleaseAdmin(admin.ModelAdmin):
     inlines = [AlbumReleaseDownloadSourceInline, ]
-    list_display = ('album', 'get_artist', 'uploaded_on', 'uploader', 'get_download_sources', 'published' )
+    list_display = ('album', 'get_artist', 'uploaded_on', 'uploader', 
+                    'get_available_download_sources', 'published' )
     def get_artist(self, obj):
         try:
             artistAlbum = ArtistAlbum.objects.get(pk=obj.album.pk)
@@ -35,9 +36,10 @@ class AlbumReleaseAdmin(admin.ModelAdmin):
         except:
             return ''
     get_artist.short_description = 'Artista'
-    def get_download_sources(self, obj):
-        return ', '.join(sorted([dls.__unicode__() for dls in obj.download_sources.all()]))
-    get_download_sources.short_description = 'Fuentes de descarga'
+    def get_available_download_sources(self, obj):
+        return ', '.join(sorted([dls.__unicode__() for dls in 
+                                 obj.download_sources.filter(enabled=True)]))
+    get_available_download_sources.short_description = 'Fuentes de descarga disponibles'
     
     ordering = ('album', )
 
