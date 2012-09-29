@@ -150,11 +150,11 @@ class AlbumRelease(models.Model):
 
     album = models.ForeignKey(Album, verbose_name=u'álbum', 
                               related_name='releases')
-    release_year = models.IntegerField(u'año de lanzamiento', max_length=4, 
-                                       blank=True, null=True)
-    country = CountryField(u'país', blank=True, null=True)
+    release_year = models.IntegerField(u'año de lanzamiento', max_length=4)
     cover = models.ImageField(u'tapa', upload_to='uploads/covers/')
     main_release = models.BooleanField(u'¿Edición principal?')
+    release_extra_info = models.CharField(u'información extra de la edición', max_length=255, 
+                                    blank=True)
     
     uploaded_on = models.DateTimeField(u'subido el', auto_now_add=True)
     uploader = models.ForeignKey(User, verbose_name=u'subido por', 
@@ -176,7 +176,11 @@ class AlbumRelease(models.Model):
         return newAlbumRelease
 
     def __unicode__(self):
-        return u"%s" % self.album + " (" + self.get_country_display() + u" %s" % self.release_year + ")"
+        album_name = u"%s" % self.album + " (" + u"%s" % self.release_year
+        if self.release_info:
+            album_name += " - " + u"%s" % self.release_info
+        album_name += ")"
+        return album_name
     
     def length(self):
         length = 0
