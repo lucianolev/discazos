@@ -1,9 +1,9 @@
 # -*- encoding: utf-8 -*-
 
 import xml.dom.minidom
-from xml.parsers.expat import ExpatError 
+from xml.parsers.expat import ExpatError
 
-CREATOR_XML_CURRENT_VER = "0.3"
+from django.conf import settings
 
 class InvalidXMLFile(Exception):
     pass
@@ -26,7 +26,7 @@ class DiscazosCreatorXML(object):
     def check_file_version(self):
         creatorXml = self.xmlTree.getElementsByTagName("discazos-disc-creator")[0]
         version = creatorXml.getAttribute("version")
-        if version != CREATOR_XML_CURRENT_VER:
+        if version != settings.CREATOR_XML_CURRENT_VER:
              raise UnsupportedCreatorVersion("El archivo XML provisto fue creado " \
                                              "con una versión actualmente no " \
                                              "soportada de Discazos Creator.")
