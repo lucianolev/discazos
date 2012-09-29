@@ -12,7 +12,11 @@ var BayFilesContentScript = {
     }
 
     if(downloadLink) {
-      ContentScriptCommmon.sendDownloadLink(downloadLink);
+      if(downloadLink.match(/s6\.baycdn\.com/)) { //This server is known to fail (29/09/2012)
+        ContentScriptCommmon.retryLinkCapture();
+      } else {
+        ContentScriptCommmon.sendDownloadLink(downloadLink);
+      }
     } else {
       ContentScriptCommmon.downloadLinkNotFound();
     }

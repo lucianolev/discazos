@@ -12,6 +12,13 @@ var ContentScriptCommmon = {
     ContentScriptCommmon.messageOverlay.innerHTML = "";
     ContentScriptCommmon.messageOverlay.appendChild(captchaElement);
   },
+  
+  retryLinkCapture: function() {
+    this.messageOverlay.innerHTML =
+      "<p>El link provisto está caído</p>"+
+      "<p>Reintentando otro en 3 segundos... espere</p>";
+    setTimeout(window.location.reload(), 4000);
+  },
 
   downloadLinkNotFound: function() {
     this.messageOverlay.innerHTML =
