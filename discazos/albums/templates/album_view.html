@@ -1,5 +1,7 @@
 {% extends "main_layout.html" %}
 
+{% load custom_tags %}
+
 {% block title %}Discazos | Álbum{% endblock title %}
 
 {% block pagehead %}
@@ -49,7 +51,7 @@
               <tr class="track">
                 <td rel="{{ track.offset }}" class="track-number">{{ track.number }}</td>
                 <td class="track-name">{{ track.song }}</td>
-                <td rel="{{ track.length }}" class="track-length">{{ track.length_f }}</td>  
+                <td rel="{{ track.length }}" class="track-length">{{ track.length|format_secs }}</td>  
               </tr>
             {% endfor %}
             </table>

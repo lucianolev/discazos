@@ -194,8 +194,6 @@ class AlbumRelease(models.Model):
             for track in disc.tracks.all():
                 track_item = {'number': track.number, 'song': track.song.name,
                               'length': track.length }
-                track_item['length_f'] = time.strftime('%M:%S', 
-                                                       time.gmtime(track.length))
                 track_item['offset'] = added_offset
                 added_offset += track.length
                 tracks.append(track_item)
