@@ -1,3 +1,5 @@
+# -*- encoding: utf-8 -*-
+
 import xml.dom.minidom
 from xml.parsers.expat import ExpatError 
 
@@ -25,9 +27,9 @@ class DiscazosCreatorXML(object):
         creatorXml = self.xmlTree.getElementsByTagName("discazos-disc-creator")[0]
         version = creatorXml.getAttribute("version")
         if version != CREATOR_XML_CURRENT_VER:
-             raise UnsupportedCreatorVersion("The XML file supplied was created " \
-                                             "with an unsupported version of " \
-                                             "Discazos Creator.")
+             raise UnsupportedCreatorVersion("El archivo XML provisto fue creado " \
+                                             "con una versión actualmente no " \
+                                             "soportada de Discazos Creator.")
         return True
     
     def get_audiofile_size(self):
