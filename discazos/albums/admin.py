@@ -2,6 +2,33 @@ from django.contrib import admin
 
 from albums.models import *
 
+# Main reusable Admin class for only viewing
+class ViewAdmin(admin.ModelAdmin):
+
+    """
+    Custom made change_form template just for viewing purposes
+    You need to copy this from /django/contrib/admin/templates/admin/change_form.html
+    And then put that in your template folder that is specified in the 
+    settings.TEMPLATE_DIR
+    """
+    #change_form_template = 'view_form.html'
+
+    # Remove the delete Admin Action for this Model
+    actions = None
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+    def save_model(self, request, obj, form, change):
+        #Return nothing to make sure user can't update any data
+        pass
+
+    def get_readonly_fields(self, request, obj=None):
+        return tuple(obj._meta.get_all_field_names())
+
 class ArtistAliasInline(admin.TabularInline):
     model = ArtistAlias
     extra = 0
@@ -70,3 +97,10 @@ class FileHostingServiceAdmin(admin.ModelAdmin):
 
 admin.site.register(FileHostingService, FileHostingServiceAdmin)
     
+
+class AlbumPlaybackLogEntryAdmin(ViewAdmin):
+    list_display = ('date_and_time', 'user', 'album_release', 
+                    'album_release_dl_source', 'output_message' )
+    ordering = ('-date_and_time', )
+
+admin.site.register(AlbumPlaybackLogEntry, AlbumPlaybackLogEntryAdmin)

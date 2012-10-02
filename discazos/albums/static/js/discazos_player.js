@@ -11,6 +11,8 @@ $(document).ready(function() {
     audioFileSize: DiscazosPlayerUI.html.find("#album-audiofile-size").html(),
     currentTrack: false,
     minLoadedTriggered: false,
+    bufferLoadingStarted: false,
+    selectedDownloadSourceId: null,
   };
   
   /** Initialize UI **/
@@ -128,15 +130,15 @@ DiscazosPlayer.load = function(url) {
   var loadingOverlay = DiscazosPlayerUI.html.find("#player-wrapper div.main div.loading-overlay");
   loadingOverlay.find("#download-sources-frame #download-sources-wrapper").hide();
   loadingOverlay.find("#download-sources-frame #link-available-msg").show();
-  
-  DiscazosPlayerUI.html.bind("bufferLoadingStarted", function() {
-    loadingOverlay.find("#download-sources-frame #loading-discazo-msg").show();
-  });
-  
-  DiscazosPlayerUI.html.bind("bufferError", function() {
+
+  DiscazosPlayerUI.html.bind("bufferInitLoadingError", function() {
     loadingOverlay.find("#download-sources-frame #link-available-msg").hide();
     loadingOverlay.find("#download-sources-frame #buffer-error-text").show();
     loadingOverlay.find("#download-sources-frame #download-sources-wrapper").show();
+  });
+
+  DiscazosPlayerUI.html.bind("bufferLoadingStarted", function() {
+    loadingOverlay.find("#download-sources-frame #loading-discazo-msg").show();
   });
   
   //After the a minimum part has been loaded, activate the player controls
@@ -271,11 +273,22 @@ DiscazosPlayer.convertToMMSS = function(milliseconds) {
 /* Flash player events */
 
 DiscazosPlayer.bufferLoadingStarted = function() {
+  this.data.bufferLoadingStarted = true;
+  Dajaxice.discazos.albums.log_album_playback(jQuery.noop, {
+    'album_release_dl_source_id': this.data.selectedDownloadSourceId,
+    'output_message': 'SUCCESSFUL'
+  });
   DiscazosPlayerUI.html.trigger("bufferLoadingStarted");
 }
 
 DiscazosPlayer.bufferError = function(errorText) {
-  DiscazosPlayerUI.html.trigger("bufferError");
+  if(!this.bufferLoadingStarted) {
+    Dajaxice.discazos.albums.log_album_playback(jQuery.noop, {
+      'album_release_dl_source_id': this.data.selectedDownloadSourceId,
+      'output_message': 'DL_INIT_BUFFER_ERROR'
+    });
+    DiscazosPlayerUI.html.trigger("bufferInitLoadingError");
+  }
   console.log("SWF loading buffer error: "+errorText);
 }
 

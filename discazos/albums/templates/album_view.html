@@ -1,6 +1,6 @@
 {% extends "main_layout.html" %}
 
-{% load custom_tags %}
+{% load custom_tags dajaxice_templatetags %}
 
 {% block title %}Discazos | Álbum{% endblock title %}
 
@@ -10,6 +10,7 @@
 <link rel="chrome-webstore-item" href="https://chrome.google.com/webstore/detail/ljecgpindjhfkaiebigenlfbimjeapib">
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.colorbox-min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/countdown.js"></script>
+{% dajaxice_js_import %}
 <script type="text/javascript" src="{{ STATIC_URL }}js/discazos_loader.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.facescroll.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/discazos_player.js"></script>

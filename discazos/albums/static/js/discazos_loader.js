@@ -22,8 +22,9 @@ var DiscazosLoader = {
     }
   },
   
-  selectFH: function(sourceUrl) {
+  selectFH: function(dlSourceId, sourceUrl) {
     FHCSConnector.sourceSelected(sourceUrl);
+    DiscazosPlayer.data.selectedDownloadSourceId = dlSourceId;
   },
  
   downloadLinkReady: function(url) {

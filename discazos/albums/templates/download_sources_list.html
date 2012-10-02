@@ -14,7 +14,11 @@
       <ul id="download-sources">
       {% for download_source in dl_sources %}
         <li>
-          <a href="javascript:void(0);" onclick="javascript: DiscazosLoader.selectFH('{{ download_source.download_link }}');">
+          <a href="javascript:void(0);" 
+            onclick="javascript: DiscazosLoader.selectFH(
+              {{ download_source.pk }}, 
+              '{{ download_source.download_link }}'
+            );">
             {{ download_source.service }}
             <span><img src="{{ STATIC_URL}}img/popup-icon.gif" /></span>
           </a>

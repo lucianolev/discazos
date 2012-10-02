@@ -303,3 +303,25 @@ class FileHostingService(models.Model):
 
     def __unicode__(self):
         return u"%s" % self.name
+
+class AlbumPlaybackLogEntry(models.Model):
+    class Meta:
+        verbose_name = u'Entrada del log de reproducciones'
+        verbose_name_plural = u'Log de reproducciones'
+        
+    OUTPUT_MESSAGES = (
+        ('SUCCESSFUL', 'Reproducción satisfactoria'),
+        ('DL_NOT_AVAILABLE', 'Error: Link de descarga no disponible'),
+        ('DL_INIT_BUFFER_ERROR', 'Error: Falla de la carga inicial'),
+    )
+    
+    date_and_time = models.DateTimeField(u'fecha y hora', auto_now_add=True)
+    user = models.ForeignKey(User, verbose_name=u'usuario')
+    album_release = models.ForeignKey(AlbumRelease, verbose_name='album (edición)')
+    output_message = models.CharField(u'mensaje', 
+                                     choices=OUTPUT_MESSAGES, max_length=50)
+    album_release_dl_source = models.ForeignKey(AlbumReleaseDownloadSource, 
+                                                verbose_name=u'fuente de descarga')
+
+    def __unicode__(self):
+        return u"%s - %s" % (self.date_and_time, self.get_output_message_display())
