@@ -7,6 +7,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import admin
 admin.autodiscover()
 
+from dajaxice.core import dajaxice_autodiscover, dajaxice_config
+dajaxice_autodiscover()
+
 from discazos import settings
 
 urlpatterns = patterns('',
@@ -38,6 +41,8 @@ urlpatterns = patterns('',
     
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', name="login"),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login', name="logout"),
+
+    url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
