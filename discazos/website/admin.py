@@ -42,6 +42,7 @@ class InvitationAdmin(admin.ModelAdmin):
             return False
         else:
             obj.invited_by = request.user
+            obj.save()
             if obj.send_by_email:
                 site = RequestSite(request)
                 try:
@@ -49,6 +50,5 @@ class InvitationAdmin(admin.ModelAdmin):
                     messages.info(request, u"Se ha enviado un email con la invitación a %s." % obj.email)
                 except:
                     messages.error(request, u"Ocurrió un error al enviar el email de invitación a %s." % obj.email)
-            obj.save()
 
 admin.site.register(Invitation, InvitationAdmin)
