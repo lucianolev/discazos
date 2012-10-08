@@ -5,7 +5,7 @@ import os
 PROJECT_PATH = os.path.abspath(os.path.dirname(__file__))
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    ('Luciano Leveroni', 'lucianolev@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -114,6 +114,40 @@ STATICFILES_FINDERS = (
 )
 
 DEFAULT_FROM_EMAIL = 'no-reply@discazos.net'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        # Include the default Django email handler for errors
+        # This is what you'd get without configuring logging at all.
+        'mail_admins': {
+            'class': 'django.utils.log.AdminEmailHandler',
+            'level': 'ERROR',
+             # But the emails are plain text by default - HTML is nicer
+            'include_html': True,
+        },
+        # Log to a text file that can be rotated by logrotate
+        'logfile': {
+            'class': 'logging.handlers.WatchedFileHandler',
+            'filename': '/var/log/django/discazos.log'
+        },
+    },
+    'loggers': {
+        # Again, default Django configuration to email unhandled exceptions
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+        # Might as well log any errors anywhere else in Django
+        'django': {
+            'handlers': ['logfile'],
+            'level': 'ERROR',
+            'propagate': False,
+        },
+    },
+}
 
 #App-specific configurations
 BROWSER_EXTENSION_VERSION = '0.5.0'
