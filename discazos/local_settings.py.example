@@ -14,3 +14,5 @@ DATABASES = {
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '-i#&gxms%gk+9ouh^d_ru83%zq1j42666gg&8x@91q3ys9%b=5'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
