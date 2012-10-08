@@ -13,3 +13,4 @@ extensions/chrome/*.crx
 extensions/chrome/*.pem
 .project
 .pydevproject
+.settings
