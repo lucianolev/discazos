@@ -3,6 +3,6 @@ south
 -e git+https://github.com/robhudson/django-debug-toolbar.git#egg=django-debug-toolbar
 django_extensions
 django-countries
-#django-registration
 sorl-thumbnail
 django-dajaxice
+django-registration

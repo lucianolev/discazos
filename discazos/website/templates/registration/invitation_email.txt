@@ -1,0 +1,12 @@
+¡Hola!
+
+Esta es una invitación para unirte a Discazos.net, la nueva comunidad de fanáticos de la música.
+
+Hacé click en el siguiente link para registrarte a Discazos.net:
+
+http://{{ site }}{{ invitation_url }}
+
+Esperamos que disfrutes del sitio.
+
+Saludos,
+El equipo de Discazos.net

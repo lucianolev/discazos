@@ -41,6 +41,7 @@ urlpatterns = patterns('',
     
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', name="login"),
     url(r'^accounts/logout/$', 'django.contrib.auth.views.logout_then_login', name="logout"),
+    url(r'^accounts/register/invited/$', 'discazos.website.views.register_invited', name="register_invited"),
 
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
 

@@ -87,8 +87,10 @@ INSTALLED_APPS = (
     'django_countries',
     'sorl.thumbnail',
     'dajaxice',
+    'registration',
     
     #Discazos
+    'discazos.website',
     'discazos.albums',
 )
 
@@ -110,6 +112,8 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'dajaxice.finders.DajaxiceFinder',
 )
+
+DEFAULT_FROM_EMAIL = 'no-reply@discazos.net'
 
 #App-specific configurations
 BROWSER_EXTENSION_VERSION = '0.5.0'
