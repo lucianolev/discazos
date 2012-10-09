@@ -113,7 +113,7 @@ STATICFILES_FINDERS = (
     'dajaxice.finders.DajaxiceFinder',
 )
 
-DEFAULT_FROM_EMAIL = 'no-reply@discazos.net'
+DEFAULT_FROM_EMAIL = 'Discazos <no-reply@discazos.net>'
 
 LOGGING = {
     'version': 1,
