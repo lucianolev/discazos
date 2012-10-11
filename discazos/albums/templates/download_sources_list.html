@@ -26,13 +26,17 @@
       {% endfor %}
       </ul>
     </div>
-    <div id="link-available-msg" style="display: none;">
+    <div id="link-available-box" style="display: none;">
       <p>¡Se ha obtenido el link de descarga correctamente!</p>
-    </div>
-    <div id="loading-discazo-msg" style="display: none;">
-      <p>Precargando los primeros 30 segundos del álbum... por favor espere.</p>
+      <p class="preload-init">Comenzando precarga...</p>
+      <p class="preloading" style="display: none;">
+        Precargando los primeros 30 segundos del álbum... por favor espere.
+      </p>
       <p><img src="{{ STATIC_URL}}img/loading.gif" /></p>
-      <p><span id="preload-percentage">0</span>% completado</p>
+      <p class="preload-init">(Por favor espere unos segundos)</p>
+      <p class="preloading" style="display: none;">
+        <span id="preload-percentage">0</span>% completado
+      </p>
     </div>
   </div>
 </div>

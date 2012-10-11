@@ -129,19 +129,20 @@ DiscazosPlayer.load = function(url) {
   
   var loadingOverlay = DiscazosPlayerUI.html.find("#player-wrapper div.main div.loading-overlay");
   loadingOverlay.find("#download-sources-frame #download-sources-wrapper").hide();
-  loadingOverlay.find("#download-sources-frame #link-available-msg").show();
+  loadingOverlay.find("#download-sources-frame #link-available-box").show();
 
   DiscazosPlayerUI.html.bind("bufferInitLoadingError", function() {
-    loadingOverlay.find("#download-sources-frame #link-available-msg").hide();
+    loadingOverlay.find("#download-sources-frame #link-available-box").hide();
     loadingOverlay.find("#download-sources-frame #buffer-error-text").show();
     loadingOverlay.find("#download-sources-frame #download-sources-wrapper").show();
   });
 
   DiscazosPlayerUI.html.bind("bufferLoadingStarted", function() {
-    loadingOverlay.find("#download-sources-frame #loading-discazo-msg").show();
+    loadingOverlay.find("#download-sources-frame .preload-init").hide()
+    loadingOverlay.find("#download-sources-frame .preloading").show();
   });
   
-  //After the a minimum part has been loaded, activate the player controls
+  //After the preload has finished, activate the player controls
   DiscazosPlayerUI.html.bind("minLoaded", function() {
     loadingOverlay.remove();
     DiscazosPlayerUI.html.find('#loading-discazo span.caption').show();
