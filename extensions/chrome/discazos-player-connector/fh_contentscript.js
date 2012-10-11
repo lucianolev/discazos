@@ -19,19 +19,18 @@ var FHContentScript = {
     });
     
     //Inject check_origin in FH website to check if discazos opened the site
-    var checkOriginScript = chrome.extension.getURL("check_origin.js");
     console.log("Checking origin...");
-    DOMHelper.addScript(checkOriginScript);
+    DOMHelper.addScriptFromExtension("check_origin.js");
   },
   
   injectFHConnectorScript: function() {
     chrome.extension.sendRequest({ action: "getDiscazosUrl" }, function(response) {
       if(response.url) {
-        DOMHelper.addScript(FHContentScript.scriptsDir + "common.js", response.url);
         for(var site in FHContentScript.siteScripts) {
           if(location.href.match(new RegExp(site, "i"))) {
             var fhScriptFile = FHContentScript.siteScripts[site];
-            DOMHelper.addScript(FHContentScript.scriptsDir + fhScriptFile, response.url);
+            DOMHelper.addExternalScript(FHContentScript.scriptsDir + fhScriptFile, response.url);
+            break;
           }
         }
       }
@@ -42,13 +41,19 @@ var FHContentScript = {
 
 var DOMHelper = {
   
-  addScript: function(scriptPath, host) {
+  addExternalScript: function(scriptPath, host) {
     var s = document.createElement('script');
     s.setAttribute("type","text/javascript");
-    if(host) {
-      scriptPath = "http://" + host + scriptPath;
-    }
-    s.setAttribute("src", scriptPath);
+    scriptPathBase = "http://" + host;
+    s.setAttribute("data-main", scriptPathBase + scriptPath);
+    s.setAttribute("src", scriptPathBase + "/static/js/require.js");
+    document.getElementsByTagName("head")[0].appendChild(s);
+  },
+  
+  addScriptFromExtension: function(scriptName) {
+    var s = document.createElement('script');
+    s.setAttribute("type","text/javascript");
+    s.setAttribute("src", chrome.extension.getURL(scriptName));
     document.getElementsByTagName("head")[0].appendChild(s);
   },
   

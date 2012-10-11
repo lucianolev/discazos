@@ -150,7 +150,7 @@ LOGGING = {
 }
 
 #App-specific configurations
-BROWSER_EXTENSION_VERSION = '0.5.0'
+BROWSER_EXTENSION_VERSION = '0.5.1'
 CREATOR_XML_CURRENT_VER = '0.3'
 
 try:
