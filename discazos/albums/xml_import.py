@@ -57,7 +57,7 @@ class DiscazosCreatorXML(object):
                 artistXml = trackXml.getElementsByTagName("artist")[0]
                 discTrack['artist'] = artistXml.getAttribute("name")
                 songXml = trackXml.getElementsByTagName("song")[0]
-                discTrack['song'] = songXml.getAttribute("name")
+                discTrack['song_name'] = songXml.getAttribute("name")
                 discTrack['length'] = trackXml.getAttribute("length")
                 tracks.append(discTrack)
             discs.append((disc, tracks))

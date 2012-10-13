@@ -39,8 +39,6 @@ class ArtistAdmin(admin.ModelAdmin):
 admin.site.register(GroupArtist, ArtistAdmin)
 admin.site.register(PersonArtist, ArtistAdmin)
 
-admin.site.register(Song)
-
 class ArtistAlbumAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'artist', )
 

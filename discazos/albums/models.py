@@ -59,23 +59,6 @@ class ArtistAlias(models.Model):
         return u"%s" % self.name
 
 '''
-A song.
-This represents a song in the sense of a composition created by someone
-'''
-class Song(models.Model):
-    class Meta:
-        verbose_name = u'Canción'
-        verbose_name_plural = u'Canciones'
-        ordering = ['name', ]
-    
-    name = models.CharField(u'nombre', max_length=255)
-    #composers = models.ManyToManyField(PersonArtist, related_name='composed_songs', blank=True)
-    #performers = models.ManyToManyField(PersonArtist, related_name='performed_songs', blank=True)
-    
-    def __unicode__(self):
-        return  u"%s" % self.name
-
-'''
 An album.
 This represent an album as composition performed by one or more artist
 An album can have many releases along history which may vary
@@ -199,7 +182,7 @@ class AlbumRelease(models.Model):
         for disc in self.discs.all():
             tracks = []
             for track in disc.tracks.all():
-                track_item = {'number': track.number, 'song': track.song.name,
+                track_item = {'number': track.number, 'song': track.song_name,
                               'length': track.length }
                 track_item['offset'] = added_offset
                 added_offset += track.length
@@ -271,24 +254,21 @@ class DiscTrack(models.Model):
     number = models.PositiveSmallIntegerField(u'número', default=1)
     artist = models.ForeignKey(Artist, verbose_name=u'artista', 
                                related_name='recordings')
-    song = models.ForeignKey(Song, verbose_name=u'canción', 
-                             related_name='recordings')
+    song_name = models.CharField(u'canción', max_length=255)
     length = models.PositiveIntegerField(u'duración (ms)')
     
     @classmethod
     def create_from_assistant(cls, session_data, disc):
         trackData = session_data
         artist = Artist.objects.get(name=session_data['artist'])
-        song, created = Song.objects.get_or_create(name=session_data['song'])
         trackData.update({'disc': disc, 
-                          'artist': artist, 
-                          'song': song})
+                          'artist': artist})
         newTrack = cls(**trackData)
         newTrack.save()
         return newTrack
     
     def __unicode__(self):
-        return u"%s" % self.song
+        return u"%s" % self.song_name
 
 class FileHostingService(models.Model):
     class Meta:

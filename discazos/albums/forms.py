@@ -48,7 +48,7 @@ class DiscShareForm(forms.ModelForm):
 class DiscTrackShareForm(forms.Form):
     number = forms.IntegerField(widget=forms.HiddenInput)
     artist = forms.CharField(max_length=255)
-    song = forms.CharField(max_length=255)
+    song_name = forms.CharField(max_length=255)
     length = forms.IntegerField(widget=forms.HiddenInput)
     
     def clean_artist(self):
