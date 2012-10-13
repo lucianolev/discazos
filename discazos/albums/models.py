@@ -290,7 +290,7 @@ class AlbumPlaybackLogEntry(models.Model):
         verbose_name_plural = u'Log de reproducciones'
         
     OUTPUT_MESSAGES = (
-        ('SUCCESSFUL', 'Reproducción satisfactoria'),
+        ('SUCCESSFUL', 'Reproducción iniciada correctamente'),
         ('DL_NOT_AVAILABLE', 'Error: Link de descarga no disponible'),
         ('DL_INIT_BUFFER_ERROR', 'Error: Falla de la carga inicial'),
     )
