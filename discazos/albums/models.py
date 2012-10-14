@@ -308,7 +308,7 @@ class AlbumPlaybackLogEntry(models.Model):
                                                 verbose_name=u'fuente de descarga')
     loading_status = models.CharField(u'estado de la carga',
                                       choices=LOADING_STATUSES, max_length=50,
-                                      default='DOWNLOAD_SOÜRCE_OPENED')
+                                      default='DOWNLOAD_SOURCE_OPENED')
     extra_debug_info = models.CharField(u'información extra para debug', 
                                         max_length=255, blank=True)
     latest_update = models.DateTimeField(u'última act.', auto_now=True)
