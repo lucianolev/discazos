@@ -288,20 +288,30 @@ class AlbumPlaybackLogEntry(models.Model):
     class Meta:
         verbose_name = u'Entrada del log de reproducciones'
         verbose_name_plural = u'Log de reproducciones'
-        
-    OUTPUT_MESSAGES = (
-        ('SUCCESSFUL', 'Reproducción iniciada correctamente'),
-        ('DL_NOT_AVAILABLE', 'Error: Link de descarga no disponible'),
-        ('DL_INIT_BUFFER_ERROR', 'Error: Falla de la carga inicial'),
+
+    LOADING_STATUSES = (
+        ('DOWNLOAD_SOURCE_OPENED', 'Download source opened.'),
+        ('DL_FETCH_INIT', 'Download link fetching started.'),
+        ('DL_NOT_AVAILABLE', 'Error: Download link not available.'),
+        ('DL_GET_FAIL', 'Error: Download link GET error.'),
+        ('DL_BAD_FILE', 'Error: Bad file fetched (less than 50KB). Possible redirect.'),
+        ('LOADING_INIT', 'Loading initialized.'),
+        ('LOADING_INTERRUPTED', 'Error: Loading suddenly interrupted.'),
+        ('LOADING_SIZE_MISMATCH', 'Error: Loading finished, but loaded bytes does not match audio file size.'),
+        ('LOADING_FINISHED_OK', 'Loading finished successfully.'),
     )
     
     date_and_time = models.DateTimeField(u'fecha y hora', auto_now_add=True)
     user = models.ForeignKey(User, verbose_name=u'usuario')
     album_release = models.ForeignKey(AlbumRelease, verbose_name='album (edición)')
-    output_message = models.CharField(u'mensaje', 
-                                     choices=OUTPUT_MESSAGES, max_length=50)
     album_release_dl_source = models.ForeignKey(AlbumReleaseDownloadSource, 
                                                 verbose_name=u'fuente de descarga')
+    loading_status = models.CharField(u'estado de la carga',
+                                      choices=LOADING_STATUSES, max_length=50,
+                                      default='DOWNLOAD_SOÜRCE_OPENED')
+    extra_debug_info = models.CharField(u'información extra para debug', 
+                                        max_length=255, blank=True)
+    latest_update = models.DateTimeField(u'última act.', auto_now=True)
 
     def __unicode__(self):
-        return u"%s - %s" % (self.date_and_time, self.get_output_message_display())
+        return u"%s - %s" % (self.date_and_time, self.user)

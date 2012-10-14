@@ -20,7 +20,7 @@ package
                 this.player.addEventListener(Event.OPEN, bufferLoadingStarted);
                 this.player.addEventListener(IOErrorEvent.IO_ERROR, bufferError);
                 this.player.addEventListener(DiscazosPlayer.BUFFER_PROGRESS, updateBufferProgress);
-                //this.player.addEventListener(Event.COMPLETE, bufferLoadingFinish);
+                this.player.addEventListener(Event.COMPLETE, bufferLoadingFinish);
                 ExternalInterface.addCallback("load", this.player.load);
                 ExternalInterface.addCallback("play", this.player.play);
                 ExternalInterface.addCallback("pause", this.player.pause);

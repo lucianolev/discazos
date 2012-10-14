@@ -5,7 +5,10 @@ var ContentScriptCommmon = {
     this.messageOverlay.innerHTML =
       "<p>Obteniendo el enlace para la carga del album...</p>"+
       "<p>Por favor espere ...</p>";
-    setTimeout(fhSpecific.getDownloadLink, 1000);
+    this.listenToMessage('FH_DL_FETCH_INIT_LOGGED', function() { 
+      setTimeout(fhSpecific.getDownloadLink, 500); //Wait 0.5 so the user can receive some feedback 
+    });
+    this.sendMessage('FH_DL_FETCH_START');
   },
   
   showCaptcha: function(captchaElement) {
@@ -25,16 +28,32 @@ var ContentScriptCommmon = {
       "<p>Lamentablemente, el enlace de carga no es encuentra disponible.</p>"+
       "<p>Cierre la ventana e intente seleccionando otra fuente.</p>"+
       "<p>Sepa disculpar la molestia.</p>";
+    ContentScriptCommmon.sendMessage('FH_DL_NOT_AVAILABLE');
   },
 
   sendDownloadLink: function(downloadLink) {
-    var message = {
-      name: 'FH_DL_AVAILABLE',
-      content: downloadLink
+    ContentScriptCommmon.sendMessage('FH_DL_AVAILABLE', downloadLink);
+  },
+  
+  //Send a message to the opener window
+  sendMessage: function(name, content) {
+    if(!content) {
+      content = "";
     }
-    //Send a message to the opener window
+    var message = {
+      name: name,
+      content: content
+    }
     window.opener.postMessage(message, '*');
   },
+
+  listenToMessage: function(name, callback) {
+    window.addEventListener("message", function(e) {
+      if(e.data.name == name) {
+        callback();
+      }
+    });
+  }
 
 }
 

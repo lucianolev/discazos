@@ -1,6 +1,7 @@
 var DiscazosPlayer = {};
 var DiscazosPlayerUI = {}
 
+DiscazosPlayer.MIN_FILE_OK_BYTES = 51200; //50KB
 DiscazosPlayer.MIN_BYTES_TO_LOAD = 491520; //30 seconds of 128kbps audio
 
 $(document).ready(function() {
@@ -10,9 +11,11 @@ $(document).ready(function() {
   DiscazosPlayer.data = { 
     audioFileSize: DiscazosPlayerUI.html.find("#album-audiofile-size").html(),
     currentTrack: false,
+    minFileOKLoaded: false,
     minLoadedTriggered: false,
     bufferLoadingStarted: false,
-    selectedDownloadSourceId: null,
+    apleId: null,
+    bytesLoaded: 0,
   };
   
   /** Initialize UI **/
@@ -120,7 +123,9 @@ DiscazosPlayerUI.enableNextButton = function() {
 
 /* Actions */
 
-DiscazosPlayer.load = function(url) {
+DiscazosPlayer.load = function(url, apleId) {
+  this.data.apleId = apleId; //For logging
+ 
   var albumCover = DiscazosPlayerUI.html.find("a.load-link");
   albumCover.find("span.load-button").remove();
   albumCover.find("#album-cover").unwrap(); //Removes the loading link
@@ -132,6 +137,8 @@ DiscazosPlayer.load = function(url) {
   loadingOverlay.find("#download-sources-frame #link-available-box").show();
 
   DiscazosPlayerUI.html.bind("bufferInitLoadingError", function() {
+    loadingOverlay.find("#download-sources-frame .preload-init").show();
+    loadingOverlay.find("#download-sources-frame .preloading").hide();
     loadingOverlay.find("#download-sources-frame #link-available-box").hide();
     loadingOverlay.find("#download-sources-frame #buffer-error-text").show();
     loadingOverlay.find("#download-sources-frame #download-sources-wrapper").show();
@@ -275,27 +282,41 @@ DiscazosPlayer.convertToMMSS = function(milliseconds) {
 
 DiscazosPlayer.bufferLoadingStarted = function() {
   this.data.bufferLoadingStarted = true;
-  Dajaxice.discazos.albums.log_album_playback(jQuery.noop, {
-    'album_release_dl_source_id': this.data.selectedDownloadSourceId,
-    'output_message': 'SUCCESSFUL'
-  });
   DiscazosPlayerUI.html.trigger("bufferLoadingStarted");
 }
 
 DiscazosPlayer.bufferError = function(errorText) {
-  if(!this.bufferLoadingStarted) {
-    Dajaxice.discazos.albums.log_album_playback(jQuery.noop, {
-      'album_release_dl_source_id': this.data.selectedDownloadSourceId,
-      'output_message': 'DL_INIT_BUFFER_ERROR'
+  if(!this.data.bufferLoadingStarted || this.data.bytesLoaded == 0) {
+    Dajaxice.discazos.albums.update_log_album_playback(jQuery.noop, { 
+      'aple_id': this.data.apleId,
+      'loading_status': 'DL_GET_FAIL',
+      'extra_debug_info': 'SWF Debug Error: '+errorText
     });
     DiscazosPlayerUI.html.trigger("bufferInitLoadingError");
+    console.log("DL_GET_FAIL. SWF Debug Error: "+errorText);
+  } else {
+    Dajaxice.discazos.albums.update_log_album_playback(jQuery.noop, { 
+      'aple_id': this.data.apleId,
+      'loading_status':  'LOADING_INTERRUPTED',
+      'extra_debug_info': 'SWF Debug Error: '+errorText+'. Bytes loaded: '+this.data.bytesLoaded
+    });
+    console.log("LOADING_INTERRUPTED. SWF Debug Error: "+errorText);
+    //TODO: UI alert
   }
-  console.log("SWF loading buffer error: "+errorText);
 }
 
 DiscazosPlayer.updateBufferProgress = 
   function(bytesLoaded, bytesTotal) { //bytesTotal is not reliable until loading finishes
-    if(bytesLoaded >= DiscazosPlayer.MIN_BYTES_TO_LOAD) {
+    this.data.bytesLoaded = bytesLoaded;
+    if(this.data.bytesLoaded >= DiscazosPlayer.MIN_FILE_OK_BYTES && !this.data.minFileOKLoaded) {
+      this.data.minFileOKLoaded = true;
+      //Log the loading init
+      Dajaxice.discazos.albums.update_log_album_playback(jQuery.noop, { 
+        'aple_id': this.data.apleId,
+        'loading_status': 'LOADING_INIT',
+      });
+      console.log("LOADING_INIT");
+    } else if(this.data.bytesLoaded >= DiscazosPlayer.MIN_BYTES_TO_LOAD) {
       if(!this.data.minLoadedTriggered) {
          this.data.minLoadedTriggered = true;
          DiscazosPlayerUI.html.trigger("minLoaded");
@@ -309,6 +330,32 @@ DiscazosPlayer.updateBufferProgress =
       DiscazosPlayerUI.html.find('#preload-percentage').html(preloadPercentage);
     }
   }
+
+DiscazosPlayer.bufferLoadingFinish = function() {
+  if(this.data.bytesLoaded == this.data.audioFileSize) {
+    Dajaxice.discazos.albums.update_log_album_playback(jQuery.noop, { 
+      'aple_id': this.data.apleId,
+      'loading_status': 'LOADING_FINISHED_OK',
+    });
+    console.log("LOADING_FINISHED_OK");
+  } else if(this.data.bytesLoaded < DiscazosPlayer.MIN_FILE_OK_BYTES) {
+    Dajaxice.discazos.albums.update_log_album_playback(jQuery.noop, { 
+      'aple_id': this.data.apleId,
+      'loading_status': 'DL_BAD_FILE',
+      'extra_debug_info': 'Bytes loaded: '+this.data.bytesLoaded,
+    });
+    DiscazosPlayerUI.html.trigger("bufferInitLoadingError");
+    console.log("DL_BAD_FILE. Bytes loaded: "+this.data.bytesLoaded);
+  } else {
+    Dajaxice.discazos.albums.update_log_album_playback(jQuery.noop, { 
+      'aple_id': this.data.apleId,
+      'loading_status':  'LOADING_SIZE_MISMATCH',
+      'extra_debug_info':  'Bytes loaded: '+this.data.bytesLoaded,
+    });
+    console.log("LOADING_SIZE_MISMATCH. Bytes loaded: "+this.data.bytesLoaded);
+    //TODO: UI alert?
+  }
+}
 
 DiscazosPlayer.currentPlaybackPositionChanged = function(currentMs) {
   var currentTrackProgress = currentMs - this.data.currentTrack.offset;

@@ -98,7 +98,7 @@ admin.site.register(FileHostingService, FileHostingServiceAdmin)
 
 class AlbumPlaybackLogEntryAdmin(ViewAdmin):
     list_display = ('date_and_time', 'user', 'album_release', 
-                    'album_release_dl_source', 'output_message' )
-    ordering = ('-date_and_time', )
+                    'album_release_dl_source', 'loading_status', 'latest_update' )
+    ordering = ('-latest_update', )
 
 admin.site.register(AlbumPlaybackLogEntry, AlbumPlaybackLogEntryAdmin)

@@ -23,16 +23,38 @@ var DiscazosLoader = {
   },
   
   selectFH: function(dlSourceId, sourceUrl) {
-    FHCSConnector.sourceSelected(sourceUrl);
-    DiscazosPlayer.data.selectedDownloadSourceId = dlSourceId;
+    FHCSConnector.openFHPopup();
+    Dajaxice.discazos.albums.add_log_album_playback(function(data) {
+      DiscazosLoader.apleId = data.apleId;
+      FHCSConnector.loadSource(sourceUrl);
+    }, { 'album_release_dl_source_id': dlSourceId });
+    console.log("DOWNLOAD_SOURCE_OPENED");
   },
  
-  downloadLinkReady: function(url) {
-    //Start loading the discazo
+  downloadLinkAvailable: function(url) {
     console.log("Sending url to the Discazos player...");
-    console.log("URL:" + url);
-    
-    DiscazosPlayer.load(url);
+    console.log("URL: " + url);
+    //Start loading the discazo
+    DiscazosPlayer.load(url, DiscazosLoader.apleId);
+  },
+  
+  linkFetchingStarted: function() {
+    Dajaxice.discazos.albums.update_log_album_playback(function() {
+      FHCSConnector.sendMessageToCS('FH_DL_FETCH_INIT_LOGGED');
+    }, {
+      'aple_id': DiscazosLoader.apleId,
+      'loading_status':  'DL_FETCH_INIT',
+    });
+    console.log("DL_FETCH_INIT");
+  },
+  
+  downloadLinkNotAvailable: function() {
+    //Update log informing the download link is not available
+    Dajaxice.discazos.albums.update_log_album_playback(jQuery.noop, { 
+      'aple_id': DiscazosLoader.apleId,
+      'loading_status':  'DL_NOT_AVAILABLE',
+    });
+    console.log("DL_NOT_AVAILABLE");
   },
   
 }
@@ -78,19 +100,26 @@ var ExtensionHandler = {
     window.dispatchEvent(e);
   },
   
+  //Callback called by the browser upon extension installation OK
   showRefreshButton: function() {
     $("#extension-install-box #install-message").hide();
     $("#extension-install-box #success-message").show();
     $.colorbox.resize();
   },
   
+  //Callback called by the browser upon extension installation failed
   installationFailed: function(message) { 
     console.log(message); 
   }
 
 }
 
-//FH CS extension connection
+/*
+ * Communication between the CS scripts injected by the extension 
+ * on the filehosting site and the Discazos website.
+ * Handles first origin checking verification and then the 
+ * FH link fetching process
+ */
 var FHCSConnector = {
   
   init: function() {
@@ -104,14 +133,24 @@ var FHCSConnector = {
         case 'FH_CHECK_OPENED_FROM_DISCAZOS':
           FHCSConnector.sendMessageToCS('FH_CHECK_ORIGIN_RESPONSE', 'YES');
           break;
+        case 'FH_DL_FETCH_START':
+          DiscazosLoader.linkFetchingStarted();
+          break;
         case 'FH_DL_AVAILABLE':
-          FHCSConnector.downloadLinkAvailable(e.data.content);
+          FHCSConnector.closeFHPopup();
+          DiscazosLoader.downloadLinkAvailable(e.data.content);
+          break;
+        case 'FH_DL_NOT_AVAILABLE':
+          DiscazosLoader.downloadLinkNotAvailable();
           break;
       }
     });
   },
   
   sendMessageToCS: function(aMessage, theContent) {
+    if(!theContent) {
+      theContent = "";
+    }
     if(FHCSConnector.fhPopup) {
       FHCSConnector.fhPopup.postMessage({ name: aMessage, content: theContent }, '*');
     } else {
@@ -119,11 +158,12 @@ var FHCSConnector = {
     }
   },
 
-  sourceSelected: function(sourceUrl) {
-    FHCSConnector.openPopup(sourceUrl);
+  loadSource: function(sourceUrl) {
+    FHCSConnector.fhPopup.location = sourceUrl;
+    FHCSConnector.fhPopup.focus();
   },
 
-  openPopup: function(sourceUrl) {
+  openFHPopup: function() {
     w = 600;
     h = 250;
     
@@ -133,7 +173,7 @@ var FHCSConnector = {
     var left = wLeft + (window.innerWidth / 2) - (w / 2);
     var top = wTop - (h / 2) + 450;
     
-    FHCSConnector.fhPopup = window.open(sourceUrl, "ProcessingSource", 
+    FHCSConnector.fhPopup = window.open('', "ProcessingSource", 
       'toolbar=no, location=no, menubar=no, scrollbars=no, resizable=no,' + 
       'width=' + w + ', height=' + h + ', top=' + top + ', left=' + left);
   },
@@ -151,11 +191,5 @@ var FHCSConnector = {
     //Starts the countdown
     fhCountdown.start();
   },*/
-
-  //When the download information is available, this fires up
-  downloadLinkAvailable: function(downloadLinkUrl) {
-    FHCSConnector.closeFHPopup();
-    DiscazosLoader.downloadLinkReady(downloadLinkUrl);
-  },
 
 }
