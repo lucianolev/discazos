@@ -38,7 +38,7 @@ var ContentScriptCommmon = {
   //Send a message to the opener window
   sendMessage: function(name, content) {
     if(!content) {
-      content = "";
+      var content = "";
     }
     var message = {
       name: name,

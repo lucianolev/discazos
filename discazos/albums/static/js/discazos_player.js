@@ -130,13 +130,13 @@ DiscazosPlayerUI.showPreloadInitMessage = function() {
   albumCover.find("span.load-button").remove();
   albumCover.find("#album-cover").unwrap(); //Removes the loading link
   
-  loadingOverlay = DiscazosPlayerUI.html.find("#player-wrapper div.main div.loading-overlay");
+  var loadingOverlay = DiscazosPlayerUI.html.find("#player-wrapper div.main div.loading-overlay");
   loadingOverlay.find("#download-sources-frame #download-sources-wrapper").hide();
   loadingOverlay.find("#download-sources-frame #link-available-box").show();
 }
 
 DiscazosPlayerUI.showMessageOnLoadingFail = function() {
-  loadingOverlay = DiscazosPlayerUI.html.find("#player-wrapper div.main div.loading-overlay");
+  var loadingOverlay = DiscazosPlayerUI.html.find("#player-wrapper div.main div.loading-overlay");
   loadingOverlay.find("#download-sources-frame .preload-init").show();
   loadingOverlay.find("#download-sources-frame .preloading").hide();
   loadingOverlay.find("#download-sources-frame #link-available-box").hide();
@@ -145,13 +145,13 @@ DiscazosPlayerUI.showMessageOnLoadingFail = function() {
 }
 
 DiscazosPlayerUI.showPreloadingStatus = function() {
-  loadingOverlay = DiscazosPlayerUI.html.find("#player-wrapper div.main div.loading-overlay");
+  var loadingOverlay = DiscazosPlayerUI.html.find("#player-wrapper div.main div.loading-overlay");
   loadingOverlay.find("#download-sources-frame .preload-init").hide();
   loadingOverlay.find("#download-sources-frame .preloading").show();
 }
 
 DiscazosPlayerUI.activatePlayerControls = function() {
-  loadingOverlay = DiscazosPlayerUI.html.find("#player-wrapper div.main div.loading-overlay");
+  var loadingOverlay = DiscazosPlayerUI.html.find("#player-wrapper div.main div.loading-overlay");
   loadingOverlay.remove();
   DiscazosPlayerUI.html.find('#loading-discazo span.caption').show();
   DiscazosPlayerUI.html.find("#player-controls").slideDown('slow');
@@ -201,7 +201,7 @@ DiscazosPlayer.playTrack = function(trackItem) {
   this.currentTrackChanged(trackItem);
   
   //Start playing the track
-  newMsPosition = this.data.currentTrack.offset;
+  var newMsPosition = this.data.currentTrack.offset;
   if(newMsPosition == 0) newMsPosition = 1; //If it's the starting position, seek to 1
   this.swf.seek(newMsPosition);
   

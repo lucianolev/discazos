@@ -78,7 +78,7 @@ var ExtensionHandler = {
   },
   
   listenToExtensionLoading: function() {
-    extensionHandler = this;
+    var extensionHandler = this;
     window.addEventListener("ExtensionLoading", function(e) {
       extensionHandler.extensionLoaded = true;
       if(e.detail.version == extensionHandler.latestVersion) {
@@ -149,7 +149,7 @@ var FHCSConnector = {
   
   sendMessageToCS: function(aMessage, theContent) {
     if(!theContent) {
-      theContent = "";
+      var theContent = "";
     }
     if(FHCSConnector.fhPopup) {
       FHCSConnector.fhPopup.postMessage({ name: aMessage, content: theContent }, '*');
@@ -164,11 +164,11 @@ var FHCSConnector = {
   },
 
   openFHPopup: function() {
-    w = 600;
-    h = 250;
+    var w = 600;
+    var h = 250;
     
-    wLeft = window.screenLeft ? window.screenLeft : window.screenX;
-    wTop = window.screenTop ? window.screenTop : window.screenY;
+    var wLeft = window.screenLeft ? window.screenLeft : window.screenX;
+    var wTop = window.screenTop ? window.screenTop : window.screenY;
   
     var left = wLeft + (window.innerWidth / 2) - (w / 2);
     var top = wTop - (h / 2) + 450;
