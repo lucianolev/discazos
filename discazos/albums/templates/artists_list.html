@@ -10,7 +10,7 @@
   <h2>Artistas</h2>
   <div class="albums_list">
     {% for artist in artists %}
-    <a href="#">
+    <a href="{% url artist_view artist.pk %}">
       <div class="album">
         <div class="cover">
           {% if artist.image %}

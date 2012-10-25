@@ -1,6 +1,6 @@
 # -*- encoding: utf-8 -*-
 
-from django.shortcuts import render_to_response, redirect
+from django.shortcuts import render_to_response, redirect, get_object_or_404
 from django.template import RequestContext
 from django.forms.formsets import formset_factory
 from django.contrib.auth import logout
@@ -42,6 +42,13 @@ def artists_list(request):
     artists = Artist.objects.exclude(albums=None) #Show only with albums
     return render_to_response('artists_list.html', 
                               { 'artists' : artists },
+                              context_instance=RequestContext(request))
+
+@login_required
+def artist_view(request, artist_id):
+    artist = get_object_or_404(Artist, pk=artist_id)
+    return render_to_response('artist_view.html', 
+                              { 'artist' : artist, },
                               context_instance=RequestContext(request))
 
 #Assistant: Step 1

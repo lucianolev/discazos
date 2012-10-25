@@ -1,0 +1,38 @@
+{% extends "main_layout.html" %}
+
+{% load thumbnail %}
+
+{% block title %}Discazos | Artista{% endblock title %}
+
+{% block section_nav_class %}artists{% endblock %}
+{% block main %}
+<div id="content">
+  <h2>{{ artist.name }}</h2>
+  <h4>{{ artist.get_country_display }}</h4>
+  {% if artist.image %}
+  {% thumbnail artist.image "256x256" as image_thumb %}
+  <img src="{{ image_thumb.url }}" alt="Artist Image" style="margin:{{ image_thumb|margin:"256x256" }}"/>
+  {% endthumbnail %}
+  {% endif %}
+  <div>
+    <h2>Álbumes</h2>
+    <div class="albums_list mini_list">
+      {% for album in artist.albums.all %}
+      <a href="{% url album_view album.pk %}">
+        <div class="album">
+          <div class="cover">
+          {% thumbnail album.main_release.cover "64x64" as cover_thumb %}
+          <img src="{{ cover_thumb.url }}" alt="Album Cover" style="margin:{{ cover_thumb|margin:"64x64" }}"/>
+          {% endthumbnail %}
+          </div>
+          <div class="info">
+            <h1>{{ album.title }}</h1>
+          </div>
+          <div class="clearer"></div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
