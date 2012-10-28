@@ -27,13 +27,14 @@ class ArtistAlbumShareForm(forms.ModelForm):
     
     class Meta:
         model = ArtistAlbum
+        fields = ('artist', 'title', 'recording_type')
 
 class AlbumReleaseShareForm(forms.ModelForm):
     
     class Meta:
         model = AlbumRelease
         exclude = ('album', 'main_release', 'uploader', 'stream_quality', 
-                   'audiofile_size', )
+                   'audiofile_size', 'published')
 
 class DiscsInfoUploadForm(forms.Form):
     xml_file = forms.FileField(label=u'Archivo XML de Discazos Creator')

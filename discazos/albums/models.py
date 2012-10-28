@@ -227,7 +227,7 @@ class Disc(models.Model):
     album_release = models.ForeignKey(AlbumRelease, verbose_name=u'álbum (edición)', 
                                       related_name='discs')
     number = models.PositiveSmallIntegerField(u'número', default=1)
-    title = models.CharField(u'título', max_length=255, blank=True)
+    title = models.CharField(u'título del disco (si tiene)', max_length=255, blank=True)
 
     @classmethod
     def create_with_release(cls, session_data, album_release):
