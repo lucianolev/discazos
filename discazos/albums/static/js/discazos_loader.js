@@ -7,6 +7,7 @@ var DiscazosLoader = {
         //Show in overlay
         $.get(sourcesListUrl, function(response) {
           $('#player-wrapper div.main').append(response);
+          $('.close').click(function() { $('.loading-overlay').remove(); });
         });
       } else {
         //Show in colorbox

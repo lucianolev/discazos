@@ -57,6 +57,14 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.eggs.Loader',
 )
 
+TEMPLATE_DIRS = (
+    os.path.join(PROJECT_PATH, 'templates'),
+)
+
+STATICFILES_DIRS = (
+    os.path.join(PROJECT_PATH, 'static'),
+)
+
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -88,6 +96,7 @@ INSTALLED_APPS = (
     'sorl.thumbnail',
     'dajaxice',
     'registration',
+    'floppyforms',
     
     #Discazos
     'discazos.website',

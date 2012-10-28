@@ -29,11 +29,10 @@ def album_view(request, album_id):
                               context_instance=RequestContext(request))
 
 @login_required
-def download_sources_list(request, album_id):
+def album_load(request, album_id):
     album = ArtistAlbum.objects.get(pk=album_id)
-    #import pdb; pdb.set_trace()
     dl_sources = album.main_release().download_sources.enabled_by_priority()
-    return render_to_response('download_sources_list.html', 
+    return render_to_response('album_load_overlay.html', 
                               { 'dl_sources' : dl_sources },
                               context_instance=RequestContext(request))
 

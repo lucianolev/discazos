@@ -1,5 +1,7 @@
 {% extends "share/share_layout.html" %}
 
+{% load floppyforms %}
+
 {% block content %}
 <h4>Paso 2 de 5: Agregar discos al álbum</h4>
 <p>
@@ -22,21 +24,16 @@
   la información básica de los discos del álbum, en el formulario que se 
   encuentra aqúi debajo.
 </p>
-<form id="form-upload-xml" enctype="multipart/form-data" method="post">
+{% if xmlUploadForm.errors %}
+<p class="alert alert-error">Por favor verifique los datos ingresados debajo.</p>
+{% endif %}
+
+<form class="form-horizontal well" id="form-upload-xml" enctype="multipart/form-data" method="post">
   {% csrf_token %}
-  {% if xmlUploadForm.errors %}
-  <p class="error">Por favor verifique los datos ingresados debajo.</p>
-  {% endif %}
-  <fieldset>
-    <div class="form_row">
-      <div class="form_property form_required">{{ xmlUploadForm.xml_file.label_tag }}</div> 
-      <div class="form_value">{{ xmlUploadForm.xml_file }}</div>
-      <div class="clearer"></div>
-    </div>
-    <div class="form_row form_row_submit">
-      <div class="form_value"><input class="button" type="submit" value="Siguiente >>" /></div>
-      <div class="clearer"></div>
-    </div>
-  </fieldset>
+  {% form xmlUploadForm %}
+  <div class="control-group">
+    <div class="controls"><input class="btn btn-primary" type="submit" value="Siguiente >>" /></div>
+  </div>
 </form>
+
 {% endblock content %}

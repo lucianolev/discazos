@@ -2,8 +2,12 @@
 
 {% block content %}
 <h4>Paso 3 de 5: Revisá la información del disco</h4>
-{% for i in nums_discs %}
-<p><a href="{% url share_review_disc_info i %}">Revisión del disco {{ i|add:"1" }}</a></p>
-{% endfor %}
-<p><a href="{% url share_upload_audio %}">Siguiente >></a></p>
+<div class="well">
+  {% for i in nums_discs %}
+  <ul class="nav nav-pills nav-stacked">
+    <li><a href="{% url share_review_disc_info i %}">Revisión del Disco Nro. {{ i|add:"1" }}</a></li>
+  </ul>
+  {% endfor %}
+  <a class="btn btn-primary" href="{% url share_upload_audio %}">Siguiente >></a>
+</div>
 {% endblock content %}

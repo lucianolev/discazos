@@ -1,6 +1,8 @@
 {% extends "share/share_layout.html" %}
 
-{% block pagehead %}
+{% load floppyforms %}
+
+{% block page_js %}
 <script src="{{ STATIC_URL }}js/jquery.formset.js"></script>
 <script type="text/javascript">
   $(function() {
@@ -18,30 +20,20 @@
 <p>Es tiempo ahora de subir el archivo de audio (generado por Discazos Creator 
   en el Paso 2) a uno o más servicios de alojamiento de archivos.
 </p>
-<form name="download-source-link" method="post">
+{% if downloadSourcesFormset.errors %}
+<p class="alert alert-error">Por favor verifique los datos ingresados debajo.</p>
+{% endif %}
+<form class="form-horizontal" name="download-source-link" method="post">
   {% csrf_token %}
-  {% if downloadSourcesFormset.errors %}
-  <p class="error">Por favor verifique los datos ingresados debajo.</p>
-  {% endif %}
   {{ downloadSourcesFormset.management_form }}
   {% for downloadSourceForm in downloadSourcesFormset.forms %}
-  <fieldset class="form-container">
-    <div class="form_row">
-      <div class="form_property form_required">{{ downloadSourceForm.service.label_tag }}</div> 
-      <div class="form_value">{{ downloadSourceForm.service }}</div>
-      <div class="clearer"></div>
-    </div>
-    <div class="form_row">
-      <div class="form_property form_required">{{ downloadSourceForm.download_link.label_tag }}</div> 
-      <div class="form_value">{{ downloadSourceForm.download_link }}</div>
-      <div class="clearer"></div>
-    </div>
+  <fieldset class="form-container well">
+    {% form downloadSourceForm %}
   </fieldset>
   {% endfor %}
-  <fieldset>
-    <div class="form_row form_row_submit">
-      <div class="form_value"><input class="button" type="submit" value="Siguiente >>" /></div>
-      <div class="clearer"></div>
+  <fieldset class="well">
+    <div class="control-group">
+      <div class="controls"><input class="btn btn-primary" type="submit" value="Siguiente >>" /></div>
     </div>
   </fieldset>
 </form>

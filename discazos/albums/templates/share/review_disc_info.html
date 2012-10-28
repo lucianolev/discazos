@@ -1,24 +1,19 @@
 {% extends "share/share_layout.html" %}
 
-{% load custom_tags %}
+{% load floppyforms custom_tags %}
 
 {% block content %} 
 <h4>Paso 3 de 5: Revisión de la información de los discos</h4>
-<form id="review-disc-info" method="post">
+{% if tracksFormset.errors %}
+<p class="alert alert-error">Por favor verifique los datos ingresados debajo.</p>
+{% endif %}
+<form class="form-horizontal well" id="review-disc-info" method="post">
   {% csrf_token %}
-  {% if tracksFormset.errors %}
-  <p class="error">Por favor verifique los datos ingresados debajo.</p>
-  {% endif %}
-  {{ discForm.number }}
-  <fieldset>
-    <div class="form_row">
-      <div class="form_property">Título del disco (si tiene)</div>
-      <div class="form_value">{{ discForm.title }}</div>
-      <div class="clearer"></div>
-    </div>
-  </fieldset>
+  
+  {% form discForm %}
+  
   {{ tracksFormset.management_form }}
-  <table class="data_table">
+  <table class="table table-bordered">
     <tr>
       <th>Nro.</th>
       <th>Artista</th>
@@ -36,11 +31,8 @@
     </tr>
   {% endfor %}
   </table>
-  <fieldset>
-    <div class="form_row form_row_submit">
-      <input class="button" type="submit" value="Confirmar información del disco" />
-      <div class="clearer"></div>
-    </div>
-  </fieldset>
+  <div class="control-group">
+    <input class="btn btn-success" type="submit" value="Confirmar información del disco" />
+  </div>
 </form>
 {% endblock content %}

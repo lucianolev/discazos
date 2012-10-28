@@ -63,7 +63,7 @@ DiscazosPlayerUI.init = function() {
   this.html.find("#player-wrapper div.main div.left").alternateScroll();
   
   //Setup loading progressbar
-  this.html.find("#loading-discazo").progressbar();
+  this.html.find("#album-loading-progressbar").progressbar();
   
   //Setup track seek/progress bar
   this.html.find("#progressbar").slider({
@@ -153,7 +153,7 @@ DiscazosPlayerUI.showPreloadingStatus = function() {
 DiscazosPlayerUI.activatePlayerControls = function() {
   var loadingOverlay = DiscazosPlayerUI.html.find("#player-wrapper div.main div.loading-overlay");
   loadingOverlay.remove();
-  DiscazosPlayerUI.html.find('#loading-discazo span.caption').show();
+  DiscazosPlayerUI.html.find('#album-loading-progressbar span.caption').show();
   DiscazosPlayerUI.html.find("#player-controls").slideDown('slow');
   DiscazosPlayerUI.html.find(".playlist tr.track").each(function() {
     $(this).hover(function() { $(this).addClass("hover") }, 
@@ -340,7 +340,7 @@ DiscazosPlayer.updateBufferProgress =
          DiscazosPlayerUI.html.trigger("minLoaded");
       }
       var percentage = (bytesLoaded / this.data.audioFileSize) * 100;
-      var progressbarWidget = DiscazosPlayerUI.html.find('#loading-discazo');
+      var progressbarWidget = DiscazosPlayerUI.html.find('#album-loading-progressbar');
       progressbarWidget.children('span.caption').html(percentage.toFixed(1) + ' %');
       progressbarWidget.progressbar("value", percentage);
     } else {

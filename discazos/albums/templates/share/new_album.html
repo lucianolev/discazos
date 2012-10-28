@@ -1,40 +1,31 @@
 {% extends "share/share_layout.html" %}
 
+{% load floppyforms %}
+
 {% block content %}
+
 {% if userHasPermission %}
-<h4>Paso 1 of 5: Información del nuevo álbum</h4>
-<form id="form-album-info" method="post">
+
+<h4>Paso 1 de 5: Información del nuevo álbum</h4>
+{% if artistAlbumForm.errors %}
+<p class="alert alert-error">Por favor verifique los datos ingresados debajo.</p>
+{% endif %}
+<form id="form-album-info" class="form-horizontal well" method="post">
   {% csrf_token %}
-  {% if artistAlbumForm.errors %}
-  <p class="error">Por favor verifique los datos ingresados debajo.</p>
-  {% endif %}
-  <fieldset>
-    <div class="form_row">
-      <div class="form_property form_required">{{ artistAlbumForm.artist.label_tag }}</div>
-      <div class="form_value">{{ artistAlbumForm.artist }}</div>
-      <div class="clearer"></div>
-    </div>
-    <div class="form_row">
-      <div class="form_property form_required">{{ artistAlbumForm.title.label_tag }}</div> 
-      <div class="form_value">{{ artistAlbumForm.title }}</div>
-      <div class="clearer"></div>
-    </div>
-    <div class="form_row">
-      <div class="form_property">{{ artistAlbumForm.recording_type.label_tag }}</div> 
-      <div class="form_value">{{ artistAlbumForm.recording_type }}</div>
-      <div class="clearer"></div>
-    </div>
-    <div class="form_row form_row_submit">
-      <div class="form_value"><input class="button" type="submit" value="Siguiente >>" /></div>
-      <div class="clearer"></div>
-    </div>
-  </fieldset>
+  {% form artistAlbumForm %}
+  <div class="control-group">
+    <div class="controls"><input class="btn btn-primary" type="submit" value="Siguiente >>" /></div>
+  </div>
 </form>
+
 {% else %}
-<div class="notice">
-  <p>Tu usuario <span style="font-weight: bold;">no está habilitado</span> actualmente para compartir álbumes.</p> 
+
+<div class="alert alert-info">
+  <p>Tu usuario no está habilitado actualmente para compartir álbumes.</p> 
   <p>¿Te interesa compartir? Por favor escribinos a 
   <a href="mailto:contacto@discazos.net">contacto@discazos.net</a>.</p>
 </div>
+
 {% endif %}
+
 {% endblock content %}

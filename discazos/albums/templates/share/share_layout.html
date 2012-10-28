@@ -1,19 +1,14 @@
-{% extends "main_layout.html" %}
+{% extends "global_layout.html" %}
 
 {% block title %}Discazos | Compartí tu Discazo!{% endblock title %}
 
-{% block section_nav_class %}share_album{% endblock %}
-{% block main %}
-<div id="content">
-  {% if messages %}
-  {% for message in messages%}
-  <p{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
-  {% endfor %}
-  {% endif %}
-  
+{% block nav-share-album %} class="active"{% endblock%}
+
+{% block inner_layout %}
+<div class="section">
   <h2>Compartiendo tu Discazo</h2>
   <div id="share-assistant-box">
   {% block content %}{% endblock %}
   </div>
 </div>
-{% endblock main %}
+{% endblock %}

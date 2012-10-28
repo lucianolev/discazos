@@ -1,0 +1,18 @@
+{% extends "global_layout.html" %}
+
+{% load floppyforms %}
+
+{% block title %}Discazos | Login{% endblock title %}
+
+{% block inner_layout %}
+<div class="section">
+  <h3>Ingreso</h3>
+  <form method="post" id="login" class="form-horizontal">
+    {% csrf_token %}
+    {% form form %}
+    <div class="control-group">
+      <div class="controls"><input class="btn btn-primary" type="submit" value="Ingresar »" /></div>
+    </div>
+  </form>
+</div>
+{% endblock %}

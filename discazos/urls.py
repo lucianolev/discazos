@@ -19,7 +19,8 @@ urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
-    url(r'^$', login_required(direct_to_template), {'template': 'home.html'}, name="home"),
+    url(r'^$', 'discazos.website.views.home', name="home"),
+    
     url(r'^install-extension$', login_required(direct_to_template), 
         {'template': 'extension_install.html'}, name="extension_install"),
     url(r'^update-extension$', login_required(direct_to_template), 
@@ -27,8 +28,8 @@ urlpatterns = patterns('',
 
     url(r'^albums/$', 'discazos.albums.views.albums_list', name="albums_list"),
     url(r'^album/(?P<album_id>\d+)$', 'discazos.albums.views.album_view', name="album_view"),
-    url(r'^album/(?P<album_id>\d+)/sources$', 
-        'discazos.albums.views.download_sources_list', name="dl_sources_list"),
+    url(r'^album/(?P<album_id>\d+)/load', 
+        'discazos.albums.views.album_load', name="album_load"),
     
     url(r'^artists/$', 'discazos.albums.views.artists_list', name="artists_list"),
     url(r'^artist/(?P<artist_id>\d+)$', 'discazos.albums.views.artist_view', name="artist_view"),

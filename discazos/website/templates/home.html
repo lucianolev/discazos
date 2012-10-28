@@ -1,0 +1,48 @@
+{% extends "global_layout.html" %}
+
+{% load thumbnail %}
+
+{% block page_js %}
+<script>
+  $('.album-item').popover({ trigger: 'hover', placement: 'right'});
+</script>
+{% endblock %}
+
+{% block title %}Discazos{% endblock title %}
+
+{% block inner_layout %}
+
+<div class="section">
+  <h3>¿Qué es Discazos?</h3>
+  <p>Discazos es una nueva comunidad de fanáticos de la música.</p>
+  <p>El objetivo es simple. 
+    Contar con un lugar virtual donde la gente pueda intercambiar sus gustos musicales con el resto de la comunidad. 
+    Armar un gran catálogo de música, de calidad, conformado por álbumes compartidos por la gente.
+    Hacer, a través de la Web, lo que otra gente hacía años atrás en un espacio físico: 
+    Juntarse a escuchar álbumes de música y opinar sobre ella.</p>
+  <p>Es una idea ambiciosa pero después mucho trabajo, los cimientos ya están puestos. Ahora es momento de crecer.</p>
+  <p><strong>Noviembre 2012</strong></p>
+</div>
+
+<div class="section">
+  <h4>Últimos álbumes compartidos</h4>
+  <div class="well">
+    <div class="row-fluid">
+    <ul class="unstyled">
+      {% for album in latest_albums %}
+      <li class="span3 album-item" 
+        data-content="{{ album.artist }}" 
+        data-title="<h4>{{ album.title }}</h4>">
+          <a href="{% url album_view album.pk %}">
+            {% thumbnail album.main_release.cover "192x192" as cover_thumb %}
+            <img src="{{ cover_thumb.url }}" alt="Album Cover" class="img-polaroid" />
+            {% endthumbnail %}
+          </a>
+      </li>
+      {% endfor %}
+    </ul>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

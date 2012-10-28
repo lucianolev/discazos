@@ -1,10 +1,18 @@
 # Create your views here.
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 from registration.views import register as registration_register
-
+    
 from website.models import *
 from website.forms import *
+from albums.models import *
+
+@login_required
+def home(request):
+    latest_albums = ArtistAlbum.objects.filter(releases__published=True).order_by('-releases__uploaded_on')[:4]
+    return render(request, 'home.html', 
+                  {'latest_albums': latest_albums})
 
 def register_invited(request):
     invitation_code = request.GET.get('code', None)

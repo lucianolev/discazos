@@ -1,0 +1,58 @@
+{% extends "htmlbase.html" %}
+
+{% block site_css %}
+<link rel="stylesheet" href="{{ STATIC_URL }}css/discazos.css">
+{% block page_css%}{% endblock %}
+{% endblock %}
+
+{% block site_js %}
+{% block page_js %}{% endblock %}
+{% endblock %}
+
+{% block body %}
+<div class="container">
+  <div class="navbar">
+    <div class="navbar-inner">
+      <div class="container">
+        <a class="brand" href="{% url home %}">Discazos</a>
+        {% if request.user.is_authenticated %}
+        <ul class="nav">
+          <li{% block nav-albums %}{% endblock%}>
+            <a href="{% url albums_list %}">Álbumes</a>
+          </li>
+          <li{% block nav-artists %}{% endblock%}>
+            <a href="{% url artists_list %}">Artistas</a>
+          </li>
+          <li{% block nav-faq %}{% endblock%}>
+            <a href="#">FAQ</a>
+          </li>
+          <li{% block nav-share-album %}{% endblock%}>
+            <a href="{% url share_new_album %}">Compartir</a>
+          </li>
+        </ul>
+        <ul class="nav pull-right">
+          <li><a href="{% url logout %}">Salir</a></li>
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  
+  {% if messages %}
+  {% for message in messages%}
+  <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
+    <a class="close">×</a>
+    {{ message }}
+  </div>
+  {% endfor %}
+  {% endif %}
+  
+  <div>
+    {% block inner_layout %}{% endblock %}
+  </div>
+  
+  <footer>
+    <p>&copy; 2012 Discazos <a class="pull-right" href="mailto:contacto@discazos.net" target="__blank">Contacto</a></p>
+  </footer>
+</div>
+{% endblock %}
