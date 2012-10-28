@@ -97,6 +97,7 @@ INSTALLED_APPS = (
     'dajaxice',
     'registration',
     'floppyforms',
+    'bootstrap-pagination',
     
     #Discazos
     'discazos.website',

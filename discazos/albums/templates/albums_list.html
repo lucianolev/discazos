@@ -1,6 +1,6 @@
 {% extends "global_layout.html" %}
 
-{% load thumbnail %}
+{% load thumbnail bootstrap_pagination %}
 
 {% block title %}Discazos | Álbumes{% endblock title %}
 
@@ -10,12 +10,12 @@
 <div class="section">
   <h2>Álbumes</h2>
   <ul class="unstyled grid-list">
-    {% for album in albums %}
+    {% for album in albums.object_list %}
     <li>
       <a href="{% url album_view album.pk %}">
         <div class="li-img">
-          {% thumbnail album.main_release.cover "128x128" as cover_thumb %}
-          <img src="{{ cover_thumb.url }}" alt="Album Cover" style="margin:{{ cover_thumb|margin:"128x128" }}"/>
+          {% thumbnail album.main_release.cover "96x96" as cover_thumb %}
+          <img src="{{ cover_thumb.url }}" alt="Album Cover" style="margin:{{ cover_thumb|margin:"96x96" }}"/>
           {% endthumbnail %}
         </div>
         <div class="clearfix">
@@ -26,5 +26,6 @@
     </li>
     {% endfor %}
   </ul>
+  {% bootstrap_paginate albums %}
 </div>
 {% endblock %}

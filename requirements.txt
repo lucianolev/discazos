@@ -6,3 +6,5 @@ django-countries
 sorl-thumbnail
 django-dajaxice
 django-registration
+django-floppyforms
+django-bootstrap-pagination

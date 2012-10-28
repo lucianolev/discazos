@@ -1,6 +1,6 @@
 {% extends "global_layout.html" %}
 
-{% load thumbnail %}
+{% load thumbnail bootstrap_pagination %}
 
 {% block title %}Discazos | Artistas{% endblock title %}
 
@@ -10,13 +10,13 @@
 <div class="section">
   <h2>Artistas</h2>
   <ul class="unstyled grid-list">
-    {% for artist in artists %}
+    {% for artist in artists.object_list %}
     <li>
       <a href="{% url artist_view artist.pk %}">
         <div class="li-img">
           {% if artist.image %}
-          {% thumbnail artist.image "128x128" as image_thumb %}
-          <img src="{{ image_thumb.url }}" alt="Artist Image" style="margin:{{ image_thumb|margin:"128x128" }}"/>
+          {% thumbnail artist.image "96x96" as image_thumb %}
+          <img src="{{ image_thumb.url }}" alt="Artist Image" style="margin:{{ image_thumb|margin:"96x96" }}"/>
           {% endthumbnail %}
           {% else %}
           <img src="{{ STATIC_URL }}img/person-icon.png" />
@@ -30,5 +30,6 @@
     </li>
     {% endfor %}
   </ul>
+  {% bootstrap_paginate artists %}
 </div>
 {% endblock %}

@@ -11,10 +11,11 @@ from django.conf import settings
 from models import *
 from forms import *
 from xml_import import *
+from utils.paginate import paginate
 
 @login_required
 def albums_list(request):
-    albums = ArtistAlbum.objects.filter(releases__published=True)
+    albums = paginate(request, ArtistAlbum.objects.filter(releases__published=True))
     return render_to_response('albums_list.html', 
                               { 'albums' : albums },
                               context_instance=RequestContext(request))
@@ -38,7 +39,7 @@ def album_load(request, album_id):
 
 @login_required
 def artists_list(request):
-    artists = Artist.objects.exclude(albums=None) #Show only with albums
+    artists = paginate(request, Artist.objects.exclude(albums=None))
     return render_to_response('artists_list.html', 
                               { 'artists' : artists },
                               context_instance=RequestContext(request))

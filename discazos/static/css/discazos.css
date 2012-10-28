@@ -25,7 +25,7 @@ body {
 
 .grid-list li {
   border-bottom: 1px solid #DDDDDD;
-  padding: 10px;
+  padding: 5px;
 }
 .grid-list li:hover {
   background: #EEEEEE;
