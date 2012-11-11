@@ -3,7 +3,7 @@ var DiscazosPlayerUI = {}
 
 DiscazosPlayer.MIN_FILE_OK_BYTES = 51200; //50KB
 DiscazosPlayer.MIN_BYTES_TO_LOAD = 491520; //30 seconds of 128kbps audio
-DiscazosPlayer.GET_TIMEOUT = 15000; //15 secs before timing out for GET request
+DiscazosPlayer.GET_TIMEOUT = 90000; //90 secs before timing out for GET request
 
 $(document).ready(function() {
   DiscazosPlayer.swf = swfobject.getObjectById("discazos-player-swf");

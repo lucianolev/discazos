@@ -35,7 +35,11 @@
         Precargando los primeros 30 segundos del álbum... por favor espere.
       </p>
       <p><img src="{{ STATIC_URL}}img/loading.gif" /></p>
-      <p class="preload-init">(Por favor espere unos segundos)</p>
+      <p class="preload-init">
+        <small>Normalmente el comienzo de la precarga debería ser prácticamente instantáneo, 
+          pero en algunos casos <strong>puede tomar hasta un minuto</strong>. Aguarde por favor.
+        </small>
+      </p>
       <p class="preloading" style="display: none;">
         <span id="preload-percentage">0</span>% completado
       </p>
