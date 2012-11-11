@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.utils.safestring import mark_safe
 from django.contrib.sites.models import RequestSite
 
-from website.models import *
+from models import *
 
 class InvitationAdmin(admin.ModelAdmin):
     list_display = ('email', 'invited_by', 'created', 'invitation_link', 

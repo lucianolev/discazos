@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 from django_countries import CountryField
 
-from albums.managers import *
+from managers import *
 
 '''
 An artist. 

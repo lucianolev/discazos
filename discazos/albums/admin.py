@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from albums.models import *
+from models import *
 
 # Main reusable Admin class for only viewing
 class ViewAdmin(admin.ModelAdmin):

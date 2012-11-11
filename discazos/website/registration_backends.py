@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from registration import signals
 from registration.backends.simple import SimpleBackend
 
-from website.models import Invitation
+from models import Invitation
 
 class RegistrationByInvitation(SimpleBackend):
     def register(self, request, **kwargs):

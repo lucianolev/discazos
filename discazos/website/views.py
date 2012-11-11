@@ -3,10 +3,11 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 
 from registration.views import register as registration_register
+
+from discazos.albums.models import *
     
-from website.models import *
-from website.forms import *
-from albums.models import *
+from models import *
+from forms import *
 
 @login_required
 def home(request):

@@ -10,7 +10,7 @@ from django.db.models import Q
 from dajaxice.decorators import dajaxice_register
 from sorl.thumbnail import get_thumbnail
 
-from utils.view_helpers import url_with_querystring
+from discazos.utils.view_helpers import url_with_querystring
 
 from models import AlbumReleaseDownloadSource, AlbumPlaybackLogEntry, ArtistAlbum
 

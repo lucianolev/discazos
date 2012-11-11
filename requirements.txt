@@ -1,4 +1,4 @@
-django < 1.4
+django < 1.5
 south
 -e git+https://github.com/robhudson/django-debug-toolbar.git#egg=django-debug-toolbar
 django_extensions
