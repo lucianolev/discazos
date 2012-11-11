@@ -1,6 +1,12 @@
+import urllib
+
+from django.conf import settings
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 
-def paginate(request, objects, range=10):
+def url_with_querystring(path, **kwargs):
+    return path + '?' + urllib.urlencode(kwargs)
+
+def paginate(request, objects, range):
     paginator = Paginator(objects, range)
     # Make sure page request is an int. If not, deliver first page.
     try:

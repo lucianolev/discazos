@@ -46,6 +46,8 @@ urlpatterns = patterns('',
     url(r'^accounts/register/invited/$', 'discazos.website.views.register_invited', name="register_invited"),
 
     url(dajaxice_config.dajaxice_url, include('dajaxice.urls')),
+    
+    url(r'^ajax/global-album-search/$', 'discazos.albums.ajax.global_album_search', name="global_album_search"),
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),

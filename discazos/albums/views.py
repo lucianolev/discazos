@@ -7,15 +7,22 @@ from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib import messages
 from django.conf import settings
+from django.db.models import Q
+
+from utils.view_helpers import paginate
 
 from models import *
 from forms import *
 from xml_import import *
-from utils.paginate import paginate
 
 @login_required
 def albums_list(request):
-    albums = paginate(request, ArtistAlbum.objects.filter(releases__published=True))
+    albums = ArtistAlbum.objects.filter(releases__published=True)
+    if 'q' in request.GET:
+        query = request.GET.get('q')
+        albums = albums.filter(Q(title__icontains=query) | 
+                               Q(artist__name__icontains=query))
+    albums = paginate(request, albums, settings.ALBUMS_PER_PAGE)
     return render_to_response('albums_list.html', 
                               { 'albums' : albums },
                               context_instance=RequestContext(request))
@@ -39,7 +46,8 @@ def album_load(request, album_id):
 
 @login_required
 def artists_list(request):
-    artists = paginate(request, Artist.objects.exclude(albums=None))
+    artists = paginate(request, Artist.objects.exclude(albums=None), 
+                       settings.ARTISTS_PER_PAGE)
     return render_to_response('artists_list.html', 
                               { 'artists' : artists },
                               context_instance=RequestContext(request))

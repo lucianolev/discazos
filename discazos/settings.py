@@ -159,9 +159,16 @@ LOGGING = {
     },
 }
 
-#App-specific configurations
+# Project-specific settings
+
 BROWSER_EXTENSION_VERSION = '0.5.1'
 CREATOR_XML_CURRENT_VER = '0.3'
+
+ALBUM_SEARCH_RESULTS_LIMIT = 5
+ALBUMS_PER_PAGE = 10
+ARTISTS_PER_PAGE = 10
+
+# End of project-specific settings
 
 try:
     from local_settings import *

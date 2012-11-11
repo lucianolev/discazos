@@ -1,11 +1,46 @@
 {% extends "htmlbase.html" %}
 
+{% load dajaxice_templatetags %}
+
 {% block site_css %}
 <link rel="stylesheet" href="{{ STATIC_URL }}css/discazos.css">
 {% block page_css%}{% endblock %}
 {% endblock %}
 
 {% block site_js %}
+{% dajaxice_js_import %}
+<script src="{{ STATIC_URL }}js/jquery.marcopolo.min.js"></script>
+<script>
+$('#global-album-search-box').marcoPolo({
+  url: '{% url global_album_search %}',
+  formatItem: function (data, $item) {
+    switch(data.type) {
+      case "album": 
+        li = $("<a/>", { href: data.url })
+          .append($("<img/>", { src: data.cover_url }))
+          .append($("<p/>", { class: 'title', text: data.title }))
+          .append($("<p/>", { class: 'subtitle', text: data.artist }))
+        break;
+      case "more-link":
+        $item.addClass("more");
+        li = $("<a/>", { href: data.url, text: 'Ver más resultados' });
+        break;
+      default:
+        li = null;
+    }
+    return li;
+  },
+  formatMinChars: null,
+  formatNoResults: function() {
+    return 'No hay álbumes que coincidan con su búsqueda';
+  },
+  onSelect: function(data, $item) {
+    window.location = data.url;
+  },
+  minChars: 2,
+  required: true
+});
+</script>
 {% block page_js %}{% endblock %}
 {% endblock %}
 
@@ -29,9 +64,17 @@
           <li{% block nav-share-album %}{% endblock%}>
             <a href="{% url share_new_album %}">Compartir</a>
           </li>
+          <li><a href="{% url logout %}">Salir</a></li>
+          
         </ul>
         <ul class="nav pull-right">
-          <li><a href="{% url logout %}">Salir</a></li>
+          <li>
+            <form class="navbar-search">
+              <input type="text" class="span4 search-query" 
+              id="global-album-search-box" 
+              placeholder="Buscar álbum por nombre o artista...">
+            </form>
+          </li>
         </ul>
         {% endif %}
       </div>
