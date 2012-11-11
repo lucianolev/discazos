@@ -39,7 +39,7 @@ def album_view(request, album_id):
 @login_required
 def album_load(request, album_id):
     album = ArtistAlbum.objects.get(pk=album_id)
-    dl_sources = album.main_release().download_sources.enabled_by_priority()
+    dl_sources = album.main_release.download_sources.enabled_by_priority()
     return render_to_response('album_load_overlay.html', 
                               { 'dl_sources' : dl_sources },
                               context_instance=RequestContext(request))
