@@ -87,6 +87,7 @@ class Album(models.Model):
         newAlbum.save()
         return newAlbum
     
+    @property
     def main_release(self):
         return self.releases.filter(main_release=True)[0]
     
