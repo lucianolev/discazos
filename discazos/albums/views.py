@@ -46,7 +46,7 @@ def album_load(request, album_id):
 
 @login_required
 def artists_list(request):
-    artists = paginate(request, Artist.objects.filter(albums__releases__published=True), 
+    artists = paginate(request, Artist.objects.filter(albums__releases__published=True).distinct(), 
                        settings.ARTISTS_PER_PAGE)
     return render_to_response('artists_list.html', 
                               { 'artists' : artists },
