@@ -457,3 +457,13 @@ p.footnote {
   font-size: 0.85em;
   font-style: italic;
 }
+
+/* footer */
+
+footer a {
+  color: #888;
+}
+
+footer a:hover {
+  text-decoration: none;
+}
