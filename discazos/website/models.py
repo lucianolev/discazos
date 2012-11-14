@@ -76,4 +76,36 @@ class Invitation(models.Model):
                                      'site': site })
         
         send_mail(subject, message, settings.DEFAULT_FROM_EMAIL, [self.email])
+
+class ProblemReport(models.Model):
+    REPORT_STATUSES = (
+        ('NEW', u'Nuevo'),
+        ('PENDING', u'Pendiente'),
+        ('ARCHIVED', u'Archivado'),
+        ('NOT_UNDERSTANDABLE', u'No se entiende'),
+    )
+    PROBLEMS = (
+        ('EXTENSION_INSTALL_PROBLEM', u'No puedo instalar la extensión'),
+        ('EXTENSION_INSTALL_PROBLEM2', u'Instalé la extensión pero vuelve a pedir instalarla'),
+        ('ALBUM_NOT_LOADING_ANY_SOURCE', u'El álbum no carga con ninguna de las fuentes'),
+        ('ALBUM_LOADING_VERY_SLOW', u'El álbum carga MUY lentamente'),
+        ('ALBUM_PLAYBACK_PROBLEM', u'El álbum no se reproduce correctamente'),
+        ('ALBUM_NOT_FULLY_LOADED', u'El álbum no se cargó por completo'),
+        ('ALBUM_TRACKS SYNC_PROBLEM', u'Las pistas del album están desfasadas'),
+        ('ALBUM_INFO_ERRORS', u'La información del álbum contiene errores'),
+        ('OTHER', u'Otro problema'),
+    )
     
+    created_on = models.DateTimeField(u'fecha y hora', auto_now_add=True)
+    sent_by = models.ForeignKey(User, verbose_name=u'enviado por')
+    problem = models.CharField(u'problema', choices=PROBLEMS, max_length=100)
+    details = models.TextField(u'detalle')
+    sent_from_url = models.URLField(u'enviado desde')
+    user_agent = models.TextField(u'User Agent', max_length=1024)
+    notified = models.BooleanField(u'notificado', default=False)
+    status = models.CharField(u'estado', choices=REPORT_STATUSES, 
+                              default='NEW', max_length=50)
+    
+    class Meta:
+        verbose_name = u'reporte de problema'
+        verbose_name_plural = u'reportes de problemas'

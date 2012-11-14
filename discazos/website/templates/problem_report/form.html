@@ -1,0 +1,18 @@
+{% load floppyforms %}
+
+<div class="feedback-section">
+  <h3>Reportar problema</h3>
+  <p>¿Algo que no funciona correctamente?
+    ¿El album que intentás escuchar falla al cargar? Contanos. 
+    Mientras más claro seas, más rápido es posible que encontremos una solución.</p> 
+  <form id="feedback-form" method="post" action="{% url problem_report %}" class="form-container well">
+    {% csrf_token %}
+    {% form report_form %}
+    <p><em>Junto con tu reporte y nombre de usuario, se enviará información 
+    sobre tu navegador y la página actual donde te encontrás para que podamos 
+    analizar mejor el problema.</em></p>
+    <div class="control-group">
+      <div class="controls"><input class="btn btn-inverse" type="submit" value="Enviar reporte" /></div>
+    </div>
+  </form>
+</div>

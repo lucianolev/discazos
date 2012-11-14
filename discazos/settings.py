@@ -168,6 +168,8 @@ ALBUM_SEARCH_RESULTS_LIMIT = 5
 ALBUMS_PER_PAGE = 10
 ARTISTS_PER_PAGE = 10
 
+PROBLEM_REPORT_EMAIL = 'Contacto Discazos <contacto@discazos.net>'
+
 # End of project-specific settings
 
 try:

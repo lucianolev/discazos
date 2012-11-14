@@ -3,6 +3,7 @@
 {% load dajaxice_templatetags %}
 
 {% block site_css %}
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/colorbox.css" />
 <link rel="stylesheet" href="{{ STATIC_URL }}css/discazos.css">
 {% block page_css%}{% endblock %}
 {% endblock %}
@@ -10,6 +11,7 @@
 {% block site_js %}
 {% dajaxice_js_import %}
 <script src="{{ STATIC_URL }}js/jquery.marcopolo.min.js"></script>
+<script type="text/javascript" src="{{ STATIC_URL }}js/jquery.colorbox-min.js"></script>
 <script>
 $('#global-album-search-box').marcoPolo({
   url: '{% url global_album_search %}',
@@ -39,6 +41,35 @@ $('#global-album-search-box').marcoPolo({
   },
   minChars: 2,
   required: true
+});
+</script>
+<script>
+$('.feedback-button').popover({ 
+  trigger: 'hover', 
+  placement: 'left', 
+  template: '<div class="popover feedback-popover">'+
+              '<div class="arrow"></div>'+
+              '<div class="popover-inner">'+
+                '<div class="popover-content"><p></p></div>'+
+              '</div>'+
+            '</div>'
+});
+$('.feedback-button').colorbox({
+  onComplete: function() {
+    $(document).on("submit", "form#feedback-form", function(e) {
+      var $form = $(this);
+      $.ajax({
+        type: $form.attr('method'),
+        url: $form.attr('action'),
+        data: $form.serialize(),
+        success: function(data, status) {
+          $(".feedback-section").replaceWith(data);
+          $.colorbox.resize();
+        }
+      });
+      e.preventDefault();
+    });
+  }
 });
 </script>
 {% block page_js %}{% endblock %}
@@ -84,8 +115,8 @@ $('#global-album-search-box').marcoPolo({
   {% if messages %}
   {% for message in messages%}
   <div{% if message.tags %} class="alert alert-{{ message.tags }}"{% endif %}>
-    <a class="close">×</a>
-    {{ message }}
+    <a class="close" data-dismiss="alert">×</a> 
+    {{ message|safe }}
   </div>
   {% endfor %}
   {% endif %}
@@ -95,7 +126,22 @@ $('#global-album-search-box').marcoPolo({
   </div>
   
   <footer>
-    <p>&copy; 2012 Discazos <a class="pull-right" href="mailto:contacto@discazos.net" target="__blank">Contacto</a></p>
+    <p>&copy; 2012 Discazos</p>
   </footer>
+
+  {% if request.user.is_authenticated %}
+  <div class="feedback-bar navbar-fixed-bottom">
+      <ul class="nav nav-pills pull-right">
+        <li>
+         <a href="{% url problem_report %}" class="feedback-button btn btn-danger"
+            data-content="¿Tuviste algún problema? ¡Contanos!">
+            Reportar problema <i class="icon-bullhorn icon-white"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  {% endif %}
+
 </div>
 {% endblock %}

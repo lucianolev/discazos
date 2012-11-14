@@ -2,6 +2,16 @@ body {
   background-color: #202020;
 }
 
+/* fix issue https://github.com/twitter/bootstrap/issues/4665 */
+.popover.left {
+  margin-left: -10px;
+}
+
+.popover.top {
+  margin-top: -10px;
+}
+/**/
+
 .navbar {
   margin-top: 15px;
 }
@@ -221,6 +231,28 @@ body {
 .mp_list li.mp_no_results {
     padding: 0px 10px;
     color: #666;
+}
+
+.feedback-bar {
+  margin-right: 25px;
+}
+
+.feedback-bar li a:hover {
+  background: #D41E24;
+}
+
+.feedback-section {
+  margin: 5px 15px;
+  width: 450px;
+}
+
+.feedback-popover {
+  width: 270px;
+}
+
+.feedback-popover .popover-content {
+  font-size: 13px;
+  font-weight: bold;
 }
 
 /* Player */

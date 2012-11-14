@@ -1,0 +1,13 @@
+Hola!
+
+Recibiste un reporte de error enviado por el usuario '{{ report.sent_by.username }}' a través del sitio web de Discazos.
+
+Problema: {{ report.get_problem_display }}
+
+Detalle:
+
+{{ report.details }}
+
+Más detalles del reporte en: http://{{ admin_report_url }}
+
+Saludos!

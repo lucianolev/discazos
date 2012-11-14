@@ -51,4 +51,15 @@ class InvitationAdmin(admin.ModelAdmin):
                 except:
                     messages.error(request, u"Ocurrió un error al enviar el email de invitación a %s." % obj.email)
 
+class ProblemReportAdmin(admin.ModelAdmin):
+    list_display = ('id', 'problem', 'sent_from_url', 'sent_by', 
+                    'created_on', 'notified', 'status', )
+    readonly_fields = ('sent_by', 'problem', 'details', 'sent_from_url', 'user_agent' , 
+                       'created_on', 'notified', )
+    ordering = ('-created_on', )
+    
+    def has_add_permission(self, request):
+        return False
+
 admin.site.register(Invitation, InvitationAdmin)
+admin.site.register(ProblemReport, ProblemReportAdmin)

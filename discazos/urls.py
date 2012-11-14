@@ -20,6 +20,7 @@ urlpatterns = patterns('',
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
 
     url(r'^$', 'discazos.website.views.home', name="home"),
+    url(r'^report-problem$', 'discazos.website.views.problem_report', name="problem_report"),
     
     url(r'^install-extension$', login_required(direct_to_template), 
         {'template': 'extension_install.html'}, name="extension_install"),

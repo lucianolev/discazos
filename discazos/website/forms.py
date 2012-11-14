@@ -2,6 +2,8 @@
 from django import forms
 from django.contrib.auth.models import User
 
+from models import *
+
 class InviteRegistrationForm(forms.Form):
     username = forms.RegexField(regex=r'^[\w.@+-]+$',
                                 max_length=30,
@@ -23,3 +25,9 @@ class InviteRegistrationForm(forms.Form):
             if self.cleaned_data['password1'] != self.cleaned_data['password2']:
                 raise forms.ValidationError("Las dos contraseñas ingresadas no coinciden.")
         return self.cleaned_data
+    
+class ProblemReportForm(forms.ModelForm):
+    
+    class Meta:
+        model = ProblemReport
+        fields = ('problem', 'details', )
