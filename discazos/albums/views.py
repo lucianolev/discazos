@@ -17,7 +17,7 @@ from xml_import import *
 
 @login_required
 def albums_list(request):
-    albums = ArtistAlbum.objects.filter(releases__published=True)
+    albums = ArtistAlbum.objects.published()
     if 'q' in request.GET:
         query = request.GET.get('q')
         albums = albums.filter(Q(title__icontains=query) | 
@@ -46,7 +46,7 @@ def album_load(request, album_id):
 
 @login_required
 def artists_list(request):
-    artists = paginate(request, Artist.objects.exclude(albums=None), 
+    artists = paginate(request, Artist.objects.filter(albums__releases__published=True), 
                        settings.ARTISTS_PER_PAGE)
     return render_to_response('artists_list.html', 
                               { 'artists' : artists },

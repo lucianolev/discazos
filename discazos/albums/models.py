@@ -101,6 +101,8 @@ class ArtistAlbum(Album):
         verbose_name_plural = u'Álbumes'
     
     artist = models.ForeignKey(Artist, verbose_name=u'artista', related_name='albums')
+    
+    objects = ArtistAlbumManager()
 
 #A compilation album which includes tracks of various artists
 class CompilationAlbum(Album):

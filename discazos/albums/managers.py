@@ -1,6 +1,12 @@
 from django.db import models
 
+class ArtistAlbumManager(models.Manager):
+    
+    def published(self):
+        return self.filter(releases__published=True)
+
 class AlbumReleaseDownloadSourceManager(models.Manager):
+    
     def enabled_by_priority(self):
         enabled_globally = self.all().filter(service__enabled=True)
         enabled_specific = enabled_globally.filter(enabled=True)
