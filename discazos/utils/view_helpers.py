@@ -8,14 +8,14 @@ def url_with_querystring(path, **kwargs):
 
 def paginate(request, objects, range):
     paginator = Paginator(objects, range)
-    # Make sure page request is an int. If not, deliver first page.
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
-    # If page request (9999) is out of range, deliver last page of results.
+
+    page = request.GET.get('page')
     try:
         objects_with_pagination = paginator.page(page)
-    except (EmptyPage, InvalidPage):
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        objects_with_pagination = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
         objects_with_pagination = paginator.page(paginator.num_pages)
     return objects_with_pagination
