@@ -234,6 +234,9 @@ body {
 }
 
 .feedback-bar {
+  position: fixed;
+  right:0;
+  bottom:0;
   margin-right: 25px;
 }
 
