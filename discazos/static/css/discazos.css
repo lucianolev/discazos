@@ -258,6 +258,12 @@ body {
   font-weight: bold;
 }
 
+#report-btn-spinner {
+  display: inline-block;
+  height: 16px;
+  margin-left: 5px;
+}
+
 /* Player */
 
 #discazos-player-flash {

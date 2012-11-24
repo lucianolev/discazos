@@ -10,9 +10,11 @@
 
 {% block site_js %}
 {% dajaxice_js_import %}
+<script type="text/javascript" src="{{ STATIC_URL }}js/spin.min.js"></script>
 <script src="{{ STATIC_URL }}js/jquery.marcopolo.min.js"></script>
 <script type="text/javascript" src="{{ STATIC_URL }}js/jquery.colorbox-min.js"></script>
 <script>
+/* Global album search */
 $('#global-album-search-box').marcoPolo({
   url: '{% url global_album_search %}',
   formatItem: function (data, $item) {
@@ -42,8 +44,7 @@ $('#global-album-search-box').marcoPolo({
   minChars: 2,
   required: true
 });
-</script>
-<script>
+/* Problem Report ajax form */
 $('.feedback-button').popover({ 
   trigger: 'hover', 
   placement: 'left', 
@@ -54,15 +55,19 @@ $('.feedback-button').popover({
               '</div>'+
             '</div>'
 });
+var spinner = new Spinner({ lines: 8, length: 4, width: 3, radius: 5, 
+                            top: 0, left: 0 });
 $('.feedback-button').colorbox({
   onComplete: function() {
     $(document).on("submit", "form#feedback-form", function(e) {
+      spinner.spin($("#report-btn-spinner").get(0));
       var $form = $(this);
       $.ajax({
         type: $form.attr('method'),
         url: $form.attr('action'),
         data: $form.serialize(),
         success: function(data, status) {
+          spinner.stop();
           $(".feedback-section").replaceWith(data);
           $.colorbox.resize();
         }
