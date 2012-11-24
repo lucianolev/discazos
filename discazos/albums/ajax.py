@@ -17,7 +17,7 @@ from models import AlbumReleaseDownloadSource, AlbumPlaybackLogEntry, ArtistAlbu
 def global_album_search(request):
     if 'q' in request.GET:
         query = request.GET.get('q')
-        albums = ArtistAlbum.objects.filter(releases__published=True)
+        albums = ArtistAlbum.objects.published()
         matched_albums = albums.filter(Q(title__icontains=query) | 
                                        Q(artist__name__icontains=query))
         results_limit = settings.ALBUM_SEARCH_RESULTS_LIMIT
