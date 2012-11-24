@@ -1,7 +1,7 @@
 import urllib
 
 from django.conf import settings
-from django.core.paginator import Paginator, InvalidPage, EmptyPage
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 def url_with_querystring(path, **kwargs):
     return path + '?' + urllib.urlencode(kwargs)
