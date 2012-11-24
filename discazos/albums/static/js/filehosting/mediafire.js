@@ -1,31 +1,39 @@
-require(["common"], function() {
+require.config({
+    paths:{
+      'jquery': '//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min',
+    }
+});
+
+/* TODO: Clean up and refactor to use more jQuery methods */
+
+require(["jquery", "common"], function() {
   var MediafireContentScript = {
   
     getDownloadLink: function() {
       //Get the download link wrapper
-      var dwrapper = DOMHelper.getElementByClass("download_link");
+      var dwrapper = $(".download_link");
       
-      if(dwrapper) {
+      if(dwrapper.length) {
         //Get the link  
-        var downloadLink = dwrapper.childNodes[2].href; //childNodes[1] is the first child
+        var downloadLink = dwrapper.get(0).childNodes[2].href; //childNodes[1] is the first child
       }
   
       if(downloadLink) {
         ContentScriptCommmon.sendDownloadLink(downloadLink);
       } else {
-        var form_captcha = document.getElementById("form_captcha");
-        if(form_captcha) {
-          var form_inside = DOMHelper.getElementByClass("inside");
+        var form_captcha = $("#form_captcha");
+        if(form_captcha.length) {
+          var form_inside = $(".inside");
           //Removes the upper file name text
-          form_inside.removeChild(DOMHelper.getElementByClass("download_file_title"));
+          form_inside.remove(".download_file_title");
           //Removes upper text before the captcha box
-          form_inside.removeChild(form_inside.children[0]);
+          form_inside.get(0).removeChild(form_inside.get(0).children[0]);
           //Removes the bottom mediafire controls"
-          form_inside.removeChild(DOMHelper.getElementByClass("dl-controls cf"));
-          var captcha_box = DOMHelper.getElementByClass("captcha_box");
+          form_inside.remove(".dl-controls cf");
+          var captcha_box = $(".captcha_box");
           //Removes bottom "why this captcha" text
-          captcha_box.removeChild(captcha_box.children[3]);
-          var authorize_dl_btn = document.getElementById("authorize_dl_btn");
+          captcha_box.get(0).removeChild(captcha_box.get(0).children[3]);
+          var authorize_dl_btn = $("#authorize_dl_btn");
           /*
            * THIS NEEDS TESTING, IT MAY WORK
            */
@@ -42,7 +50,7 @@ require(["common"], function() {
           //Apend the link to the captcha form
           form_captcha.appendChild(submit_captcha_link);
           */
-          authorize_dl_btn.innerHTML = "Aceptar";
+          authorize_dl_btn.html("Aceptar");
           //Show the captcha
           ContentScriptCommmon.showCaptcha(form_captcha);
         } else {
