@@ -25,11 +25,11 @@ require(["jquery", "common"], function() {
         if(form_captcha.length) {
           var form_inside = $(".inside");
           //Removes the upper file name text
-          form_inside.remove(".download_file_title");
+          form_inside.find('.download_file_title').remove();
           //Removes upper text before the captcha box
-          form_inside.get(0).removeChild(form_inside.get(0).children[0]);
+          form_inside.find(':first').remove();
           //Removes the bottom mediafire controls"
-          form_inside.remove(".dl-controls cf");
+          form_inside.find(".dl-controls").remove();
           var captcha_box = $(".captcha_box");
           //Removes bottom "why this captcha" text
           captcha_box.get(0).removeChild(captcha_box.get(0).children[3]);
