@@ -51,6 +51,17 @@ body {
 .grid-list li a:hover {
   text-decoration: none;
 }
+.grid-list li .title-label {
+  margin-left: 8px; 
+  font-size: 12px; 
+  vertical-align: top; 
+  padding: 2px 5px; 
+  display: inline-block;
+  height: 15px;
+}
+.grid-list li .title-label [class^="icon-"] {
+  margin-top:0px;
+}
 .grid-list .li-img {
   float: left;
   margin-right: 10px;
@@ -58,6 +69,9 @@ body {
 .grid-list li p {
   color: #317EAC;
   font-size: 14px;
+}
+.grid-list li p.year {
+  font-size: 11px;
 }
 .grid-list li .title {
   font-size: 18px;

@@ -34,7 +34,11 @@
           {% endthumbnail %}
         </div>
         <div class="clearfix">
-          <p class="title">{{ album.title }}</p>
+          <p class="title">{{ album.title }}
+            {% if album.main_release.has_sources %}
+              <span class="label label-success title-label" title="Disponible para reproducir"><i class="icon-white icon-play"></i></span>
+            {% endif %}
+          </p>
           {% if album.main_release.release_year %}
           <p>{{ album.main_release.release_year }}</p>
           {% endif %}

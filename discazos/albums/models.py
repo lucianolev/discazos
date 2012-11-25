@@ -192,6 +192,9 @@ class AlbumRelease(models.Model):
                 tracks.append(track_item)
             discs_playlist.append({ 'disc': disc, 'tracks_playlist': tracks })
         return discs_playlist
+    
+    def has_sources(self):
+        return self.download_sources.filter(enabled=True).exists()
 
 #A download source for an album release
 class AlbumReleaseDownloadSource(models.Model):
