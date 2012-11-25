@@ -5,7 +5,7 @@
     "48": "logo48.png",
     "128": "logo128.png"
   },
-  "version": "0.5.1",
+  "version": "0.5.2",
   "background": {
     "scripts": ["background.js"]
   },
