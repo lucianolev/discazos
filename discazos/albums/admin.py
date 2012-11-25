@@ -40,7 +40,7 @@ admin.site.register(GroupArtist, ArtistAdmin)
 admin.site.register(PersonArtist, ArtistAdmin)
 
 class ArtistAlbumAdmin(admin.ModelAdmin):
-    list_display = ('__unicode__', 'artist', )
+    list_display = ('title', 'artist', )
 
 admin.site.register(ArtistAlbum, ArtistAlbumAdmin)
 
@@ -61,10 +61,13 @@ class AlbumReleaseAdmin(admin.ModelAdmin):
         except:
             return ''
     get_artist.short_description = 'Artista'
+    get_artist.admin_order_field = 'album__artistalbum__artist'
+    
     def get_available_download_sources(self, obj):
         return ', '.join(sorted([dls.__unicode__() for dls in 
                                  obj.download_sources.filter(enabled=True)]))
     get_available_download_sources.short_description = 'Fuentes de descarga disponibles'
+    get_available_download_sources.admin_order_field = 'download_sources'
     
     ordering = ('album', )
 
@@ -96,9 +99,12 @@ class FileHostingServiceAdmin(admin.ModelAdmin):
 admin.site.register(FileHostingService, FileHostingServiceAdmin)
     
 
-class AlbumPlaybackLogEntryAdmin(ViewAdmin):
+class AlbumPlaybackLogEntryAdmin(admin.ModelAdmin):
     list_display = ('date_and_time', 'user', 'album_release', 
                     'album_release_dl_source', 'loading_status', 'latest_update' )
     ordering = ('-latest_update', )
+
+    def get_readonly_fields(self, request, obj=None):
+        return tuple(obj._meta.get_all_field_names())
 
 admin.site.register(AlbumPlaybackLogEntry, AlbumPlaybackLogEntryAdmin)
