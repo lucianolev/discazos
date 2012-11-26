@@ -483,6 +483,21 @@ p.footnote {
 
 /* footer */
 
+footer {
+  margin-bottom: 15px;
+  line-height: 20px;
+}
+
+footer .facebook-like {
+  display: inline-block;
+  margin-left: 20px;
+  vertical-align: middle;
+}
+
+footer .pull-right {
+  line-height: 20px;
+}
+
 footer a {
   color: #888;
 }

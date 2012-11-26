@@ -81,6 +81,15 @@ $('.feedback-button').colorbox({
 {% endblock %}
 
 {% block body %}
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_LA/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
 <div class="container">
   <div class="navbar">
     <div class="navbar-inner">
@@ -131,7 +140,11 @@ $('.feedback-button').colorbox({
   </div>
   
   <footer>
-    <p>&copy; 2012 Discazos (beta) | <a href="mailto: contacto@discazos.net">Contacto</a> <span class="pull-right"><small>Ult. act. {{ PROJECT_LAST_UPDATE }}</small></span></p>
+      <span>&copy; 2012 Discazos (beta) | <a href="mailto: contacto@discazos.net">Contacto</a></span>
+      <div class="facebook-like">
+        <div class="fb-like" data-href="https://www.facebook.com/discazosnet" data-send="false" data-width="450" data-show-faces="false" data-colorscheme="dark"></div>
+      </div>
+      <span class="pull-right"><small>Ult. act. {{ PROJECT_LAST_UPDATE }}</small></span>
   </footer>
 
   {% if request.user.is_authenticated %}
