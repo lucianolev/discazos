@@ -41,6 +41,13 @@ body {
   background-color: #EEEEEE;
 }
 
+/* Elements */
+
+.section .not-registered-msg {
+  width: 350px; 
+  margin-left: 75px;
+}
+
 .grid-list li {
   border-bottom: 1px solid #DDDDDD;
   padding: 5px;

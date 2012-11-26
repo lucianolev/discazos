@@ -27,7 +27,6 @@ def logged_in_message(sender, user, request, **kwargs):
 
 user_logged_in.connect(logged_in_message)
 
-@login_required
 def home(request):
     latest_albums = ArtistAlbum.objects.filter(releases__published=True).order_by('-releases__uploaded_on')[:4]
     return render(request, 'home.html', 

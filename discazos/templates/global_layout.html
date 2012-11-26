@@ -121,6 +121,10 @@ $('.feedback-button').colorbox({
             </form>
           </li>
         </ul>
+        {% else %}
+        <ul class="nav">
+          <li><a href="{% url login %}">Ingresar</a></li>
+        </ul>
         {% endif %}
       </div>
     </div>

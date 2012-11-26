@@ -7,12 +7,18 @@
 {% block inner_layout %}
 <div class="section">
   <h3>Ingreso</h3>
-  <form method="post" id="login" class="form-horizontal">
+  <form method="post" id="login" class="form-horizontal pull-left">
     {% csrf_token %}
     {% form form %}
     <div class="control-group">
       <div class="controls"><input class="btn btn-primary" type="submit" value="Ingresar »" /></div>
     </div>
   </form>
+  <p class="well pull-left not-registered-msg"><strong>¿No estás registrado?</strong> 
+    En este momento el sitio se encuentra en beta, accesible sólo por invitación. 
+    Si te interesa comenzar a probar el sitio, envianos un mensaje privado a nuestro 
+    <a href="http://www.facebook.com/discazosnet" target="_blank">Facebook</a> 
+    o escribinos a <a href="mailto:contacto@discazos.net" target="_blank">contacto@discazos.net</a>.</p>
+  <div class="clearfix"></div>
 </div>
 {% endblock %}
