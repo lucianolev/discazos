@@ -9,7 +9,8 @@ $(document).ready(function() {
   DiscazosPlayer.swf = swfobject.getObjectById("discazos-player-swf");
   DiscazosPlayerUI.html = $("#discazos-player-html");
   
-  DiscazosPlayer.data = { 
+  DiscazosPlayer.data = {
+    audioUrl: null,
     audioFileSize: DiscazosPlayerUI.html.find("#album-audiofile-size").html(),
     currentTrack: false,
     minFileOKLoaded: false,
@@ -167,7 +168,9 @@ DiscazosPlayerUI.activatePlayerControls = function() {
 /* Actions */
 
 DiscazosPlayer.load = function(url, apleId) {
-  this.data.apleId = apleId; //For logging
+  //For logging
+  this.data.audioUrl = url;
+  this.data.apleId = apleId; 
   
   this.swf.load(url);
   DiscazosPlayerUI.showPreloadInitMessage();
@@ -301,8 +304,9 @@ DiscazosPlayer.updatePlaybackLog = function(loadingStatus, extraDebugInfo) {
     aple_id: this.data.apleId,
     loading_status: loadingStatus,
   };
+  log.extra_debug_info = 'Download link: '+DiscazosPlayer.data.audioUrl+' '
   if(extraDebugInfo) {
-    log.extra_debug_info = extraDebugInfo;
+    log.extra_debug_info += extraDebugInfo;
   }
   Dajaxice.discazos.albums.update_log_album_playback(jQuery.noop, log);
   console.log(loadingStatus);

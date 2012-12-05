@@ -296,16 +296,23 @@ class AlbumPlaybackLogEntry(models.Model):
         verbose_name_plural = u'Log de reproducciones'
 
     LOADING_STATUSES = (
-        ('DOWNLOAD_SOURCE_OPENED', 'Download source opened.'),
-        ('DL_FETCH_INIT', 'Download link fetching started.'),
-        ('DL_NOT_AVAILABLE', 'Error: Download link not available.'),
-        ('DL_LOAD_TIMEOUT', 'Error: Download link load timeout.'),
-        ('DL_GET_FAIL', 'Error: Download link GET fail.'),
-        ('DL_BAD_FILE', 'Error: Bad file fetched (less than 50KB). Possible redirect.'),
-        ('LOADING_INIT', 'Loading initialized.'),
-        ('LOADING_INTERRUPTED', 'Error: Loading suddenly interrupted.'),
-        ('LOADING_SIZE_MISMATCH', 'Error: Loading finished, but loaded bytes does not match audio file size.'),
-        ('LOADING_FINISHED_OK', 'Loading finished successfully.'),
+        # In Discazos Loader
+        ('DOWNLOAD_SOURCE_OPENED', 'ERROR: (1) Halted after choosing FH. Probably FH-CS not loaded correctly.'),
+        ('DL_FETCH_INIT', 'ERROR: (2) Halted after download link fetching started (FH-CS succesfully loaded).'),
+        ('WAITING_IN_EFFECT', 'INFO: (3) Waiting time in effect.'),
+        ('CAPTCHA', 'WARN: (3) Stopped at Captcha.'),
+        ('DL_NOT_AVAILABLE', 'WARN: (3) Download link not available.'),
+        ('COUNTDOWN_INIT', 'WARN: (3.1) Halted after succesfully countdown start, before it ended.'),
+        ('COUNTDOWN_END', 'ERROR: (3.2) Halted on afterCountdown callback, before the link could be fetched.'),
+        ('UNHANDLED_ERROR', 'ERROR: (3.X) Unhandled situation after link fetching started.'),
+        # In Discazos Player
+        ('DL_LOAD_TIMEOUT', 'ERROR: (4) Download link load timeout.'),
+        ('DL_GET_FAIL', 'ERROR: (4) Download link GET fail.'),
+        ('DL_BAD_FILE', 'ERROR: (4) Bad file fetched (less than 50KB). Possible redirect.'),
+        ('LOADING_INIT', 'INFO: (4) Loading initialized but not finished loading.'),
+        ('LOADING_INTERRUPTED', 'WARN: (5) Loading suddenly interrupted.'),
+        ('LOADING_SIZE_MISMATCH', 'WARN: (5) Loading finished, but loaded bytes does not match audio file size.'),
+        ('LOADING_FINISHED_OK', 'OK: (5) Loading finished successfully.'),
     )
     
     date_and_time = models.DateTimeField(u'fecha y hora', auto_now_add=True)

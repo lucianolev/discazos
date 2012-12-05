@@ -1,19 +1,22 @@
 var ContentScriptCommmon = {
   
   startDownloadLinkCapture: function(fhSpecific) {
+    this.listenToMessage('FH_DL_FETCH_INIT_LOGGED', function() {
+      $(function() { setTimeout(fhSpecific.getDownloadLink, 500); }); //Wait 0.5 so the user can receive some feedback 
+    });
+    this.sendMessage('FH_DL_FETCH_START');
+    
     this.fhSpecific = fhSpecific;
     this.messageOverlay = $("#fh-message-overlay");
     this.messageOverlay.html(
       "<p>Obteniendo el enlace para la carga del album...</p>"+
       "<p>Por favor espere ...</p>"
     );
-    this.listenToMessage('FH_DL_FETCH_INIT_LOGGED', function() {
-      $(function() { setTimeout(fhSpecific.getDownloadLink, 500); }); //Wait 0.5 so the user can receive some feedback 
-    });
-    this.sendMessage('FH_DL_FETCH_START');
   },
   
   startCountdown: function(countdownElement) {
+    this.sendMessage('FH_LOG_FETCHING_STATUS', 'COUNTDOWN_INIT');
+    
     // Starts the message with the initial value
     var overlayCounter = $("<p style='font-size:25px;'>"+countdownElement.html()+"</p>");
     this.messageOverlay.html("<p>La descarga comenzará en...</p>");
@@ -35,6 +38,7 @@ var ContentScriptCommmon = {
             "<p>Obteniendo el enlace...</p>"
           );
           ContentScriptCommmon.fhSpecific.afterCountdown();
+          ContentScriptCommmon.sendMessage('FH_LOG_FETCHING_STATUS', 'COUNTDOWN_END');
         }, 1000);
       }
     });
@@ -42,6 +46,8 @@ var ContentScriptCommmon = {
   },
   
   waitInEffect: function(minutes) {
+    this.sendMessage('FH_LOG_FETCHING_STATUS', 'WAITING_IN_EFFECT');
+    
     this.messageOverlay.html(
       "<p>Realizó una descarga desde esta fuente hace poco.</p>"+
       "<p>Debe esperar "+minutes+" minutos antes de poder efectuar otra descarga.</p>"+
@@ -50,6 +56,8 @@ var ContentScriptCommmon = {
   },
   
   showCaptcha: function(captchaElement) {
+    this.sendMessage('FH_LOG_FETCHING_STATUS', 'CAPTCHA');
+    
     ContentScriptCommmon.messageOverlay.empty().append(captchaElement);
   },
   
@@ -62,19 +70,22 @@ var ContentScriptCommmon = {
   },
 
   downloadLinkNotFound: function() {
+    this.sendMessage('FH_LOG_FETCHING_STATUS', 'DL_NOT_AVAILABLE');
+    
     this.messageOverlay.html(
       "<p>Lamentablemente, el enlace de carga no es encuentra disponible.</p>"+
       "<p>Cierre la ventana e intente seleccionando otra fuente.</p>"+
       "<p>Sepa disculpar la molestia.</p>"
     );
-    ContentScriptCommmon.sendMessage('FH_DL_NOT_AVAILABLE');
   },
 
   sendDownloadLink: function(downloadLink) {
-    ContentScriptCommmon.sendMessage('FH_DL_AVAILABLE', downloadLink);
+    this.sendMessage('FH_DL_AVAILABLE', downloadLink);
   },
   
-  unknownError: function() {
+  unhandledError: function() {
+    this.sendMessage('FH_LOG_FETCHING_STATUS', 'UNHANDLED_ERROR');
+    
     this.messageOverlay.html(
       "<p>Lamentablemente ocurrió un error inesperado al intentar obtener el link de carga.</p>"+
       "<p>Cierre la ventana e intente seleccionando otra fuente o nuevamente más tarde.</p>"+

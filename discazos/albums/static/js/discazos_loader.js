@@ -49,13 +49,12 @@ var DiscazosLoader = {
     console.log("DL_FETCH_INIT");
   },
   
-  downloadLinkNotAvailable: function() {
-    //Update log informing the download link is not available
+  logFetchingStatus: function(status) {
     Dajaxice.discazos.albums.update_log_album_playback(jQuery.noop, { 
       'aple_id': DiscazosLoader.apleId,
-      'loading_status':  'DL_NOT_AVAILABLE',
+      'loading_status': status,
     });
-    console.log("DL_NOT_AVAILABLE");
+    console.log(status);
   },
   
 }
@@ -141,8 +140,8 @@ var FHCSConnector = {
           FHCSConnector.closeFHPopup();
           DiscazosLoader.downloadLinkAvailable(e.data.content);
           break;
-        case 'FH_DL_NOT_AVAILABLE':
-          DiscazosLoader.downloadLinkNotAvailable();
+        case 'FH_LOG_FETCHING_STATUS':
+          DiscazosLoader.logFetchingStatus(e.data.content);
           break;
       }
     });

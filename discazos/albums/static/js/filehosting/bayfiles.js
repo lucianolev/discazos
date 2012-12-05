@@ -14,15 +14,14 @@ require(["jquery", "common"], function($) {
       messagesBox = $("#content-inner");
       
       if(downloadButton.length) {
-        //Click the non-premium download button wrapper
-        downloadButton.get(0).click();
-        ContentScriptCommmon.startCountdown($("#countDown")); // Can this fail?
+        downloadButton.get(0).click(); //Click the non-premium download button wrapper
+        ContentScriptCommmon.startCountdown($("#countDown"));
       } else if(messagesBox.length && messagesBox.html().match(/has recently downloaded a file/i)) {
         ContentScriptCommmon.waitInEffect(5);
       } else if(downloadHeader.length && downloadHeader.html().match(/the requested file could not be found/i)) {
         ContentScriptCommmon.downloadLinkNotFound();
       } else {
-        ContentScriptCommmon.unknownError();
+        ContentScriptCommmon.unhandledError();
       }
     },
     
@@ -32,13 +31,13 @@ require(["jquery", "common"], function($) {
         if(startDownloadButton.length) {
           var j = startDownloadButton.attr('onclick');
           var downloadLink = j.substring(j.indexOf("'") + 1, j.length - 2);
-          //if(downloadLink.match(/s6\.baycdn\.com/)) { //This server is known to fail (29/09/2012)
+          //if(downloadLink.match(/s6\.baycdn\.com/)) { //This server is known to fail (29/09/2012) rev. 27/11/2012
           //  ContentScriptCommmon.retryLinkCapture();
           //} else {
           ContentScriptCommmon.sendDownloadLink(downloadLink);
           //}
         } else {
-          ContentScriptCommmon.unknownError();
+          ContentScriptCommmon.unhandledError();
         }
       }, 1000);
     },

@@ -54,7 +54,7 @@ require(["jquery", "common"], function() {
           //Show the captcha
           ContentScriptCommmon.showCaptcha(form_captcha);
         } else {
-          ContentScriptCommmon.downloadLinkNotFound();
+          ContentScriptCommmon.unhandledError();
         }
       }
       
