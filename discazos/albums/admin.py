@@ -1,4 +1,7 @@
+# -*- encoding: utf-8 -*-
+
 from django.contrib import admin
+from django.db.models import Max
 
 from models import *
 
@@ -97,7 +100,21 @@ class FileHostingServiceAdmin(admin.ModelAdmin):
         )
 
 admin.site.register(FileHostingService, FileHostingServiceAdmin)
+
+class AlbumReleaseDownloadSourceAdmin(admin.ModelAdmin):
+    list_display = ('album_release', 'service', 'enabled', 'get_last_successful_load', )
     
+    def queryset(self, request):
+        qs = super(AlbumReleaseDownloadSourceAdmin, self).queryset(request)
+        successful_loads = qs.filter(playback_log_entries__loading_status__contains='LOADING_')
+        return successful_loads.annotate(latest_load=Max('playback_log_entries__date_and_time'))
+    
+    def get_last_successful_load(self, obj):
+        return obj.last_successful_load()
+    get_last_successful_load.short_description = u"última carga satisfactoria"
+    get_last_successful_load.admin_order_field = 'latest_load'
+    
+admin.site.register(AlbumReleaseDownloadSource, AlbumReleaseDownloadSourceAdmin)
 
 class AlbumPlaybackLogEntryAdmin(admin.ModelAdmin):
     list_display = ('date_and_time', 'user', 'album_release', 

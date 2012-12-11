@@ -2,6 +2,7 @@
 
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils.formats import date_format
 
 from django_countries import CountryField
 
@@ -208,6 +209,11 @@ class AlbumReleaseDownloadSource(models.Model):
     download_link = models.URLField(u'link de descarga')
     enabled = models.BooleanField(u'Disponible', default=True)
 
+    def last_successful_load(self):
+        successful_loads = self.playback_log_entries.filter(loading_status__contains='LOADING_')
+        latest_datetime = successful_loads.latest('date_and_time').date_and_time
+        return u"%s" % date_format(latest_datetime, 'DATETIME_FORMAT')
+
     @classmethod
     def create(cls, session_data, album_release):
         sourceData = session_data
@@ -317,9 +323,11 @@ class AlbumPlaybackLogEntry(models.Model):
     
     date_and_time = models.DateTimeField(u'fecha y hora', auto_now_add=True)
     user = models.ForeignKey(User, verbose_name=u'usuario')
-    album_release = models.ForeignKey(AlbumRelease, verbose_name='album (edición)')
+    album_release = models.ForeignKey(AlbumRelease, verbose_name='album (edición)', 
+                                      related_name='playback_log_entries')
     album_release_dl_source = models.ForeignKey(AlbumReleaseDownloadSource, 
-                                                verbose_name=u'fuente de descarga')
+                                                verbose_name=u'fuente de descarga',
+                                                related_name='playback_log_entries')
     loading_status = models.CharField(u'estado de la carga',
                                       choices=LOADING_STATUSES, max_length=50,
                                       default='DOWNLOAD_SOURCE_OPENED')
