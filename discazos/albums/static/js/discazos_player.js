@@ -341,6 +341,7 @@ DiscazosPlayer.updateBufferProgress =
     } else if(this.data.bytesLoaded >= DiscazosPlayer.MIN_BYTES_TO_LOAD) {
       if(!this.data.minLoadedTriggered) {
          this.data.minLoadedTriggered = true;
+         DiscazosPlayer.pressPlay(); // Start playing the album!
          DiscazosPlayerUI.html.trigger("minLoaded");
       }
       var percentage = (bytesLoaded / this.data.audioFileSize) * 100;
