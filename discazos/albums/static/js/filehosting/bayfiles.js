@@ -9,16 +9,18 @@ require(["jquery", "common"], function($) {
   var BayFilesContentScript = {
   
     getDownloadLink: function() {
-      downloadHeader = $("#download-header");
-      downloadButton = downloadHeader.find("li.limited .btn");
-      messagesBox = $("#content-inner");
+      downloadNotFoundHeader = $("#download-header.not-found");
+      downloadInfoBox = $("#content-inner");
+      downloadButton = downloadInfoBox.find(".limited .btn");
       
       if(downloadButton.length) {
         downloadButton.get(0).click(); //Click the non-premium download button wrapper
         ContentScriptCommmon.startCountdown($("#countDown"));
-      } else if(messagesBox.length && messagesBox.html().match(/has recently downloaded a file/i)) {
+      } else if(downloadInfoBox.length && downloadInfoBox.html().match(/already downloading/i)) {
+        ContentScriptCommmon.alreadyDownloading();
+      } else if(downloadInfoBox.length && downloadInfoBox.html().match(/has recently downloaded a file/i)) {
         ContentScriptCommmon.waitInEffect(5);
-      } else if(downloadHeader.length && downloadHeader.html().match(/the requested file could not be found/i)) {
+      } else if(downloadNotFoundHeader.length && downloadNotFoundHeader.html().match(/the requested file could not be found/i)) {
         ContentScriptCommmon.downloadLinkNotFound();
       } else {
         ContentScriptCommmon.unhandledError();

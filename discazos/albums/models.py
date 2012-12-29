@@ -305,6 +305,7 @@ class AlbumPlaybackLogEntry(models.Model):
         # In Discazos Loader
         ('DOWNLOAD_SOURCE_OPENED', 'ERROR: (1) Halted after choosing FH. Probably FH-CS not loaded correctly.'),
         ('DL_FETCH_INIT', 'ERROR: (2) Halted after download link fetching started (FH-CS succesfully loaded).'),
+        ('ALREADY_DOWNLOADING', 'INFO: (3) Already downloading a file from the provider.'),
         ('WAITING_IN_EFFECT', 'INFO: (3) Waiting time in effect.'),
         ('CAPTCHA', 'WARN: (3) Stopped at Captcha.'),
         ('DL_NOT_AVAILABLE', 'WARN: (3) Download link not available.'),

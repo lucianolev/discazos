@@ -44,7 +44,18 @@ var ContentScriptCommmon = {
     });
     countdownObserver.observe(countdownElement.get(0), { childList: true, subtree: false, attributes: false });
   },
-  
+
+  alreadyDownloading: function() {
+    this.sendMessage('FH_LOG_FETCHING_STATUS', 'ALREADY_DOWNLOADING');
+    
+    this.messageOverlay.html(
+      "<p>Se encuentra descargando actualmente otro archivo desde esta fuente.</p>"+
+      "<p>Si está cargando otro álbum en el sitio, espere a que finalice la carga e intente nuevamente o bien interrumpa dicha carga cerrando la ventana.</p>"+
+      "<p>Por último, puede probar eligiendo otra fuente de descarga (si la hubiese).</p>"+
+      "<p>Sepa disculpar la molestia.</p>"
+    );
+  },
+
   waitInEffect: function(minutes) {
     this.sendMessage('FH_LOG_FETCHING_STATUS', 'WAITING_IN_EFFECT');
     
