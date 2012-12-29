@@ -90,6 +90,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     
     #Django third-party
+    'django_nose',
     'south',
     'django_extensions',
     'django_countries',
@@ -159,6 +160,10 @@ LOGGING = {
         },
     },
 }
+
+INTERNAL_IPS = ('127.0.0.1', )
+
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # Project-specific settings
 
