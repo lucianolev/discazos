@@ -195,7 +195,7 @@ class AlbumRelease(models.Model):
         return discs_playlist
     
     def has_sources(self):
-        return self.download_sources.filter(enabled=True).exists()
+        return self.download_sources.filter(service__enabled=True, enabled=True).exists()
 
 #A download source for an album release
 class AlbumReleaseDownloadSource(models.Model):
