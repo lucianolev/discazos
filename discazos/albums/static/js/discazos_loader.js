@@ -36,7 +36,11 @@ var DiscazosLoader = {
     console.log("Sending url to the Discazos player...");
     console.log("URL: " + url);
     //Start loading the discazo
-    DiscazosPlayer.load(url, DiscazosLoader.apleId);
+    if(!sessionStorage.JS_DEBUG) {
+      DiscazosPlayer.load(url, DiscazosLoader.apleId);
+    } else {
+      console.log("[DEBUG MODE] Link fetched successfully.");
+    }
   },
   
   linkFetchingStarted: function() {
