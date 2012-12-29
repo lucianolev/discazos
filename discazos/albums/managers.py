@@ -7,6 +7,9 @@ class ArtistAlbumManager(models.Manager):
 
 class AlbumReleaseDownloadSourceManager(models.Manager):
     
+    def successful_loads(self):
+        return self.filter(playback_log_entries__loading_status__contains='LOADING_')
+    
     def enabled_by_priority(self):
         enabled_globally = self.all().filter(service__enabled=True)
         enabled_specific = enabled_globally.filter(enabled=True)

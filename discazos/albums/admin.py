@@ -106,7 +106,8 @@ class AlbumReleaseDownloadSourceAdmin(admin.ModelAdmin):
     
     def queryset(self, request):
         qs = super(AlbumReleaseDownloadSourceAdmin, self).queryset(request)
-        successful_loads = qs.filter(playback_log_entries__loading_status__contains='LOADING_')
+        qs.successful_loads = AlbumReleaseDownloadSource.objects.successful_loads
+        successful_loads = qs.successful_loads()
         return successful_loads.annotate(latest_load=Max('playback_log_entries__date_and_time'))
     
     def get_last_successful_load(self, obj):
