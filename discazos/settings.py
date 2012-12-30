@@ -67,6 +67,7 @@ STATICFILES_DIRS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -90,6 +91,7 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
     
     #Django third-party
+    'debug_toolbar',
     'django_nose',
     'south',
     'django_extensions',
@@ -162,6 +164,10 @@ LOGGING = {
 }
 
 INTERNAL_IPS = ('127.0.0.1', )
+
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': lambda r: False,
+}
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 

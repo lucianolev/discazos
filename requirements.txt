@@ -1,5 +1,6 @@
 django < 1.5
 django-nose
+django-debug-toolbar
 selenium
 south
 -e git+https://github.com/robhudson/django-debug-toolbar.git#egg=django-debug-toolbar
