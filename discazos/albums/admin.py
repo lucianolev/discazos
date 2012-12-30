@@ -57,6 +57,8 @@ class AlbumReleaseAdmin(admin.ModelAdmin):
     inlines = [AlbumReleaseDownloadSourceInline, ]
     list_display = ('album', 'get_artist', 'uploaded_on', 'uploader', 
                     'get_available_download_sources', 'published' )
+    search_fields = ['album__title']
+    
     def get_artist(self, obj):
         try:
             artistAlbum = ArtistAlbum.objects.get(pk=obj.album.pk)
