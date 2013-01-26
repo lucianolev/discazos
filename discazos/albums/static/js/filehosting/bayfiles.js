@@ -28,20 +28,24 @@ require(["jquery", "common"], function($) {
     },
     
     afterCountdown: function() {
-      setTimeout(function() {
-        var startDownloadButton = $("#content-inner input[value='Start Download']");
+      var noStartButtonTimeout = setTimeout(ContentScriptCommmon.unhandledError, 20000); //Fire unhandled error if there's no start button in 20 secs
+      var startDownloadButtonArea = $("#content-inner");
+      // Create an observer to watch for the start download button to load inside #content-inner
+      MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+      var startDownloadButtonAreaObserver = new MutationObserver(function(mutations, observer) {
+        var startDownloadButton = startDownloadButtonArea.find("input[value='Start Download']");
         if(startDownloadButton.length) {
+          clearTimeout(noStartButtonTimeout);
+          observer.disconnect();
           var j = startDownloadButton.attr('onclick');
           var downloadLink = j.substring(j.indexOf("'") + 1, j.length - 2);
           //if(downloadLink.match(/s6\.baycdn\.com/)) { //This server is known to fail (29/09/2012) rev. 27/11/2012
           //  ContentScriptCommmon.retryLinkCapture();
           //} else {
           ContentScriptCommmon.sendDownloadLink(downloadLink);
-          //}
-        } else {
-          ContentScriptCommmon.unhandledError();
         }
-      }, 1000);
+      });
+      startDownloadButtonAreaObserver.observe(startDownloadButtonArea.get(0), { childList: true, subtree: false, attributes: false });
     },
   
   }
