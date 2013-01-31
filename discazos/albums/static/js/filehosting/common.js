@@ -8,13 +8,14 @@ var ContentScriptCommmon = {
     
     this.fhSpecific = fhSpecific;
     this.messageOverlay = $("#fh-message-overlay");
+    this.messageOverlay.css();
     this.messageOverlay.html(
       "<p>Obteniendo el enlace para la carga del album...</p>"+
       "<p>Por favor espere ...</p>"
     );
   },
   
-  startCountdown: function(countdownElement) {
+  startCountdown: function(countdownElement, unobserved) {
     this.sendMessage('FH_LOG_FETCHING_STATUS', 'COUNTDOWN_INIT');
     
     // Starts the message with the initial value
@@ -22,27 +23,41 @@ var ContentScriptCommmon = {
     this.messageOverlay.html("<p>La descarga comenzará en...</p>");
     this.messageOverlay.append(overlayCounter);
 
-    // Create an observer to watch for countdown value update and update 
-    // the overlay counter until the countdown finishes
-    MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
-    var countdownObserver = new MutationObserver(function(mutations, observer) {
-      // Some sites (eg. Bayfiles) reset the counter before 0, so check for != 1
-      if(parseInt(countdownElement.html()) != 1) {
-        overlayCounter.html(countdownElement.html());
-      } else {
-        overlayCounter.html(countdownElement.html()); //Show the '1'
-        observer.disconnect(); //Disconnects the observer for preventing counter reset
-        // Wait the remaining second and call the afterCountdown on the file hosting
-        setTimeout(function() {
-          $(ContentScriptCommmon.messageOverlay).html(
-            "<p>Obteniendo el enlace...</p>"
-          );
-          ContentScriptCommmon.fhSpecific.afterCountdown();
-          ContentScriptCommmon.sendMessage('FH_LOG_FETCHING_STATUS', 'COUNTDOWN_END');
-        }, 1000);
-      }
-    });
-    countdownObserver.observe(countdownElement.get(0), { childList: true, subtree: false, attributes: false });
+    var onCounterEnd = function() {
+      $(ContentScriptCommmon.messageOverlay).html(
+        "<p>Obteniendo el enlace...</p>"
+      );
+      ContentScriptCommmon.fhSpecific.afterCountdown();
+      ContentScriptCommmon.sendMessage('FH_LOG_FETCHING_STATUS', 'COUNTDOWN_END');
+    }
+
+    if(unobserved) {
+        countdown = new Countdown({
+          seconds: parseInt(countdownElement.html()),
+          onUpdateStatus: function(seconds) {
+            overlayCounter.html(seconds);
+          },
+          onCounterEnd: onCounterEnd,
+        });
+        countdown.start();
+    } else {
+      // Create an observer to watch for countdown value update and update 
+      // the overlay counter until the countdown finishes
+      MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+      var countdownObserver = new MutationObserver(function(mutations, observer) {
+        console.log(countdownElement);
+        // Some sites (eg. Bayfiles) reset the counter before 0, so check for != 1
+        if(parseInt(countdownElement.html()) != 1) {
+          overlayCounter.html(countdownElement.html());
+        } else {
+          overlayCounter.html(countdownElement.html()); //Show the '1'
+          observer.disconnect(); //Disconnects the observer for preventing counter reset
+          // Wait the remaining second and call the afterCountdown on the file hosting
+          setTimeout(onCounterEnd, 1000);
+        }
+      });
+      countdownObserver.observe(countdownElement.get(0), { childList: true, subtree: false, attributes: false });
+    }
   },
 
   alreadyDownloading: function() {

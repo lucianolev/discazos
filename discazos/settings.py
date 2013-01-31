@@ -173,7 +173,7 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 # Project-specific settings
 
-BROWSER_EXTENSION_VERSION = '0.5.2'
+BROWSER_EXTENSION_VERSION = '0.5.3'
 CREATOR_XML_CURRENT_VER = '0.3'
 
 ALBUM_SEARCH_RESULTS_LIMIT = 5

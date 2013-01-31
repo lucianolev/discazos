@@ -4,6 +4,7 @@ var FHContentScript = {
     this.siteScripts = {
       "^http:\/\/(([^.]+)\.)?mediafire.com": "mediafire.js",
       "^http:\/\/(([^.]+)\.)?bayfiles.com": "bayfiles.js",
+      "^http:\/\/(([^.]+)\.)?filebox.com": "filebox.js",
     }
     this.scriptsDir = "/static/js/filehosting/";
     this.checkLoadedFromDiscazos();
@@ -73,9 +74,12 @@ var DOMHelper = {
     newTextbox.id = "fh-message-overlay";
     newTextbox.style.display = "table-cell";
     newTextbox.style.verticalAlign =  "middle";
-    newTextbox.style.textAlign = "center";
-    newTextbox.style.fontSize = "120%";
+    newTextbox.style.fontSize = "16px";
     newTextbox.style.color = "white";
+    
+    var overlayStyle = document.createElement("style")
+    overlayStyle.innerHTML = "#fh-message-overlay p { text-align: center; font-family: 'Helvetica,Arial,sans-serif'; }";
+    document.head.appendChild(overlayStyle)
     
     newOverlay.appendChild(newTextbox);
     

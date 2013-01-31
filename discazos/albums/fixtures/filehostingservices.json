@@ -16,5 +16,14 @@
       "enabled": true,
       "name": "BayFiles"
     }
+  },
+  {
+    "pk": 2,
+    "model": "albums.filehostingservice",
+    "fields": {
+      "priority": 3,
+      "enabled": true,
+      "name": "Filebox"
+    }
   }
 ]
