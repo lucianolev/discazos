@@ -105,6 +105,7 @@ admin.site.register(FileHostingService, FileHostingServiceAdmin)
 
 class AlbumReleaseDownloadSourceAdmin(admin.ModelAdmin):
     list_display = ('album_release', 'service', 'enabled', 'get_last_successful_load', )
+    list_filter = ('service', )
     
     def queryset(self, request):
         qs = super(AlbumReleaseDownloadSourceAdmin, self).queryset(request)
