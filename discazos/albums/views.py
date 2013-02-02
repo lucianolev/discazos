@@ -186,8 +186,9 @@ def share_add_release_info(request):
                 disc = Disc.create_with_release(discData, albumRelease)
                 for trackData in tracksData:
                     DiscTrack.create_from_assistant(trackData, disc)
-            for downloadSourceData in request.session['download_sources_data']:
-                AlbumReleaseDownloadSource.create(downloadSourceData, albumRelease)
+            if 'download_sources_data' in request.session:
+                for downloadSourceData in request.session['download_sources_data']:
+                    AlbumReleaseDownloadSource.create(downloadSourceData, albumRelease)
             return render_to_response('share/finish.html',
                                       {'albumPk': album.pk }, 
                                       context_instance=RequestContext(request))

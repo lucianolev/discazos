@@ -32,8 +32,9 @@
   </fieldset>
   {% endfor %}
   <fieldset class="well">
-    <div class="control-group">
-      <div class="controls"><input class="btn btn-primary" type="submit" value="Siguiente >>" /></div>
+    <div class="form-action">
+      <input class="btn btn-primary" type="submit" value="Siguiente >>" />
+      <a href="{% url share_add_release_info %}" class="btn">Saltear y agregar las fuentes luego</a>
     </div>
   </fieldset>
 </form>

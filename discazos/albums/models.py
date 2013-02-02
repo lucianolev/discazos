@@ -159,7 +159,7 @@ class AlbumRelease(models.Model):
                                  'main_release': True,
                                  'uploader': user,
                                  'audiofile_size': audiofile_size,
-                                 'published': True,
+                                 'published': False,
                                  })
         newAlbumRelease = cls(**albumReleaseData)
         newAlbumRelease.save()
