@@ -168,7 +168,7 @@ class AlbumRelease(models.Model):
     def __unicode__(self):
         album_name = u"%s" % self.album + " (" + u"%s" % self.release_year
         if self.release_extra_info:
-            album_name += " - " + u"%s" % self.release_info
+            album_name += " - " + u"%s" % self.release_extra_info
         album_name += ")"
         return album_name
     
