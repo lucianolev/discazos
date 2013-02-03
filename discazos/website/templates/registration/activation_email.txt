@@ -1,0 +1,12 @@
+¡Hola!
+
+Bienvenido a Discazos, la nueva comunidad de fanáticos de la música.
+
+Hacé click en el siguiente link para activar tu nueva cuenta:
+
+http://{{ site }}{% url registration_activate activation_key %}
+
+Esperamos que disfrutes del sitio.
+
+Saludos,
+El equipo de Discazos

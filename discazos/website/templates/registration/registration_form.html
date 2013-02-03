@@ -1,0 +1,23 @@
+{% extends "global_layout.html" %}
+
+{% load floppyforms %}
+
+{% block title %}Discazos | Registro{% endblock title %}
+
+{% block inner_layout %}
+<div class="section">
+  <h3>Unite a Discazos</h3>
+  <div class="row">
+    <form method="post" class="form-horizontal span6">
+      {% csrf_token %}
+      {% form form %}
+      <div class="control-group">
+        <div class="controls"><input class="btn btn-success" type="submit" value="Crear cuenta" /></div>
+      </div>
+    </form>
+    <p class="span4 alert alert-info"><strong>¿Te molesta que el spam? ¡A nosotros también!</strong> 
+      Jamás compartiremos tu email con nadie ni te enviaremos correos molestos. 
+      Sólo será un canal para avisarte eventualmente de algún cambio importante en el sitio o algún cambio en tu cuenta.</p>
+  </div>
+</div>
+{% endblock %}

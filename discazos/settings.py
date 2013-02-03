@@ -171,6 +171,8 @@ DEBUG_TOOLBAR_CONFIG = {
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
+ACCOUNT_ACTIVATION_DAYS = 7 #django-registration
+
 # Project-specific settings
 
 BROWSER_EXTENSION_VERSION = '0.5.3'
