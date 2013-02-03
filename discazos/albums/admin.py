@@ -124,6 +124,8 @@ class AlbumPlaybackLogEntryAdmin(admin.ModelAdmin):
     list_display = ('date_and_time', 'user', 'album_release', 
                     'album_release_dl_source', 'loading_status', 'latest_update' )
     ordering = ('-latest_update', )
+    search_fields = ('user__username', 'album_release__album__title', )
+    list_filter = ('loading_status', 'album_release_dl_source__service', )
 
     def get_readonly_fields(self, request, obj=None):
         return tuple(obj._meta.get_all_field_names())
