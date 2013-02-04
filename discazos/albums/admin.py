@@ -2,6 +2,8 @@
 
 from django.contrib import admin
 from django.db.models import Max
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import User
 
 from models import *
 
@@ -31,6 +33,14 @@ class ViewAdmin(admin.ModelAdmin):
 
     def get_readonly_fields(self, request, obj=None):
         return tuple(obj._meta.get_all_field_names())
+
+class DiscazosUserAdmin(UserAdmin):
+    list_display = ('username', 'email', 'date_joined', 'last_login', 'is_staff', )
+    list_filter = ('is_active', 'is_staff', )
+    ordering = ('-date_joined', )
+
+admin.site.unregister(User)
+admin.site.register(User, DiscazosUserAdmin)
 
 class ArtistAliasInline(admin.TabularInline):
     model = ArtistAlias
@@ -105,7 +115,7 @@ admin.site.register(FileHostingService, FileHostingServiceAdmin)
 
 class AlbumReleaseDownloadSourceAdmin(admin.ModelAdmin):
     list_display = ('album_release', 'service', 'enabled', 'get_last_successful_load', )
-    list_filter = ('service', )
+    list_filter = ('service', 'enabled', )
     
     def queryset(self, request):
         qs = super(AlbumReleaseDownloadSourceAdmin, self).queryset(request)
