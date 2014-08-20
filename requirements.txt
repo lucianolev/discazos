@@ -1,13 +1,14 @@
 django < 1.5
 django-nose
-django-debug-toolbar
+pillow
+#django-debug-toolbar
 selenium
 south
--e git+https://github.com/robhudson/django-debug-toolbar.git#egg=django-debug-toolbar
+#-e git+https://github.com/robhudson/django-debug-toolbar.git#egg=django-debug-toolbar
 django_extensions
-django-countries
+django-countries==1.5
 sorl-thumbnail
 django-dajaxice
-django-registration
+django-registration==0.8
 django-floppyforms
 django-bootstrap-pagination

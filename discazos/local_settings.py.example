@@ -1,18 +1,20 @@
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'discazos.db',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'discazos',                      # Or path to database file if using sqlite3.
+        'USER': 'user_db',                      # Not used with sqlite3.
+        'PASSWORD': 'umnCS9vWqTyuxeS9',         # Not used with sqlite3.
+        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '-i#&gxms%gk+9ouh^d_ru83%zq1j42666gg&8x@91q3ys9%b=5'
+SECRET_KEY = '-i#&gxms%jk+5huh^d_ru83%zq1j426346gg&8d@91z3ys9%b=5'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'discazos.email_backends.SendmailEmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'

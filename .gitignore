@@ -5,12 +5,14 @@ discazos/local_settings.py
 discazos/django.wsgi
 discazos/albums/static/mp3test
 media/*
+/static
 discazos-player/flex_sdk_4.5
 *.db
 *.pyc
 *.old
 extensions/chrome/*.crx
 extensions/chrome/*.pem
+.idea
 .project
 .pydevproject
 .settings
