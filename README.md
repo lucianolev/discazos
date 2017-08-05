@@ -19,4 +19,5 @@ This album file is supposed to be generated from a physical disc using this desk
 ### Interesting source to look at
 
 **Website side:** https://github.com/lucianolev/discazos/tree/master/discazos/albums/static/js
+
 **Chrome extension:** https://github.com/lucianolev/discazos/tree/master/extensions/chrome/discazos-player-connector
